@@ -1,22 +1,18 @@
 package fr.insacvl.asl.bcn.bookzone.entities;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-
+@NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Getter
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Personne {
-
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.TABLE)
     private int id;
 
-    @Setter private String prenom;
-    @Setter private String nom;
+    @NonNull @Setter private String prenom;
+    @NonNull @Setter private String nom;
 
-    public Personne() {
-    }
 }

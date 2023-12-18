@@ -1,25 +1,24 @@
 package fr.insacvl.asl.bcn.bookzone.entities;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Entity
 public class Utilisateur extends Personne {
 
     @Column(unique = true)
-    @Setter private String mail;
+    @NonNull @Setter private String mail;
+
     @Column(unique = true)
-    @Setter private String login;
-    @Setter private String password;
+    @NonNull @Setter private String login;
 
-//    @OneToOne(mappedBy = "idAdresse")
-//    @Setter private Adresse adresse;
+    @NonNull @Setter private String password;
+    @NonNull @Setter private String role;
 
-    public Utilisateur() {
+    @OneToOne
+    @Setter private Adresse adresse;
 
-    }
 }
