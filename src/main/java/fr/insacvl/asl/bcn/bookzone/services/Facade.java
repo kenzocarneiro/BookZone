@@ -12,8 +12,7 @@ public class Facade {
     @PersistenceContext
     private EntityManager em;
 
-    // TODO: L'ajout d'exemplaire dans une commande ne fonctionne pas (addExemplaireDansCommande) --> utiliser @JoinColumn ?
-    // TODO: L'ajout d'une commande pour un client ne fonctionne pas (addCommmandetoClient) --> utiliser @JoinColumn ?
+    // TODO : create JPA repository for all entities
 
     @Transactional
     public Adresse createAdresse(String rue, String ville, int codePostal, String pays, String informationsComplementaires) {
@@ -71,6 +70,7 @@ public class Facade {
         }
         else{
             c.getListeExemplaires().add(e);
+            e.setCommande(c);
             System.out.println("L'exemplaire " + e.getIdExemplaire() + " a ete ajoute dans la commande " + c.getIdCommande());
         }
     }
@@ -114,6 +114,7 @@ public class Facade {
         }
         else{
             c.getListeCommandes().add(cmd);
+            cmd.setClient(c);
             System.out.println("La commande " + cmd + " a ete ajoute au client " + c.getLogin());
         }
 

@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 public class Client extends Utilisateur {
 
-    @OneToMany(mappedBy = "idCommande")
+    @OneToMany(mappedBy = "client")
     List<Commande> listeCommandes = new ArrayList<>();
 
 }

@@ -19,6 +19,7 @@ public class Utilisateur extends Personne {
     @NonNull @Setter private String role;
 
     @OneToOne
+    @JoinColumn(name="id_adresse")
     @Setter private Adresse adresse;
 
 }

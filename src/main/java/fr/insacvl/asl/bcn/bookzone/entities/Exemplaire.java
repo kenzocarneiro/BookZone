@@ -20,8 +20,10 @@ public class Exemplaire {
     @NonNull @Setter private Libraire vendeur;
 
     @OneToOne
+    @JoinColumn(name="id_avis")
     @Setter Avis avis;
 
     @ManyToOne
+    @JoinColumn(name = "id_commande")
     @Setter Commande commande;
 }

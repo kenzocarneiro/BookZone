@@ -1,13 +1,9 @@
 package fr.insacvl.asl.bcn.bookzone.entities;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import jakarta.persistence.CascadeType;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,7 +19,11 @@ public class Commande {
     @Setter private String description;
     @NonNull @Setter private LocalDate date;
 
-    @OneToMany(mappedBy = "idExemplaire", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "commande", cascade = CascadeType.ALL)
     @ToString.Exclude @NonNull @Setter private List<Exemplaire> listeExemplaires = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name="id_client")
+    @Setter Client client;
 
 }
