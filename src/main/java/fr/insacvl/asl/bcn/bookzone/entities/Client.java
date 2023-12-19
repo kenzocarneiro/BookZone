@@ -14,6 +14,7 @@ import java.util.Set;
 public class Client extends Utilisateur {
 
     @OneToMany(mappedBy = "client")
+    @ToString.Exclude
     Set<Commande> commandes = new HashSet<>();
 
 }

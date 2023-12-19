@@ -25,11 +25,9 @@ public class Commande {
 
     @OneToMany(mappedBy = "commande", cascade = CascadeType.ALL)
     @NonNull
-    @ToString.Exclude
     private Set<Exemplaire> exemplaires = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name="id_client")
-    @ToString.Exclude
     private Client client;
 }

@@ -53,7 +53,7 @@ public class HelloWorldController {
         facade.addAvisExemplaire(avis2, e2);
 
         Commande c1 = facade.createCommande(EtatCommande.EXPEDIE, "blabla", LocalDate.now());
-        Commande c2 = facade.createCommande(EtatCommande.EXPEDIE, "bloblo", LocalDate.of(2023, 12, 10));
+        Commande c2 = facade.createCommande(EtatCommande.ANNULE, "bloblo", LocalDate.of(2023, 12, 10));
         Commande c3 = facade.createCommande(EtatCommande.EXPEDIE, "blublu", LocalDate.of(2023, 9, 10));
         facade.addExemplaireDansCommande(e1, c1);
         facade.addExemplaireDansCommande(e1, c1); // test redondance
@@ -61,6 +61,8 @@ public class HelloWorldController {
         facade.addExemplaireDansCommande(e3, c3);
 
         facade.addCommmandetoClient(c1, (Client)facade.getUtilisateur("john"));
+        facade.addCommmandetoClient(c2, (Client)facade.getUtilisateur("john"));
+        facade.addCommmandetoClient(c3, (Client)facade.getUtilisateur("john"));
         return("hello");
     }
 

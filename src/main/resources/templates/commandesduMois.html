@@ -2,14 +2,34 @@
 <html lang="fr" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>commandesDuMois</title>
+    <title>commandes-mois</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
 </head>
+
 <body>
 
 <h1>Commandes du mois</h1>
-<ul>
-    <li th:each="commande : ${commandesDuMois}" th:text="${commande}"></li>
-</ul>
+
+    <table>
+        <thead>
+            <tr>
+                <th class="espace-entre-colonnes">Id</th>
+                <th class="espace-entre-colonnes">Date</th>
+                <th class="espace-entre-colonnes">Client</th>
+                <th class="espace-entre-colonnes">Etat</th>
+                <th class="espace-entre-colonnes">Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="commande : ${commandesDuMois}">
+                <td th:text="${commande.getIdCommande()}"></td>
+                <td th:text="${commande.getDate()}"></td>
+                <td th:text="${commande.getClient().getMail()}"></td>
+                <td th:text="${commande.getEtat()}"></td>
+                <td th:text="${commande.getDescription()}"></td>
+            </tr>
+        </tbody>
+    </table>
 
 </body>
 </html>

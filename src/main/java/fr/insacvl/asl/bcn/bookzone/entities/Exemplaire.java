@@ -30,6 +30,7 @@ public class Exemplaire {
 
     @ManyToOne
     @JoinColumn(name = "id_commande")
+    @ToString.Exclude
     Commande commande;
 
     @ManyToOne

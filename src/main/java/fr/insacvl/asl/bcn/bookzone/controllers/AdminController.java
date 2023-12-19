@@ -16,18 +16,13 @@ public class AdminController {
     private Facade facade;
     @RequestMapping("")
     public String login(Model model) {
-        // TODO : faire le login
+        // TODO : faire le login avec Spring Security
         return("hello");
     }
 
     @RequestMapping("commandesDuMois")
     public String voirCommandeDuMois(Model model) {
         List<Commande> commandesDuMois = facade.voirCommandeduMois();
-        System.out.println("----------------------------");
-        System.out.println("[admin] Commandes du mois : ");
-        for(Commande cmd : commandesDuMois){
-            System.out.println(cmd);
-        }
         model.addAttribute("commandesDuMois", commandesDuMois);
         return("commandesDuMois");
     }
