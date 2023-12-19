@@ -2,16 +2,18 @@ package fr.insacvl.asl.bcn.bookzone.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
+import lombok.ToString;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Getter
+@Setter
+@ToString
 @Entity
 public class Client extends Utilisateur {
 
     @OneToMany(mappedBy = "client")
-    List<Commande> listeCommandes = new ArrayList<>();
+    Set<Commande> commandes = new HashSet<>();
 
 }

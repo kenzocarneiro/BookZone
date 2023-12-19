@@ -12,7 +12,7 @@ public class Facade {
     @PersistenceContext
     private EntityManager em;
 
-    // TODO : create JPA repository for all entities
+    // TODO : create JPA repository for all entities ?
 
     @Transactional
     public Adresse createAdresse(String rue, String ville, int codePostal, String pays, String informationsComplementaires) {
@@ -32,10 +32,19 @@ public class Facade {
         a.setNote(note);
         a.setCommentaire(commentaire);
         em.persist(a);
-        System.out.println("L'avis " + a.getIdAvis() + " a ete cree");
+        System.out.println("L'avis " + a + " a ete cree");
         return a;
     }
-
+    @Transactional
+    public Ouvrage createOuvrage(String titre, String editeur, int nbPages) {
+        Ouvrage o = new Ouvrage();
+        o.setTitre(titre);
+        o.setEditeur(editeur);
+        o.setNbPages(nbPages);
+        em.persist(o);
+        System.out.println("L'ouvrage " + o + " a ete creee");
+        return o;
+    }
     @Transactional
     public Exemplaire createExemplaire(EtatExemplaire etat, Libraire vendeur, Avis avis) {
         Exemplaire e = new Exemplaire();
@@ -43,15 +52,9 @@ public class Facade {
         e.setVendeur(vendeur);
         addAvisExemplaire(avis, e);
         em.persist(e);
-        System.out.println("L'exemplaire " + e.getIdExemplaire() + " a ete cree");
+        System.out.println("L'exemplaire " + e + " a ete cree");
         return e;
     }
-    @Transactional
-    public void addAvisExemplaire(Avis a, Exemplaire e) {
-        e.setAvis(a);
-        System.out.println("L'avis " + a.getIdAvis() + " a ete ajoute a l'exemplaire " + e.getIdExemplaire());
-    }
-
     @Transactional
     public Commande createCommande(EtatCommande etat, String description, LocalDate date) {
         Commande c = new Commande();
@@ -62,62 +65,14 @@ public class Facade {
         System.out.println("La commande " + c + " a ete creee");
         return c;
     }
-
     @Transactional
-    public void addExemplaireDansCommande(Exemplaire e, Commande c) {
-        if(c.getListeExemplaires().contains(e)){
-            System.out.println("L'exemplaire " + e.getIdExemplaire() + " existe deja dans la commande " + c.getIdCommande());
-        }
-        else{
-            c.getListeExemplaires().add(e);
-            e.setCommande(c);
-            System.out.println("L'exemplaire " + e.getIdExemplaire() + " a ete ajoute dans la commande " + c.getIdCommande());
-        }
-    }
-
-    @Transactional
-    public void createPersonne(String prenom, String nom) {
+    public Personne createPersonne(String prenom, String nom) {
         Personne p = new Personne();
         p.setPrenom(prenom);
         p.setNom(nom);
         em.persist(p);
         System.out.println("Personne " + p + " creee");
-    }
-
-    @Transactional
-    public void createLibraire(String mail, String login, String password) {
-        Libraire l = new Libraire();
-        l.setMail(mail);
-        l.setLogin(login);
-        l.setPassword(password);
-        l.setRole("user");
-        em.persist(l);
-        System.out.println("Libraire " + l.getLogin() + " cree");
-    }
-
-    @Transactional
-    public void createClient(String mail, String login, String password) {
-        Client c = new Client();
-        c.setMail(mail);
-        c.setLogin(login);
-        c.setPassword(password);
-        c.setRole("user");
-        em.persist(c);
-        System.out.println("Client " + c.getLogin() + " cree");
-    }
-
-    @Transactional
-    public void addCommmandetoClient(Commande cmd, Client c) {
-
-        if(c.getListeCommandes().contains(cmd)){
-            System.out.println("La commande " + cmd.getIdCommande() + " existe deja pour le client " + c.getId());
-        }
-        else{
-            c.getListeCommandes().add(cmd);
-            cmd.setClient(c);
-            System.out.println("La commande " + cmd + " a ete ajoute au client " + c.getLogin());
-        }
-
+        return p;
     }
 
     @Transactional
@@ -128,14 +83,88 @@ public class Facade {
         u.setPassword(password);
         u.setRole("user");
         em.persist(u);
-        System.out.println("Utilisateur " + u.getLogin() + " cree");
+        System.out.println("Utilisateur " + u + " cree");
+    }
+    @Transactional
+    public void createLibraire(String mail, String login, String password) {
+        Libraire l = new Libraire();
+        l.setMail(mail);
+        l.setLogin(login);
+        l.setPassword(password);
+        l.setRole("user");
+        em.persist(l);
+        System.out.println("Libraire " + l + " cree");
+    }
+    @Transactional
+    public void createClient(String mail, String login, String password) {
+        Client c = new Client();
+        c.setMail(mail);
+        c.setLogin(login);
+        c.setPassword(password);
+        c.setRole("user");
+        em.persist(c);
+        System.out.println("Client " + c + " cree");
+    }
+
+    @Transactional
+    public void createAdministrateur(Utilisateur u) {
+        u.setRole("admin");
+        em.persist(u);
+        System.out.println("Administrateur " + u.getLogin() + " cree");
+    }
+
+    @Transactional
+    public void addAuteurToOuvrage(Personne p, Ouvrage o) {
+        o.getAuteurs().add(p);
+        p.getOuvrages().add(o);
+        System.out.println("Ajout de l'auteur " + p.getPrenom() + " " + p.getNom() + " pour l'ouvrage " + o.getTitre());
+    }
+
+    @Transactional
+    public void addExemplaireToOuvrage(Exemplaire e, Ouvrage o) {
+        e.setOuvrage(o);
+        o.getExemplaires().add(e);
+        System.out.println("Ajout de l'exemplaire " + e.getIdExemplaire() + " pour l'ouvrage " + o.getIdOuvrage());
+    }
+
+    @Transactional
+    public void addAvisExemplaire(Avis a, Exemplaire e) {
+        e.setAvis(a);
+        System.out.println("L'avis " + a.getIdAvis() + " a ete ajoute a l'exemplaire " + e.getIdExemplaire());
+    }
+
+    @Transactional
+    public void addExemplaireDansCommande(Exemplaire e, Commande c) {
+
+        if(c.getExemplaires().contains(e)){
+            System.out.println("L'exemplaire " + e.getIdExemplaire() + " existe deja dans la commande " + c.getIdCommande());
+        }
+        else{
+            c.getExemplaires().add(e);
+            e.setCommande(c);
+            System.out.println("L'exemplaire " + e.getIdExemplaire() + " a ete ajoute dans la commande " + c.getIdCommande());
+        }
+    }
+
+    @Transactional
+    public void addCommmandetoClient(Commande cmd, Client c) {
+
+        if(c.getCommandes().contains(cmd)){
+            System.out.println("La commande " + cmd.getIdCommande() + " existe deja pour le client " + c.getLogin());
+        }
+        else{
+            c.getCommandes().add(cmd);
+            cmd.setClient(c);
+            System.out.println("La commande " + cmd.getIdCommande() + " a ete ajoute au client " + c.getLogin());
+        }
+
     }
 
     @Transactional
     public void associateAdresseUtilisateur(Adresse a, Utilisateur u) {
         u.setAdresse(a);
         em.persist(a);
-        System.out.println("Adresse " + a.toString() +  " associee à " + u.getLogin());
+        System.out.println("Adresse " + a.getIdAdresse() +  " associee à " + u.getLogin());
     }
 
     @Transactional
@@ -147,13 +176,6 @@ public class Facade {
 
         System.out.println("Utilisateur " + result.getLogin() + " recupere");
         return result;
-    }
-
-    @Transactional
-    public void createAdministrateur(Utilisateur u) {
-        u.setRole("admin");
-        em.persist(u);
-        System.out.println("Administrateur " + u.getLogin() + " cree");
     }
 
 
@@ -185,10 +207,10 @@ public class Facade {
 //    @Transactional
 //    public void noterExemplaire(Client client, Commande c, Exemplaire e, int note){
 //
-//        int indexCommande = client.getListeCommandes().indexOf(c);
+//        int indexCommande = client.getCommandes().indexOf(c);
 //
 //        if (indexCommande != -1) {
-//            int indexExemplaire = client.getListeCommandes().get(indexCommande).getListeExemplaires().indexOf(e);
+//            int indexExemplaire = client.getCommandes().get(indexCommande).getExemplaires().indexOf(e);
 //
 //            if (indexExemplaire != -1) {
 //                setNote(e, note);
@@ -222,10 +244,10 @@ public class Facade {
 //    @Transactional
 //    public void setPrixVente(Libraire l, float prixVente, Exemplaire e){
 //
-//        int index = l.getListeExemplaires().indexOf(e);
+//        int index = l.getExemplaires().indexOf(e);
 //
 //        if (index != -1) {
-//            l.getListeExemplaires().get(index).setPrixVente(prixVente);
+//            l.getExemplaires().get(index).setPrixVente(prixVente);
 //        } else {
 //            System.out.println("L'exemplaire n'est pas présent dans la liste.");
 //        }
@@ -234,10 +256,10 @@ public class Facade {
 //    @Transactional
 //    public void setFraisPort(Libraire l, float fraisPort, Exemplaire e){
 //
-//        int index = l.getListeExemplaires().indexOf(e);
+//        int index = l.getExemplaires().indexOf(e);
 //
 //        if (index != -1) {
-//            l.getListeExemplaires().get(index).setPrixVente(fraisPort);
+//            l.getExemplaires().get(index).setPrixVente(fraisPort);
 //        } else {
 //            System.out.println("L'exemplaire n'est pas présent dans la liste.");
 //        }

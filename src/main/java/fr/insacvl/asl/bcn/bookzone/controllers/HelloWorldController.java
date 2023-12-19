@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @Controller
 @RequestMapping("/")
 public class HelloWorldController {
+
     @Autowired
     private Facade facade;
     @RequestMapping("")
@@ -20,19 +21,26 @@ public class HelloWorldController {
 
     @RequestMapping("test")
     public String test(Model model) {
+
+        Ouvrage o1 = facade.createOuvrage("Therese Raquin", "Flammarion", 328);
+        Ouvrage o2 = facade.createOuvrage("Germinal", "Hachette", 2447);
         Adresse a = facade.createAdresse("Victor Hugo", "Paris", 75, "France", "appartement 3");
         Avis avis1 = facade.createAvis(4, "Tres bon livre !");
         Avis avis2 = facade.createAvis(1, "C'etait nul ...");
+        Personne p = facade.createPersonne("Emile", "Zola");
 
-        facade.createPersonne("Bob", "Leponge");
         facade.createUtilisateur("toto@gmail.com", "toto", "azerty");
-        facade.createAdministrateur(facade.getUtilisateur("toto"));
         facade.associateAdresseUtilisateur(a, facade.getUtilisateur("toto"));
+        facade.createAdministrateur(facade.getUtilisateur("toto"));
         facade.createLibraire("SuperBook", "sb", "123");
         facade.createClient("john.doe@gmail.com", "john", "jojo456");
 
+        facade.addAuteurToOuvrage(p, o1);
+        facade.addAuteurToOuvrage(p, o2);
         Exemplaire e1 = facade.createExemplaire(EtatExemplaire.MOYEN, (Libraire)facade.getUtilisateur("sb"), avis1);
         Exemplaire e2 = facade.createExemplaire(EtatExemplaire.BON, (Libraire)facade.getUtilisateur("sb"), avis2);
+        facade.addExemplaireToOuvrage(e1, o1);
+        facade.addExemplaireToOuvrage(e2, o2);
 
         Commande c = facade.createCommande(EtatCommande.EXPEDIE, "blabla", LocalDate.now());
         facade.addExemplaireDansCommande(e1, c);

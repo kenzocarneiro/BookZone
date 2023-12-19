@@ -2,28 +2,34 @@ package fr.insacvl.asl.bcn.bookzone.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Getter
+@Setter
+@ToString
 @Entity
 public class Commande {
 
     @Id @GeneratedValue
+    @Setter(AccessLevel.NONE)
     int idCommande;
 
-    @Setter private EtatCommande etat;
-    @Setter private String description;
-    @NonNull @Setter private LocalDate date;
+    @Enumerated(EnumType.STRING)
+    EtatCommande etat;
+
+    private String description;
+    @NonNull private LocalDate date;
 
     @OneToMany(mappedBy = "commande", cascade = CascadeType.ALL)
-    @ToString.Exclude @NonNull @Setter private List<Exemplaire> listeExemplaires = new ArrayList<>();
+    @NonNull
+    @ToString.Exclude
+    private Set<Exemplaire> exemplaires = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name="id_client")
-    @Setter Client client;
-
+    @ToString.Exclude
+    private Client client;
 }

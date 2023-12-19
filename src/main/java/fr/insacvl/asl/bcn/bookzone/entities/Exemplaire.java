@@ -6,24 +6,33 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
+@ToString
 @Entity
 public class Exemplaire {
 
     @Id @GeneratedValue
+    @Setter(AccessLevel.NONE)
     private int idExemplaire;
 
-    @NonNull @Setter private EtatExemplaire etat;
-    @Setter private float prixVente;
-    @Setter private float fraisPort;
+    @Enumerated(EnumType.STRING)
+    @NonNull private EtatExemplaire etat;
+
+    private float prixVente;
+    private float fraisPort;
 
     @ManyToOne
-    @NonNull @Setter private Libraire vendeur;
+    @NonNull private Libraire vendeur;
 
     @OneToOne
     @JoinColumn(name="id_avis")
-    @Setter Avis avis;
+    Avis avis;
 
     @ManyToOne
     @JoinColumn(name = "id_commande")
-    @Setter Commande commande;
+    Commande commande;
+
+    @ManyToOne
+    @JoinColumn(name = "id_ouvrage")
+    @NonNull Ouvrage ouvrage;
 }

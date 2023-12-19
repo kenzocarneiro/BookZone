@@ -6,20 +6,21 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
+@ToString
 @Entity
 public class Utilisateur extends Personne {
 
     @Column(unique = true)
-    @NonNull @Setter private String mail;
+    @NonNull private String mail;
 
     @Column(unique = true)
-    @NonNull @Setter private String login;
+    @NonNull private String login;
 
-    @NonNull @Setter private String password;
-    @NonNull @Setter private String role;
+    @NonNull private String password;
+    @NonNull private String role;
 
     @OneToOne
     @JoinColumn(name="id_adresse")
-    @Setter private Adresse adresse;
-
+    private Adresse adresse;
 }

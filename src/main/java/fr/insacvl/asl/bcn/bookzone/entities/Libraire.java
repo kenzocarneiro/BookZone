@@ -4,15 +4,18 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
+import lombok.ToString;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Getter
+@Setter
+@ToString
 @Entity
 public class Libraire extends Utilisateur {
 
-    @OneToMany(mappedBy = "idExemplaire", cascade = CascadeType.ALL)
-    private List<Exemplaire> listeExemplaires = new ArrayList<>();
+    @OneToMany(mappedBy = "vendeur", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private Set<Exemplaire> exemplaires = new HashSet<>();
 }

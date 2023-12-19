@@ -3,25 +3,25 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
+@ToString
 @Entity
 public class Avis {
 
     @Id @GeneratedValue
+    @Setter(AccessLevel.NONE)
     private int idAvis;
 
-    @Setter private int note;
-    @Setter private String commentaire;
+    private int note;
+    private String commentaire;
 
     @OneToOne(mappedBy = "avis")
-    private Exemplaire exemplaire;
+    @ToString.Exclude private Exemplaire exemplaire;
 
 }
