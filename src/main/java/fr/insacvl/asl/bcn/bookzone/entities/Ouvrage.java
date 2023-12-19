@@ -21,6 +21,8 @@ public class Ouvrage {
     int nbPages;
 
    // TODO : ajouter le set de catégories (enum)
+   @Enumerated(EnumType.STRING)
+   private Set<CategorieEnum> categories = new HashSet<>();
 
     @OneToMany(mappedBy = "ouvrage")
     @ToString.Exclude

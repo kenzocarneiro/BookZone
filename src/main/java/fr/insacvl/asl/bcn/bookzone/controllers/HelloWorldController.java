@@ -29,6 +29,11 @@ public class HelloWorldController {
         Avis avis2 = facade.createAvis(1, "C'etait nul ...");
         Personne p = facade.createPersonne("Emile", "Zola");
 
+        facade.addCategorieToOuvrage(CategorieEnum.REALISTE, o1);
+        facade.addCategorieToOuvrage(CategorieEnum.FICTION, o1);
+        facade.addCategorieToOuvrage(CategorieEnum.HISTORIQUE, o2);
+        facade.addCategorieToOuvrage(CategorieEnum.REALISTE, o2);
+
         facade.createUtilisateur("toto@gmail.com", "toto", "azerty");
         facade.associateAdresseUtilisateur(a, facade.getUtilisateur("toto"));
         facade.createAdministrateur(facade.getUtilisateur("toto"));

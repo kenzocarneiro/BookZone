@@ -136,27 +136,17 @@ public class Facade {
     @Transactional
     public void addExemplaireDansCommande(Exemplaire e, Commande c) {
 
-        if(c.getExemplaires().contains(e)){
-            System.out.println("L'exemplaire " + e.getIdExemplaire() + " existe deja dans la commande " + c.getIdCommande());
-        }
-        else{
-            c.getExemplaires().add(e);
-            e.setCommande(c);
-            System.out.println("L'exemplaire " + e.getIdExemplaire() + " a ete ajoute dans la commande " + c.getIdCommande());
-        }
+        c.getExemplaires().add(e);
+        e.setCommande(c);
+        System.out.println("L'exemplaire " + e.getIdExemplaire() + " a ete ajoute dans la commande " + c.getIdCommande());
     }
 
     @Transactional
     public void addCommmandetoClient(Commande cmd, Client c) {
 
-        if(c.getCommandes().contains(cmd)){
-            System.out.println("La commande " + cmd.getIdCommande() + " existe deja pour le client " + c.getLogin());
-        }
-        else{
-            c.getCommandes().add(cmd);
-            cmd.setClient(c);
-            System.out.println("La commande " + cmd.getIdCommande() + " a ete ajoute au client " + c.getLogin());
-        }
+        c.getCommandes().add(cmd);
+        cmd.setClient(c);
+        System.out.println("La commande " + cmd.getIdCommande() + " a ete ajoute au client " + c.getLogin());
 
     }
 
@@ -176,6 +166,11 @@ public class Facade {
 
         System.out.println("Utilisateur " + result.getLogin() + " recupere");
         return result;
+    }
+
+    @Transactional
+    public void addCategorieToOuvrage(CategorieEnum c, Ouvrage o) {
+        o.getCategories().add(c);
     }
 
 
