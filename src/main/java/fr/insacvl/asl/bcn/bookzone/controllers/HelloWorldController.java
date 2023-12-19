@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import java.time.LocalDate;
 
 @Controller
@@ -42,17 +41,27 @@ public class HelloWorldController {
 
         facade.addAuteurToOuvrage(p, o1);
         facade.addAuteurToOuvrage(p, o2);
-        Exemplaire e1 = facade.createExemplaire(EtatExemplaire.MOYEN, (Libraire)facade.getUtilisateur("sb"), avis1);
-        Exemplaire e2 = facade.createExemplaire(EtatExemplaire.BON, (Libraire)facade.getUtilisateur("sb"), avis2);
+        Exemplaire e1 = facade.createExemplaire(EtatExemplaire.MOYEN, (Libraire)facade.getUtilisateur("sb"));
+        Exemplaire e2 = facade.createExemplaire(EtatExemplaire.BON, (Libraire)facade.getUtilisateur("sb"));
+        Exemplaire e3 = facade.createExemplaire(EtatExemplaire.MAUVAIS, (Libraire)facade.getUtilisateur("sb"));
+
         facade.addExemplaireToOuvrage(e1, o1);
         facade.addExemplaireToOuvrage(e2, o2);
+        facade.addExemplaireToOuvrage(e3, o2);
 
-        Commande c = facade.createCommande(EtatCommande.EXPEDIE, "blabla", LocalDate.now());
-        facade.addExemplaireDansCommande(e1, c);
-        facade.addExemplaireDansCommande(e1, c); // test redondance
-        facade.addExemplaireDansCommande(e2, c);
+        facade.addAvisExemplaire(avis1, e1);
+        facade.addAvisExemplaire(avis2, e2);
 
-        facade.addCommmandetoClient(c, (Client)facade.getUtilisateur("john"));
+        Commande c1 = facade.createCommande(EtatCommande.EXPEDIE, "blabla", LocalDate.now());
+        Commande c2 = facade.createCommande(EtatCommande.EXPEDIE, "bloblo", LocalDate.of(2023, 12, 10));
+        Commande c3 = facade.createCommande(EtatCommande.EXPEDIE, "blublu", LocalDate.of(2023, 9, 10));
+        facade.addExemplaireDansCommande(e1, c1);
+        facade.addExemplaireDansCommande(e1, c1); // test redondance
+        facade.addExemplaireDansCommande(e2, c2);
+        facade.addExemplaireDansCommande(e3, c3);
+
+        facade.addCommmandetoClient(c1, (Client)facade.getUtilisateur("john"));
         return("hello");
     }
+
 }

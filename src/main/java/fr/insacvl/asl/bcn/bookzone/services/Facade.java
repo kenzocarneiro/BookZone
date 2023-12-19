@@ -5,6 +5,8 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -46,11 +48,10 @@ public class Facade {
         return o;
     }
     @Transactional
-    public Exemplaire createExemplaire(EtatExemplaire etat, Libraire vendeur, Avis avis) {
+    public Exemplaire createExemplaire(EtatExemplaire etat, Libraire vendeur) {
         Exemplaire e = new Exemplaire();
         e.setEtat(etat);
         e.setVendeur(vendeur);
-        addAvisExemplaire(avis, e);
         em.persist(e);
         System.out.println("L'exemplaire " + e + " a ete cree");
         return e;
@@ -175,20 +176,20 @@ public class Facade {
 
 
     // TODO : lier les différentes actions aux roles
-//    // Pour Administrateur
-//    @Transactional
-//    public List<Commande> voirCommandeduMois(){
-//
-//        LocalDate dateDuJour = LocalDate.now();
-//
-//        String jpql = "SELECT c FROM Commande c WHERE YEAR(c.date) = :annee AND MONTH(c.date) = :mois";
-//        List<Commande> resultList = em.createQuery(jpql, Commande.class)
-//                .setParameter("annee", dateDuJour.getYear())
-//                .setParameter("mois", dateDuJour.getMonth())
-//                .getResultList();
-//
-//        return resultList;
-//    }
+    // Pour Administrateur
+    @Transactional
+    public List<Commande> voirCommandeduMois(){
+
+        LocalDate dateDuJour = LocalDate.now();
+
+        String jpql = "SELECT c FROM Commande c WHERE YEAR(c.date) = :annee AND MONTH(c.date) = :mois";
+        List<Commande> resultList = em.createQuery(jpql, Commande.class)
+                .setParameter("annee", dateDuJour.getYear())
+                .setParameter("mois", dateDuJour.getMonthValue())
+                .getResultList();
+
+        return resultList;
+    }
 //
 //    public void ValiderInscription(Libraire l){ // TODO
 //        System.out.println("Vous avez valide l'inscription d'un nouveau libraire !");
