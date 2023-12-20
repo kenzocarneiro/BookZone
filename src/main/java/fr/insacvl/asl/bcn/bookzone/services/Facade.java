@@ -6,7 +6,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
+
 
 
 @Service
@@ -168,12 +168,10 @@ public class Facade {
         System.out.println("Utilisateur " + result.getLogin() + " recupere");
         return result;
     }
-
     @Transactional
     public void addCategorieToOuvrage(CategorieEnum c, Ouvrage o) {
         o.getCategories().add(c);
     }
-
 
     // TODO : lier les différentes actions aux roles
     // Pour Administrateur
@@ -181,7 +179,6 @@ public class Facade {
     public List<Commande> voirCommandeduMois(){
 
         LocalDate dateDuJour = LocalDate.now();
-
         String jpql = "SELECT c FROM Commande c WHERE YEAR(c.date) = :annee AND MONTH(c.date) = :mois";
         List<Commande> resultList = em.createQuery(jpql, Commande.class)
                 .setParameter("annee", dateDuJour.getYear())
@@ -237,27 +234,24 @@ public class Facade {
 //    }
 //
 //
-//    @Transactional
-//    public void setPrixVente(Libraire l, float prixVente, Exemplaire e){
-//
-//        int index = l.getExemplaires().indexOf(e);
-//
-//        if (index != -1) {
-//            l.getExemplaires().get(index).setPrixVente(prixVente);
-//        } else {
-//            System.out.println("L'exemplaire n'est pas présent dans la liste.");
-//        }
-//    }
-//
-//    @Transactional
-//    public void setFraisPort(Libraire l, float fraisPort, Exemplaire e){
-//
-//        int index = l.getExemplaires().indexOf(e);
-//
-//        if (index != -1) {
-//            l.getExemplaires().get(index).setPrixVente(fraisPort);
-//        } else {
-//            System.out.println("L'exemplaire n'est pas présent dans la liste.");
-//        }
-//    }
+    @Transactional
+    public void setPrixVente(Libraire l, float prixVente, Exemplaire e){
+        if(e != null){
+            l.getExemplaires().stream()
+                    .filter(element -> element.equals(e))
+                    .findFirst()
+                    .ifPresent(exemplaireRecherche -> exemplaireRecherche.setPrixVente(prixVente));
+        }
+    }
+
+    @Transactional
+    public void setFraisPort(Libraire l, float fraisPort, Exemplaire e){
+        if(e != null){
+            l.getExemplaires().stream()
+                    .filter(element -> element.equals(e))
+                    .findFirst()
+                    .ifPresent(exemplaireRecherche -> exemplaireRecherche.setFraisPort(fraisPort));
+        }
+    }
+
 }
