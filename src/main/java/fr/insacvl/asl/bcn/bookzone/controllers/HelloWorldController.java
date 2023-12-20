@@ -14,12 +14,12 @@ public class HelloWorldController {
     @Autowired
     private Facade facade;
     @RequestMapping("")
-    public String hello(Model model) {
+    public String hello() {
         return "hello";
     }
 
     @RequestMapping("test")
-    public String test(Model model) {
+    public String test() {
 
         Ouvrage o1 = facade.createOuvrage("Therese Raquin", "Flammarion", 328);
         Ouvrage o2 = facade.createOuvrage("Germinal", "Hachette", 2447);
@@ -68,7 +68,7 @@ public class HelloWorldController {
 
 
     @RequestMapping("/welcome")
-    public String hello_login(Model model) {
+    public String hello_login() {
         return "welcome";
     }
 
