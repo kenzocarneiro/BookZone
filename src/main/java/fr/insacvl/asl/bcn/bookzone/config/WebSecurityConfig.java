@@ -1,10 +1,12 @@
 package fr.insacvl.asl.bcn.bookzone.config;
 
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractAuthenticationFilterConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,13 +22,19 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+            .csrf(csrf -> csrf
+                    .ignoringRequestMatchers(PathRequest.toH2Console())
+            )
             .authorizeHttpRequests(authorize -> authorize
                     .requestMatchers("/").permitAll()
                     .requestMatchers("/welcome").hasAuthority("ROLE_USER")
                     .anyRequest().authenticated()
             )
             .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
-            .logout(LogoutConfigurer::permitAll);
+            .logout(LogoutConfigurer::permitAll)
+            .headers(headers -> headers
+                    .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
+            );
 
         return http.build();
     }
