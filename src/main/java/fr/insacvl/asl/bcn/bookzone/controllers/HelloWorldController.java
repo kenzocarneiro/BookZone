@@ -11,4 +11,9 @@ public class HelloWorldController {
     public String hello(Model model) {
         return("hello");
     }
+
+    @RequestMapping("/welcome")
+    public String hello_login(Model model) {
+        return("welcome");
+    }
 }
