@@ -13,8 +13,9 @@
     <table>
         <thead>
             <tr>
-                <th class="espace-entre-colonnes">Id</th>
+                <th class="espace-entre-colonnes">Id Commande</th>
                 <th class="espace-entre-colonnes">Date</th>
+                <th class="espace-entre-colonnes">Contenu</th>
                 <th class="espace-entre-colonnes">Client</th>
                 <th class="espace-entre-colonnes">Etat</th>
                 <th class="espace-entre-colonnes">Description</th>
@@ -24,6 +25,11 @@
             <tr th:each="commande : ${commandesDuMois}">
                 <td th:text="${commande.getIdCommande()}"></td>
                 <td th:text="${commande.getDate()}"></td>
+                <td>
+                    <ul>
+                        <li th:each="exemplaire : ${commande.getExemplaires()}" th:text="${exemplaire.getOuvrage().getTitre()}"></li>
+                    </ul>
+                </td>
                 <td th:text="${commande.getClient().getMail()}"></td>
                 <td th:text="${commande.getEtat()}"></td>
                 <td th:text="${commande.getDescription()}"></td>

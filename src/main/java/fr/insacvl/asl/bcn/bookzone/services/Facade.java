@@ -5,8 +5,9 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
-
+import java.util.Set;
 
 
 @Service
@@ -171,6 +172,20 @@ public class Facade {
     @Transactional
     public void addCategorieToOuvrage(CategorieEnum c, Ouvrage o) {
         o.getCategories().add(c);
+    }
+
+    @Transactional
+    public Set<Exemplaire> getExemplairesLibraire(Libraire l) {
+        return l.getExemplaires();
+    }
+
+    @Transactional
+    public Set<Ouvrage> getOuvragesLibraire(Libraire l) {
+        Set<Ouvrage> ouvrages = new HashSet<>();
+        for(Exemplaire exemplaire : l.getExemplaires()){
+            ouvrages.add(exemplaire.getOuvrage());
+        }
+        return ouvrages;
     }
 
     // TODO : lier les différentes actions aux roles
