@@ -3,12 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Hello Login</title>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" />
 </head>
 <body>
+    <h1>Hello, world!</h1>
 
-<th:block>
-    Tu es connecté !
-</th:block>
+    <p>
+        Tu es connecté !
+    </p>
 
+    <form th:action="@{/processLogout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form>
+
+    <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>

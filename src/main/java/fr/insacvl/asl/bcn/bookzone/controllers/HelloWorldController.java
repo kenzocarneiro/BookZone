@@ -15,7 +15,7 @@ public class HelloWorldController {
     private Facade facade;
     @RequestMapping("")
     public String hello(Model model) {
-        return("hello");
+        return "hello";
     }
 
     @RequestMapping("test")
@@ -63,12 +63,24 @@ public class HelloWorldController {
         facade.addCommmandetoClient(c1, (Client)facade.getUtilisateur("john"));
         facade.addCommmandetoClient(c2, (Client)facade.getUtilisateur("john"));
         facade.addCommmandetoClient(c3, (Client)facade.getUtilisateur("john"));
-        return("hello");
+        return "hello";
     }
 
 
     @RequestMapping("/welcome")
     public String hello_login(Model model) {
-        return("welcome");
+        return "welcome";
+    }
+
+    @RequestMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    // Login form with error
+    @RequestMapping("/login-error")
+    public String loginError(Model model) {
+        model.addAttribute("loginError", true);
+        return "login";
     }
 }
