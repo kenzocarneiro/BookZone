@@ -3,6 +3,7 @@ import fr.insacvl.asl.bcn.bookzone.entities.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -14,6 +15,9 @@ import java.util.Set;
 public class Facade {
     @PersistenceContext
     private EntityManager em;
+
+    @Autowired
+    private CommandeRepository commandeRepository;
 
     // TODO : create JPA repository for all entities ?
 
@@ -186,6 +190,24 @@ public class Facade {
             ouvrages.add(exemplaire.getOuvrage());
         }
         return ouvrages;
+    }
+
+    public Set<Exemplaire> getExemplairesCommandesDuLibraire(Libraire libraire) {
+
+        Set<Exemplaire> allExemplairesCommandesDuLibraire = new HashSet<>();
+        List<Commande> toutesLesCommandes = commandeRepository.findAll();
+        String jpql = "SELECT e FROM Exemplaire e WHERE e.commande = :commande AND e.vendeur = :libraire";
+
+        for (Commande commande : toutesLesCommandes) {
+            List<Exemplaire> exemplairesCommandesDuLibraire = em.createQuery(jpql, Exemplaire.class)
+                    .setParameter("commande", commande)
+                    .setParameter("libraire", libraire)
+                    .getResultList();
+
+            allExemplairesCommandesDuLibraire.addAll(exemplairesCommandesDuLibraire);
+        }
+
+        return allExemplairesCommandesDuLibraire;
     }
 
     // TODO : lier les différentes actions aux roles

@@ -77,7 +77,28 @@
     </tbody>
 </table>
 
-<h2>Liste des exemplaires commandés (TODO)</h2>
+<h2>Liste des exemplaires commandés</h2>
+
+<table>
+    <thead>
+    <tr>
+        <th class="espace-entre-colonnes">Id Exemplaire</th>
+        <th class="espace-entre-colonnes">Ouvrage</th>
+        <th class="espace-entre-colonnes">Etat</th>
+        <th class="espace-entre-colonnes">Prix de vente</th>
+        <th class="espace-entre-colonnes">Frais de port</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="exemplaire : ${exemplairesCommandes}">
+        <td th:text="${exemplaire.getIdExemplaire()}"></td>
+        <td th:text="${exemplaire.getOuvrage().getTitre()}"></td>
+        <td th:text="${exemplaire.getEtat()}"></td>
+        <td th:text="${exemplaire.getPrixVente()}"></td>
+        <td th:text="${exemplaire.getFraisPort()}"></td>
+    </tr>
+    </tbody>
+</table>
 
 </body>
 </html>

@@ -33,9 +33,11 @@ public class LibraireController {
     public String afficherInfoLibraire(@PathVariable String loginLibraire, Model model) {
         Set<Exemplaire> exemplaires = facade.getExemplairesLibraire(libraireRepository.findByLogin(loginLibraire));
         Set<Ouvrage> ouvrages = facade.getOuvragesLibraire(libraireRepository.findByLogin(loginLibraire));
+        Set<Exemplaire> exemplairesCommandes = facade.getExemplairesCommandesDuLibraire(libraireRepository.findByLogin(loginLibraire));
        model.addAttribute("loginLibraire", loginLibraire);
        model.addAttribute("exemplaires", exemplaires);
        model.addAttribute("ouvrages", ouvrages);
+       model.addAttribute("exemplairesCommandes", exemplairesCommandes);
        return("afficherInfoLibraire");
     }
 
