@@ -9,10 +9,7 @@ import fr.insacvl.asl.bcn.bookzone.services.LibraireRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.*;
 import java.util.Set;
 
 @Controller
@@ -32,29 +29,6 @@ public class LibraireController {
         // TODO : faire le login avec Spring Security
         return("hello");
     }
-
-    @RequestMapping("setPrixVente")
-    public String setPrixVente(Model model) {
-        facade.setPrixVente((Libraire)facade.getUtilisateur("sb"), 12, exemplaireRepository.findById(1).orElse(null));
-        facade.setPrixVente((Libraire)facade.getUtilisateur("sb"), 5, exemplaireRepository.findById(2).orElse(null));
-        facade.setPrixVente((Libraire)facade.getUtilisateur("sb"), 10, exemplaireRepository.findById(3).orElse(null));
-        // id=50 n'existe pas, ne fait rien (ne doit pas faire crash le serveur)
-        facade.setPrixVente((Libraire)facade.getUtilisateur("sb"), 2, exemplaireRepository.findById(50).orElse(null));
-
-        return("hello");
-    }
-
-    @RequestMapping("setFraisPort")
-    public String setFraisPort(Model model) {
-        facade.setFraisPort((Libraire)facade.getUtilisateur("sb"), 2.50F, exemplaireRepository.findById(1).orElse(null));
-        facade.setFraisPort((Libraire)facade.getUtilisateur("sb"), 1.75F, exemplaireRepository.findById(2).orElse(null));
-        facade.setFraisPort((Libraire)facade.getUtilisateur("sb"), 1.10F, exemplaireRepository.findById(3).orElse(null));
-        // id=50 n'existe pas, ne fait rien (ne doit pas faire crash le serveur)
-        facade.setFraisPort((Libraire)facade.getUtilisateur("sb"), 5.0F, exemplaireRepository.findById(50).orElse(null));
-
-        return("hello");
-    }
-
     @GetMapping("{loginLibraire}")
     public String afficherInfoLibraire(@PathVariable String loginLibraire, Model model) {
         Set<Exemplaire> exemplaires = facade.getExemplairesLibraire(libraireRepository.findByLogin(loginLibraire));
@@ -63,5 +37,17 @@ public class LibraireController {
        model.addAttribute("exemplaires", exemplaires);
        model.addAttribute("ouvrages", ouvrages);
        return("afficherInfoLibraire");
+    }
+
+    @PostMapping("{loginLibraire}/setPrixVente/{idExemplaire}")
+    public String setPrixVente(@PathVariable String loginLibraire, @PathVariable int idExemplaire, @RequestParam float prixVente, Model model) {
+        facade.setPrixVente((Libraire)facade.getUtilisateur(loginLibraire), prixVente, exemplaireRepository.findById(idExemplaire).orElse(null));
+        return afficherInfoLibraire(loginLibraire, model);
+    }
+
+    @PostMapping("{loginLibraire}/setFraisPort/{idExemplaire}")
+    public String setFraisPort(@PathVariable String loginLibraire, @PathVariable int idExemplaire, @RequestParam float fraisPort, Model model) {
+        facade.setFraisPort((Libraire)facade.getUtilisateur(loginLibraire), fraisPort, exemplaireRepository.findById(idExemplaire).orElse(null));
+        return afficherInfoLibraire(loginLibraire, model);
     }
 }

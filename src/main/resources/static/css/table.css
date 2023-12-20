@@ -16,3 +16,7 @@ th, td {
 ul{
     list-style-type: none;
 }
+
+input{
+    width: 40px;
+}

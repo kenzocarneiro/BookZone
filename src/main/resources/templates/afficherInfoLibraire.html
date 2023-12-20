@@ -58,13 +58,26 @@
         <td th:text="${exemplaire.getIdExemplaire()}"></td>
         <td th:text="${exemplaire.getOuvrage().getTitre()}"></td>
         <td th:text="${exemplaire.getEtat()}"></td>
-        <td th:text="${exemplaire.getPrixVente()}"></td>
-        <td th:text="${exemplaire.getFraisPort()}"></td>
+        <td>
+            <span th:text="${exemplaire.getPrixVente()}"></span>
+            <form th:action="@{'/libraire/'+ ${loginLibraire} + '/setPrixVente/' + ${exemplaire.getIdExemplaire()}}" th:method="post" style="display: inline;">
+                <input type="text" name="prixVente" pattern="[0-9]+([\.,][0-9]+)?" title="Veuillez entrer un nombre décimal." th:value="${exemplaire.getPrixVente()}">
+                <button type="submit">modifier</button>
+            </form>
+        </td>
+
+        <td>
+            <span th:text="${exemplaire.getFraisPort()}"></span>
+            <form th:action="@{'/libraire/' + ${loginLibraire} +'/setFraisPort/' + ${exemplaire.getIdExemplaire()}}" th:method="post" style="display: inline;">
+                <input type="text" name="fraisPort" pattern="[0-9]+([\.,][0-9]+)?" title="Veuillez entrer un nombre décimal." th:value="${exemplaire.getFraisPort()}">
+                <button type="submit">modifier</button>
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>
 
-<h2>Liste des exemplaires commandés</h2>
+<h2>Liste des exemplaires commandés (TODO)</h2>
 
 </body>
 </html>
