@@ -20,7 +20,7 @@ public class HomeController {
 
     @RequestMapping("")
     public String hello() {
-        return "hello";
+        return "index";
     }
 
     @RequestMapping("test")
@@ -109,7 +109,7 @@ public class HomeController {
         commandeService.addCommmandetoClient(c1, (Client)utilisateurService.findByLogin("john"));
         commandeService.addCommmandetoClient(c2, (Client)utilisateurService.findByLogin("john"));
         commandeService.addCommmandetoClient(c3, (Client)utilisateurService.findByLogin("john"));
-        return "hello";
+        return "index";
     }
 
 
