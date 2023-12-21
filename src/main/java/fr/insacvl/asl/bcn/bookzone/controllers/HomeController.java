@@ -57,7 +57,7 @@ public class HomeController {
                 "Book",
                 "SuperBook@gmail.com",
                 "sb",
-                "123"
+                "sb"
         );
 
         utilisateurService.createAndSaveClient(
@@ -65,7 +65,7 @@ public class HomeController {
                 "Doe",
                 "john.doe@gmail.com",
                 "john",
-                "jojo456"
+                "john"
         );
 
         utilisateurService.createAndSaveClient(
@@ -96,10 +96,12 @@ public class HomeController {
         Exemplaire e1 = ouvrageService.createExemplaire(EtatExemplaire.MOYEN, (Libraire)utilisateurService.findByLogin("sb"));
         Exemplaire e2 = ouvrageService.createExemplaire(EtatExemplaire.BON, (Libraire)utilisateurService.findByLogin("sb"));
         Exemplaire e3 = ouvrageService.createExemplaire(EtatExemplaire.MAUVAIS, (Libraire)utilisateurService.findByLogin("sb"));
+        Exemplaire e4 = ouvrageService.createExemplaire(EtatExemplaire.TRES_BON, (Libraire)utilisateurService.findByLogin("sb"));
 
         ouvrageService.addExemplaireToOuvrage(e1, o1);
         ouvrageService.addExemplaireToOuvrage(e2, o2);
         ouvrageService.addExemplaireToOuvrage(e3, o2);
+        ouvrageService.addExemplaireToOuvrage(e4, o3);
 
         ouvrageService.addAvisExemplaire(avis1, e1);
         ouvrageService.addAvisExemplaire(avis2, e2);
@@ -110,6 +112,7 @@ public class HomeController {
         commandeService.addExemplaireDansCommande(e1, c1);
         commandeService.addExemplaireDansCommande(e1, c1); // test redondance
         commandeService.addExemplaireDansCommande(e2, c2);
+        commandeService.addExemplaireDansCommande(e4, c2);
         commandeService.addExemplaireDansCommande(e3, c3);
 
         commandeService.addCommmandetoClient(c1, (Client)utilisateurService.findByLogin("john"));

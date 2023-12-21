@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>client-info</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" />
+</head>
+
+<body class="container">
+
+    <h1 th:text="'Bienvenue ' + ${loginClient}"></h1><br/>
+
+    <h2>Mes commandes</h2><br/>
+    <table>
+        <thead>
+        <tr>
+            <th class="espace-entre-colonnes">Id Commande</th>
+            <th class="espace-entre-colonnes">Date</th>
+            <th class="espace-entre-colonnes">Etat</th>
+            <th class="espace-entre-colonnes">Contenu</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="commande : ${commandes}">
+            <td th:text="${commande.getIdCommande()}"></td>
+            <td th:text="${commande.getDate()}"></td>
+            <td th:text="${commande.getEtat()}"></td>
+            <td>
+                <div th:each="exemplaire : ${commande.getExemplaires()}" th:text="${exemplaire.getOuvrage().getTitre() + ' (état: ' + exemplaire.getEtat() + ')'}"><br/></div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
