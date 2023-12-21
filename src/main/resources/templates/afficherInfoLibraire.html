@@ -28,16 +28,12 @@
             <td th:text="${ouvrage.getIdOuvrage()}"></td>
             <td th:text="${ouvrage.getTitre()}"></td>
             <td>
-                <ul>
-                    <li th:each="auteur : ${ouvrage.getAuteurs()}" th:text="${auteur.getPrenom() + ' ' + auteur.getNom()}"></li>
-                </ul>
+                <div th:each="auteur : ${ouvrage.getAuteurs()}" th:text="${auteur.getPrenom() + ' ' + auteur.getNom()}"><br/></div>
             </td>
             <td th:text="${ouvrage.getEditeur()}"></td>
             <td th:text="${ouvrage.getNbPages()}"></td>
             <td>
-                <ul>
-                    <li th:each="categorie : ${ouvrage.getCategories()}" th:text="${categorie}"></li>
-                </ul>
+                <div th:each="categorie : ${ouvrage.getCategories()}" th:text="${categorie}"><br/></div>
             </td>
         </tr>
         </tbody>
