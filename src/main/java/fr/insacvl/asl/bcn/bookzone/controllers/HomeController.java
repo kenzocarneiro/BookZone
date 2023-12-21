@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 @Controller
 @RequestMapping("/")
-public class HelloWorldController {
+public class HomeController {
     @Autowired
     private OuvrageService ouvrageService;
     @Autowired
