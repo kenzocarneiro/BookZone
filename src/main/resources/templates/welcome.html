@@ -1,20 +1,17 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="https://www.thymeleaf.org">
+<html lang="fr" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Hello Login</title>
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" />
 </head>
 <body class="container">
+    <th:block th:insert="~{fragments/header::header}"></th:block>
     <h1>Hello, world!</h1>
 
     <p>
-        Tu es connecté !
+        Tu es connecté en tant que "<span sec:authentication="name"></span>" !
     </p>
-
-    <form th:action="@{/processLogout}" method="post">
-        <button type="submit" class="btn btn-danger">Logout</button>
-    </form>
 
     <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
 </body>

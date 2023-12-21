@@ -5,8 +5,9 @@
     <title>Hello</title>
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" />
 </head>
-<body class="container">
 
+<body class="container">
+    <th:block th:insert="~{fragments/header::header}"></th:block>
     <th:block>
         Visiblement, le projet se lance...
     </th:block>
