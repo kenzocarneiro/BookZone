@@ -161,12 +161,11 @@ public class Facade {
 
         LocalDate dateDuJour = LocalDate.now();
         String jpql = "SELECT c FROM Commande c WHERE YEAR(c.date) = :annee AND MONTH(c.date) = :mois";
-        List<Commande> resultList = em.createQuery(jpql, Commande.class)
+
+        return em.createQuery(jpql, Commande.class)
                 .setParameter("annee", dateDuJour.getYear())
                 .setParameter("mois", dateDuJour.getMonthValue())
                 .getResultList();
-
-        return resultList;
     }
 //
 //    public void ValiderInscription(Libraire l){ // TODO

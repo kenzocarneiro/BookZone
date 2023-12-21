@@ -51,24 +51,4 @@ public class WebSecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        UserDetails user =
-//                User.withUsername("user")
-//                        .password(passwordEncoder().encode("password"))
-//                        .roles("USER")
-//                        .build();
-//        UserDetails admin =
-//                User.withUsername("admin")
-//                        .password(passwordEncoder().encode("password"))
-//                        .roles("ADMIN")
-//                        .build();
-//        UserDetails libraire =
-//                User.withUsername("libraire")
-//                        .password(passwordEncoder().encode("password"))
-//                        .roles("LIBRAIRE")
-//                        .build();
-//        return new InMemoryUserDetailsManager(user, admin, libraire);
-//    }
 }
