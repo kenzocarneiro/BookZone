@@ -1,8 +1,7 @@
 package fr.insacvl.asl.bcn.bookzone.entities;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,10 +16,6 @@ public class Personne {
     @Setter(AccessLevel.NONE)
     private int id;
 
-    @NonNull private String prenom;
-    @NonNull private String nom;
-
-    @ManyToMany(mappedBy = "auteurs")
-    @ToString.Exclude
-    private Set<Ouvrage> ouvrages = new HashSet<>();
+    @NotNull private String prenom;
+    @NotNull private String nom;
 }

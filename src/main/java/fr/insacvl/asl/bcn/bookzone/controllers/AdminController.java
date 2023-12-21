@@ -14,11 +14,6 @@ public class AdminController {
 
     @Autowired
     private Facade facade;
-    @RequestMapping("")
-    public String login(Model model) {
-        // TODO : faire le login avec Spring Security
-        return("hello");
-    }
 
     @RequestMapping("commandesDuMois")
     public String voirCommandeDuMois(Model model) {

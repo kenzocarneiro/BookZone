@@ -122,7 +122,6 @@ public class Facade {
     @Transactional
     public void addAuteurToOuvrage(Personne p, Ouvrage o) {
         o.getAuteurs().add(p);
-        p.getOuvrages().add(o);
         System.out.println("Ajout de l'auteur " + p.getPrenom() + " " + p.getNom() + " pour l'ouvrage " + o.getTitre());
     }
 

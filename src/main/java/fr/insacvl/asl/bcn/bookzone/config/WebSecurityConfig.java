@@ -24,7 +24,7 @@ public class WebSecurityConfig {
                     .ignoringRequestMatchers(PathRequest.toH2Console())
             ) // https://jessitron.com/2020/06/15/spring-security-for-h2-console/
             .authorizeHttpRequests(authorize -> authorize
-                    .requestMatchers("/", "/webjars/**", "/css/**").permitAll()
+                    .requestMatchers("/", "/register", "/webjars/**", "/css/**").permitAll()
                     .requestMatchers("/welcome").hasAnyAuthority("ROLE_USER", "ROLE_LIBRAIRE", "ROLE_ADMIN")
                     .requestMatchers("/libraire/**").hasAnyAuthority("ROLE_LIBRAIRE", "ROLE_ADMIN")
                     .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")

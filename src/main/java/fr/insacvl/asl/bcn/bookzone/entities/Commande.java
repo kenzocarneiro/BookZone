@@ -1,5 +1,6 @@
 package fr.insacvl.asl.bcn.bookzone.entities;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -21,10 +22,10 @@ public class Commande {
     EtatCommande etat;
 
     private String description;
-    @NonNull private LocalDate date;
+    @NotNull private LocalDate date;
 
     @OneToMany(mappedBy = "commande", cascade = CascadeType.ALL)
-    @NonNull
+    @NotNull
     private Set<Exemplaire> exemplaires = new HashSet<>();
 
     @ManyToOne

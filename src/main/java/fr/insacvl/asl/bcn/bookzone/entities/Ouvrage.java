@@ -1,5 +1,6 @@
 package fr.insacvl.asl.bcn.bookzone.entities;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import java.util.*;
 
@@ -16,8 +17,8 @@ public class Ouvrage {
     @Setter(AccessLevel.NONE)
     private int idOuvrage;
 
-    @NonNull String titre;
-    @NonNull String editeur;
+    @NotNull String titre;
+    @NotNull String editeur;
     int nbPages;
 
    // TODO : ajouter le set de catégories (enum)
