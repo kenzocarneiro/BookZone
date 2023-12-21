@@ -82,44 +82,6 @@ public class Facade {
     }
 
     @Transactional
-    public void createUtilisateur(String mail, String login, String password) {
-        Utilisateur u = new Utilisateur();
-        u.setMail(mail);
-        u.setLogin(login);
-        u.setPassword(password);
-        u.setRole("user");
-        em.persist(u);
-        System.out.println("Utilisateur " + u + " cree");
-    }
-    @Transactional
-    public void createLibraire(String mail, String login, String password) {
-        Libraire l = new Libraire();
-        l.setMail(mail);
-        l.setLogin(login);
-        l.setPassword(password);
-        l.setRole("user");
-        em.persist(l);
-        System.out.println("Libraire " + l + " cree");
-    }
-    @Transactional
-    public void createClient(String mail, String login, String password) {
-        Client c = new Client();
-        c.setMail(mail);
-        c.setLogin(login);
-        c.setPassword(password);
-        c.setRole("user");
-        em.persist(c);
-        System.out.println("Client " + c + " cree");
-    }
-
-    @Transactional
-    public void createAdministrateur(Utilisateur u) {
-        u.setRole("admin");
-        em.persist(u);
-        System.out.println("Administrateur " + u.getLogin() + " cree");
-    }
-
-    @Transactional
     public void addAuteurToOuvrage(Personne p, Ouvrage o) {
         o.getAuteurs().add(p);
         System.out.println("Ajout de l'auteur " + p.getPrenom() + " " + p.getNom() + " pour l'ouvrage " + o.getTitre());
@@ -155,23 +117,6 @@ public class Facade {
 
     }
 
-    @Transactional
-    public void associateAdresseUtilisateur(Adresse a, Utilisateur u) {
-        u.setAdresse(a);
-        em.persist(a);
-        System.out.println("Adresse " + a.getIdAdresse() +  " associee à " + u.getLogin());
-    }
-
-    @Transactional
-    public Utilisateur getUtilisateur(String login) {
-        String jpql = "SELECT u FROM Utilisateur u WHERE u.login=:login";
-        Utilisateur result = em.createQuery(jpql, Utilisateur.class)
-                .setParameter("login", login)
-                .getSingleResult();
-
-        System.out.println("Utilisateur " + result.getLogin() + " recupere");
-        return result;
-    }
     @Transactional
     public void addCategorieToOuvrage(CategorieEnum c, Ouvrage o) {
         o.getCategories().add(c);

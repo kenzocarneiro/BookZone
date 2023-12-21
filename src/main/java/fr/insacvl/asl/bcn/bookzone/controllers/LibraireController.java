@@ -6,6 +6,7 @@ import fr.insacvl.asl.bcn.bookzone.entities.Ouvrage;
 import fr.insacvl.asl.bcn.bookzone.services.ExemplaireRepository;
 import fr.insacvl.asl.bcn.bookzone.services.Facade;
 import fr.insacvl.asl.bcn.bookzone.services.LibraireRepository;
+import fr.insacvl.asl.bcn.bookzone.services.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,9 @@ public class LibraireController {
 
     @Autowired
     private Facade facade;
+
+    @Autowired
+    private UtilisateurService utilisateurService;
 
     @Autowired
     private ExemplaireRepository exemplaireRepository;
@@ -43,13 +47,13 @@ public class LibraireController {
 
     @PostMapping("{loginLibraire}/setPrixVente/{idExemplaire}")
     public String setPrixVente(@PathVariable String loginLibraire, @PathVariable int idExemplaire, @RequestParam float prixVente, Model model) {
-        facade.setPrixVente((Libraire)facade.getUtilisateur(loginLibraire), prixVente, exemplaireRepository.findById(idExemplaire).orElse(null));
+        facade.setPrixVente((Libraire)utilisateurService.findByLogin(loginLibraire), prixVente, exemplaireRepository.findById(idExemplaire).orElse(null));
         return afficherInfoLibraire(loginLibraire, model);
     }
 
     @PostMapping("{loginLibraire}/setFraisPort/{idExemplaire}")
     public String setFraisPort(@PathVariable String loginLibraire, @PathVariable int idExemplaire, @RequestParam float fraisPort, Model model) {
-        facade.setFraisPort((Libraire)facade.getUtilisateur(loginLibraire), fraisPort, exemplaireRepository.findById(idExemplaire).orElse(null));
+        facade.setFraisPort((Libraire)utilisateurService.findByLogin(loginLibraire), fraisPort, exemplaireRepository.findById(idExemplaire).orElse(null));
         return afficherInfoLibraire(loginLibraire, model);
     }
 }
