@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}"/>
+</head>
+<body class="container">
+    <h1>Créer un exemplaire</h1><br/><br/>
+        <form id="myForm" th:action="@{'/libraire/'+ ${loginLibraire} + '/creerExemplaire'}" th:object="${exemplaire}" method="post">
+            <div>
+                <label for="allOuvrages">Ouvrage :</label>
+                <select id="allOuvrages" name="allOuvrages" th:field="*{ouvrage}" required>
+                    <option th:each="ouvrage : ${allOuvrages}" th:value="${ouvrage.getTitre()}" th:text="${ouvrage.getTitre()}"></option>
+                </select>
+            </div>
+            <br/>
+            <div>
+                <label for="etatExemplaire" >Etat de l'exemplaire :</label>
+                <select id="etatExemplaire" name="etatExemplaire" th:field="*{etat}" required>
+                    <option th:each="etat : ${etatExemplaire}" th:value="${etat}" th:text="${etat}"></option>
+                </select>
+            </div>
+            <br/>
+            <div>
+                <label for="vendeur" class="form-label">Login du libraire</label>:
+                <input type="text" id="vendeur" class="form-control" th:field="*{vendeur}" required/><br/>
+            </div>
+            <br/>
+            <div>
+                <label for="prixVente" class="form-label">Prix de vente</label>:
+                <input type="text" id="prixVente" pattern="[0-9]+([\.,][0-9]+)?" title="Veuillez entrer un nombre décimal." class="form-control" th:field="*{prixVente}"/><br/>
+            </div>
+            <br/>
+            <div>
+                <label for="fraisPort" class="form-label">Frais de port</label>:
+                <input type="text" id="fraisPort" pattern="[0-9]+([\.,][0-9]+)?" title="Veuillez entrer un nombre décimal." class="form-control" th:field="*{fraisPort}"/><br/>
+            </div>
+            <br/>
+            <button type="submit" class="btn btn-primary">Créer l'exemplaire</button>
+        </form>
+
+    <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

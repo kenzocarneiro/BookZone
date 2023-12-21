@@ -1,12 +1,14 @@
 package fr.insacvl.asl.bcn.bookzone.controllers;
 
-import fr.insacvl.asl.bcn.bookzone.entities.Exemplaire;
-import fr.insacvl.asl.bcn.bookzone.entities.Libraire;
-import fr.insacvl.asl.bcn.bookzone.entities.Ouvrage;
+import fr.insacvl.asl.bcn.bookzone.dtos.ExemplaireDTO;
+import fr.insacvl.asl.bcn.bookzone.entities.*;
 import fr.insacvl.asl.bcn.bookzone.repositories.ExemplaireRepository;
 import fr.insacvl.asl.bcn.bookzone.repositories.LibraireRepository;
+import fr.insacvl.asl.bcn.bookzone.repositories.OuvrageRepository;
 import fr.insacvl.asl.bcn.bookzone.services.LibraireService;
+import fr.insacvl.asl.bcn.bookzone.services.OuvrageService;
 import fr.insacvl.asl.bcn.bookzone.services.UtilisateurService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,13 +21,14 @@ public class LibraireController {
 
     @Autowired
     private UtilisateurService utilisateurService;
-
     @Autowired
     private LibraireService libraireService;
-
+    @Autowired
+    private OuvrageService ouvrageService;
+    @Autowired
+    private OuvrageRepository ouvrageRepository;
     @Autowired
     private ExemplaireRepository exemplaireRepository;
-
     @Autowired
     private LibraireRepository libraireRepository;
 
@@ -50,6 +53,22 @@ public class LibraireController {
     @PostMapping("{loginLibraire}/setFraisPort/{idExemplaire}")
     public String setFraisPort(@PathVariable String loginLibraire, @PathVariable int idExemplaire, @RequestParam float fraisPort, Model model) {
         libraireService.setFraisPort((Libraire)utilisateurService.findByLogin(loginLibraire), fraisPort, exemplaireRepository.findById(idExemplaire).orElse(null));
+        return afficherInfoLibraire(loginLibraire, model);
+    }
+
+    @GetMapping("{loginLibraire}/creerExemplaire")
+    public String creerExemplaire(@PathVariable String loginLibraire, Model model) {
+        ExemplaireDTO exemplaireDTO = new ExemplaireDTO();
+        model.addAttribute("exemplaire", exemplaireDTO);
+        model.addAttribute("allOuvrages", ouvrageRepository.findAll());
+        model.addAttribute("etatExemplaire", EtatExemplaire.values());
+        model.addAttribute("loginLibraire", loginLibraire);
+        return "creerExemplaire";
+    }
+
+    @PostMapping("{loginLibraire}/creerExemplaire")
+    public String enregistrerExemplaire(@PathVariable String loginLibraire, @ModelAttribute("exemplaire") @Valid ExemplaireDTO exemplaireDTO, Model model) {
+        ouvrageService.saveExemplaireDto(exemplaireDTO);
         return afficherInfoLibraire(loginLibraire, model);
     }
 }

@@ -11,7 +11,9 @@
 
     <h1 th:text="'Page d\'accueil de ' + ${loginLibraire}"></h1><br/>
 
-    <h2>Liste des ouvrages enregistrés</h2>
+    <a th:href="@{'/libraire/'+ ${loginLibraire} + '/creerExemplaire'}">Créer un exemplaire</a><br/>
+
+    <h2>Liste des ouvrages enregistrés</h2><br/>
     <table>
         <thead>
         <tr>

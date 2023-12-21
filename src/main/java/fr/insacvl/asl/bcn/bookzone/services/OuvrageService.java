@@ -1,8 +1,10 @@
 package fr.insacvl.asl.bcn.bookzone.services;
 
+import fr.insacvl.asl.bcn.bookzone.dtos.ExemplaireDTO;
 import fr.insacvl.asl.bcn.bookzone.entities.*;
 import fr.insacvl.asl.bcn.bookzone.repositories.AvisRepository;
 import fr.insacvl.asl.bcn.bookzone.repositories.ExemplaireRepository;
+import fr.insacvl.asl.bcn.bookzone.repositories.LibraireRepository;
 import fr.insacvl.asl.bcn.bookzone.repositories.OuvrageRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,8 @@ public class OuvrageService {
     OuvrageRepository ouvrageRepository;
     @Autowired
     ExemplaireRepository exemplaireRepository;
+    @Autowired
+    LibraireRepository libraireRepository;
 
     @Transactional
     public Avis createAvis(int note, String commentaire) {
@@ -44,6 +48,17 @@ public class OuvrageService {
         exemplaireRepository.save(e);
         System.out.println("L'exemplaire " + e + " a ete cree");
         return e;
+    }
+
+    @Transactional
+    public void saveExemplaireDto(ExemplaireDTO exemplaireDTO) {
+        Exemplaire e = new Exemplaire();
+        e.setOuvrage(ouvrageRepository.findByTitre(exemplaireDTO.getOuvrage()));
+        e.setEtat(exemplaireDTO.getEtat());
+        e.setVendeur(libraireRepository.findByLogin(exemplaireDTO.getVendeur()));
+        e.setPrixVente(exemplaireDTO.getPrixVente());
+        e.setFraisPort(exemplaireDTO.getFraisPort());
+        exemplaireRepository.save(e);
     }
 
     @Transactional

@@ -28,15 +28,20 @@ public class HomeController {
 
         Ouvrage o1 = ouvrageService.createOuvrage("Therese Raquin", "Flammarion", 328);
         Ouvrage o2 = ouvrageService.createOuvrage("Germinal", "Hachette", 2447);
+        Ouvrage o3 = ouvrageService.createOuvrage("Tintin", "BDLand", 57);
         Adresse a = utilisateurService.createAdresse("Victor Hugo", "Paris", 75, "France", "appartement 3");
         Avis avis1 = ouvrageService.createAvis(4, "Tres bon livre !");
         Avis avis2 = ouvrageService.createAvis(1, "C'etait nul ...");
         Personne p = personneService.createPersonne("Emile", "Zola");
+        Personne p2 = personneService.createPersonne("Georges", "Remi");
 
         ouvrageService.addCategorieToOuvrage(CategorieEnum.REALISTE, o1);
         ouvrageService.addCategorieToOuvrage(CategorieEnum.FICTION, o1);
         ouvrageService.addCategorieToOuvrage(CategorieEnum.HISTORIQUE, o2);
         ouvrageService.addCategorieToOuvrage(CategorieEnum.REALISTE, o2);
+        ouvrageService.addCategorieToOuvrage(CategorieEnum.AVENTURE, o3);
+        ouvrageService.addCategorieToOuvrage(CategorieEnum.FICTION, o3);
+
 
         utilisateurService.createAndSaveAdministrateur(
                 "toto",
@@ -87,6 +92,7 @@ public class HomeController {
 
         ouvrageService.addAuteurToOuvrage(p, o1);
         ouvrageService.addAuteurToOuvrage(p, o2);
+        ouvrageService.addAuteurToOuvrage(p2, o3);
         Exemplaire e1 = ouvrageService.createExemplaire(EtatExemplaire.MOYEN, (Libraire)utilisateurService.findByLogin("sb"));
         Exemplaire e2 = ouvrageService.createExemplaire(EtatExemplaire.BON, (Libraire)utilisateurService.findByLogin("sb"));
         Exemplaire e3 = ouvrageService.createExemplaire(EtatExemplaire.MAUVAIS, (Libraire)utilisateurService.findByLogin("sb"));
