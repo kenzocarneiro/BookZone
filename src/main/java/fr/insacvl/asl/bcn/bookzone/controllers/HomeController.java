@@ -47,7 +47,7 @@ public class HomeController {
         );
         utilisateurService.associateAdresseUtilisateur(a, utilisateurService.findByLogin("toto"));
 
-        utilisateurService.createAndSaveLibraire(
+        utilisateurService.createAndSaveLibraireValide(
                 "Super",
                 "Book",
                 "SuperBook@gmail.com",
@@ -70,12 +70,19 @@ public class HomeController {
                 "user",
                 "user"
         );
-        utilisateurService.createAndSaveLibraire(
+        utilisateurService.createAndSaveLibraireValide(
                 "Libraire",
-                "Libraire",
+                "Valide",
                 "libraire@libraire.com",
                 "libraire",
                 "libraire"
+        );
+        utilisateurService.createAndSaveFuturLibraire(
+                "Futur",
+                "Libraire",
+                "flibraire@flibraire.com",
+                "flibraire",
+                "flibraire"
         );
         utilisateurService.createAndSaveAdministrateur(
                 "Admin",

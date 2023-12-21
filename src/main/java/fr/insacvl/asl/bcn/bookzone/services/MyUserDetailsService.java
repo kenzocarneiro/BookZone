@@ -26,6 +26,9 @@ public class MyUserDetailsService implements UserDetailsService {
         if (utilisateur == null) {
             throw new UsernameNotFoundException("Utilisateur non trouvé");
         }
+        if (utilisateur.getRole().equals("ROLE_FUTUR_LIBRAIRE")) {
+            throw new UsernameNotFoundException("Libraire non validé");
+        }
         return new User(utilisateur.getLogin(), utilisateur.getPassword(), getAuthorities(utilisateur.getRole()));
     }
 
