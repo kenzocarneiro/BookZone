@@ -1,0 +1,22 @@
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+.espace-entre-colonnes {
+    margin-right: 20px;
+}
+
+ul{
+    list-style-type: none;
+}
+
+input{
+    width: 40px;
+}

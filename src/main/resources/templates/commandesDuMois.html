@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>commandes-mois</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" />
+</head>
+
+<body class="container">
+    <h1>Commandes du mois</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th class="espace-entre-colonnes">Id Commande</th>
+                    <th class="espace-entre-colonnes">Date</th>
+                    <th class="espace-entre-colonnes">Contenu</th>
+                    <th class="espace-entre-colonnes">Client</th>
+                    <th class="espace-entre-colonnes">Etat</th>
+                    <th class="espace-entre-colonnes">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="commande : ${commandesDuMois}">
+                    <td th:text="${commande.getIdCommande()}"></td>
+                    <td th:text="${commande.getDate()}"></td>
+                    <td>
+                        <ul>
+                            <li th:each="exemplaire : ${commande.getExemplaires()}" th:text="${exemplaire.getOuvrage().getTitre()}"></li>
+                        </ul>
+                    </td>
+                    <td th:text="${commande.getClient().getMail()}"></td>
+                    <td th:text="${commande.getEtat()}"></td>
+                    <td th:text="${commande.getDescription()}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+    <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
