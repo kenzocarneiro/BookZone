@@ -1,6 +1,7 @@
 package fr.insacvl.asl.bcn.bookzone.controllers;
 
 import fr.insacvl.asl.bcn.bookzone.dtos.ExemplaireDTO;
+import fr.insacvl.asl.bcn.bookzone.dtos.OuvrageDTO;
 import fr.insacvl.asl.bcn.bookzone.entities.*;
 import fr.insacvl.asl.bcn.bookzone.repositories.ExemplaireRepository;
 import fr.insacvl.asl.bcn.bookzone.repositories.LibraireRepository;
@@ -67,8 +68,22 @@ public class LibraireController {
     }
 
     @PostMapping("{loginLibraire}/creerExemplaire")
-    public String enregistrerExemplaire(@PathVariable String loginLibraire, @ModelAttribute("exemplaire") @Valid ExemplaireDTO exemplaireDTO, Model model) {
+    public String enregistrerExemplaire(@ModelAttribute("exemplaire") @Valid ExemplaireDTO exemplaireDTO) {
         ouvrageService.saveExemplaireDto(exemplaireDTO);
-        return afficherInfoLibraire(loginLibraire, model);
+        return "creerExemplaire";
+    }
+
+    @GetMapping("{loginLibraire}/creerOuvrage")
+    public String creerOuvrage(@PathVariable String loginLibraire, Model model) {
+        OuvrageDTO ouvrageDTO = new OuvrageDTO();
+        model.addAttribute("ouvrage", ouvrageDTO);
+        model.addAttribute("loginLibraire", loginLibraire);
+        return "creerOuvrage";
+    }
+
+    @PostMapping("{loginLibraire}/creerOuvrage")
+    public String enregistrerOuvrage(@ModelAttribute("ouvrage") @Valid OuvrageDTO ouvrageDTO) {
+        ouvrageService.saveOuvrageDto(ouvrageDTO);
+        return "creerOuvrage";
     }
 }
