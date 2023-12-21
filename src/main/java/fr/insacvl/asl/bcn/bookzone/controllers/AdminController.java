@@ -1,7 +1,7 @@
 package fr.insacvl.asl.bcn.bookzone.controllers;
 
 import fr.insacvl.asl.bcn.bookzone.entities.*;
-import fr.insacvl.asl.bcn.bookzone.services.Facade;
+import fr.insacvl.asl.bcn.bookzone.services.CommandeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,11 +13,11 @@ import java.util.List;
 public class AdminController {
 
     @Autowired
-    private Facade facade;
+    private CommandeService commandeService;
 
     @RequestMapping("commandesDuMois")
     public String voirCommandeDuMois(Model model) {
-        List<Commande> commandesDuMois = facade.voirCommandeduMois();
+        List<Commande> commandesDuMois = commandeService.voirCommandeduMois();
         model.addAttribute("commandesDuMois", commandesDuMois);
         return("commandesDuMois");
     }

@@ -54,6 +54,18 @@ public class UtilisateurService {
     }
 
     @Transactional
+    public Adresse createAdresse(String rue, String ville, int codePostal, String pays, String informationsComplementaires) {
+        Adresse a = new Adresse(); // TODO: à remplacer plus tard par le constructeur qui a tous les arguments si possible
+        a.setRue(rue);
+        a.setVille(ville);
+        a.setCodePostal(codePostal);
+        a.setPays(pays);
+        a.setInformationsComplementaires(informationsComplementaires);
+        System.out.println("L'adresse " + a + " a ete cree");
+        return a;
+    }
+
+    @Transactional
     public void createAndSaveClient(String prenom, String nom, String mail, String login, String password) {
         Client c = new Client();
         configureAndSaveUtilisateur(c, prenom, nom, mail, login, password, "ROLE_USER");
