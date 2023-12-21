@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -23,8 +24,11 @@ public class HomeController {
     @RequestMapping("")
     //page d'accueil
     public String index(Model model) {
-        Set<Ouvrage> ouvrages = ouvrageService.getOuvrages();
-        model.addAttribute("ouvrages", ouvrages);
+        List<Exemplaire> exemplaires = ouvrageService.getExemplaires();
+        model.addAttribute("exemplaires", exemplaires);
+        System.out.println("exemplaires : " + exemplaires);
+        // Set<Ouvrage> ouvrages = ouvrageService.getOuvrages();
+        // model.addAttribute("ouvrages", ouvrages);
         return("index");
     }
 

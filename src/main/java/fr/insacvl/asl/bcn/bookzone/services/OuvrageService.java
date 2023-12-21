@@ -81,7 +81,7 @@ public class OuvrageService {
         System.out.println("L'avis " + a.getIdAvis() + " a ete ajoute a l'exemplaire " + e.getIdExemplaire());
     }
 
-        @Transactional
+    @Transactional
     public Ouvrage getOuvrage(int idOuvrage) {
         String jpql = "SELECT o FROM Ouvrage o WHERE o.idOuvrage=:idOuvrage";
         Ouvrage result = em.createQuery(jpql, Ouvrage.class)
@@ -98,6 +98,16 @@ public class OuvrageService {
         List<Ouvrage> resultList = em.createQuery(jpql, Ouvrage.class).getResultList();
         HashSet<Ouvrage> setOuvrages = new HashSet<>(resultList); 
         return setOuvrages;
+    }
+
+    @Transactional
+    public Exemplaire getExemplaire(int idExemplaire) {
+        return exemplaireRepository.findById(idExemplaire).orElse(null);
+    }
+
+    @Transactional
+    public List<Exemplaire> getExemplaires() {
+        return exemplaireRepository.findAll();
     }
 
     //    @Transactional
