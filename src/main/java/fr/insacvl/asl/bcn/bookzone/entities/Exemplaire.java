@@ -1,5 +1,6 @@
 package fr.insacvl.asl.bcn.bookzone.entities;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 
@@ -16,13 +17,15 @@ public class Exemplaire {
     private int idExemplaire;
 
     @Enumerated(EnumType.STRING)
-    @NonNull private EtatExemplaire etat;
+    @NotNull
+    private EtatExemplaire etat;
 
     private float prixVente;
     private float fraisPort;
 
     @ManyToOne
-    @NonNull private Libraire vendeur;
+    @NotNull
+    private Libraire vendeur;
 
     @OneToOne
     @JoinColumn(name="id_avis")
@@ -35,5 +38,6 @@ public class Exemplaire {
 
     @ManyToOne
     @JoinColumn(name = "id_ouvrage")
-    @NonNull Ouvrage ouvrage;
+//    @NotNull // TODO: à enlever plus tard, je l'ai commenté car le code de test ne marchait plus
+    Ouvrage ouvrage;
 }

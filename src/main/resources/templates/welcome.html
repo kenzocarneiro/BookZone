@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello Login</title>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" />
+</head>
+<body class="container">
+    <h1>Hello, world!</h1>
+
+    <p>
+        Tu es connecté !
+    </p>
+
+    <form th:action="@{/processLogout}" method="post">
+        <button type="submit" class="btn btn-danger">Logout</button>
+    </form>
+
+    <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

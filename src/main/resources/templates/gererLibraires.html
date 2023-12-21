@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gérer les libraires</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" />
+</head>
+
+<body class="container">
+<h1>Liste des libraires</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Prénom</th>
+        <th scope="col">Nom</th>
+        <th scope="col">Email</th>
+        <th scope="col">Validation</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="libraire : ${libraires}">
+        <td th:text="${libraire.getId()}"></td>
+        <td th:text="${libraire.getPrenom()}"></td>
+        <td th:text="${libraire.getNom()}"></td>
+        <td th:text="${libraire.getMail()}"></td>
+        <td th:if="${libraire.getRole().equals('ROLE_LIBRAIRE')}">Inscription déjà validée.</td>
+        <td th:unless="${libraire.getRole().equals('ROLE_LIBRAIRE')}">
+            <form th:action="@{/admin/libraires}" method="post">
+                <input type="hidden" name="id" th:value="${libraire.getId()}"/>
+                <button type="submit" name="valider" value="Valider" class="btn btn-success">Valider</button>
+                <button type="submit" name="rejeter" value="Rejeter" class="btn btn-danger">Rejeter</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

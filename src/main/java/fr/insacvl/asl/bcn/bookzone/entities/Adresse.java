@@ -1,5 +1,6 @@
 package fr.insacvl.asl.bcn.bookzone.entities;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 
@@ -15,10 +16,10 @@ public class Adresse {
     @Setter(AccessLevel.NONE)
     private int idAdresse;
 
-    @NonNull private String rue;
-    @NonNull private String ville;
+    @NotNull private String rue;
+    @NotNull private String ville;
     private int codePostal;
-    @NonNull private String pays;
+    @NotNull private String pays;
     private String informationsComplementaires;
 
     @OneToOne(mappedBy = "adresse")

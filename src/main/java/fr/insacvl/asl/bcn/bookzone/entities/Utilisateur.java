@@ -1,5 +1,6 @@
 package fr.insacvl.asl.bcn.bookzone.entities;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 
@@ -12,13 +13,13 @@ import lombok.*;
 public class Utilisateur extends Personne {
 
     @Column(unique = true)
-    @NonNull private String mail;
+    @NotNull private String mail;
 
     @Column(unique = true)
-    @NonNull private String login;
+    @NotNull private String login;
 
-    @NonNull private String password;
-    @NonNull private String role;
+    @NotNull private String password;
+    @NotNull private String role;
 
     @OneToOne
     @JoinColumn(name="id_adresse")
