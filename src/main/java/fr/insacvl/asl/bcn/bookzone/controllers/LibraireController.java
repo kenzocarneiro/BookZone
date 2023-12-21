@@ -3,9 +3,9 @@ package fr.insacvl.asl.bcn.bookzone.controllers;
 import fr.insacvl.asl.bcn.bookzone.entities.Exemplaire;
 import fr.insacvl.asl.bcn.bookzone.entities.Libraire;
 import fr.insacvl.asl.bcn.bookzone.entities.Ouvrage;
-import fr.insacvl.asl.bcn.bookzone.services.ExemplaireRepository;
+import fr.insacvl.asl.bcn.bookzone.repositories.ExemplaireRepository;
 import fr.insacvl.asl.bcn.bookzone.services.Facade;
-import fr.insacvl.asl.bcn.bookzone.services.LibraireRepository;
+import fr.insacvl.asl.bcn.bookzone.repositories.LibraireRepository;
 import fr.insacvl.asl.bcn.bookzone.services.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,11 +28,7 @@ public class LibraireController {
 
     @Autowired
     private LibraireRepository libraireRepository;
-    @RequestMapping("")
-    public String login(Model model) {
-        // TODO : faire le login avec Spring Security
-        return("hello");
-    }
+
     @GetMapping("{loginLibraire}")
     public String afficherInfoLibraire(@PathVariable String loginLibraire, Model model) {
         Set<Exemplaire> exemplaires = facade.getExemplairesLibraire(libraireRepository.findByLogin(loginLibraire));

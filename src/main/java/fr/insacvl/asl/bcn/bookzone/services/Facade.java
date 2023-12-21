@@ -1,5 +1,6 @@
 package fr.insacvl.asl.bcn.bookzone.services;
 import fr.insacvl.asl.bcn.bookzone.entities.*;
+import fr.insacvl.asl.bcn.bookzone.repositories.CommandeRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;

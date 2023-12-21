@@ -5,6 +5,8 @@ import fr.insacvl.asl.bcn.bookzone.entities.Adresse;
 import fr.insacvl.asl.bcn.bookzone.entities.Client;
 import fr.insacvl.asl.bcn.bookzone.entities.Libraire;
 import fr.insacvl.asl.bcn.bookzone.entities.Utilisateur;
+import fr.insacvl.asl.bcn.bookzone.repositories.AdresseRepository;
+import fr.insacvl.asl.bcn.bookzone.repositories.UtilisateurRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
