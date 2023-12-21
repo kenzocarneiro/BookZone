@@ -6,17 +6,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
+
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -24,7 +22,7 @@ public class WebSecurityConfig {
                     .ignoringRequestMatchers(PathRequest.toH2Console())
             ) // https://jessitron.com/2020/06/15/spring-security-for-h2-console/
             .authorizeHttpRequests(authorize -> authorize
-                    .requestMatchers("/", "/register", "/webjars/**", "/css/**").permitAll()
+                    .requestMatchers("/", "/register", "/public/**", "/webjars/**", "/css/**").permitAll()
                     .requestMatchers("/welcome").hasAnyAuthority("ROLE_USER", "ROLE_LIBRAIRE", "ROLE_ADMIN")
                     .requestMatchers("/libraire/**").hasAnyAuthority("ROLE_LIBRAIRE", "ROLE_ADMIN")
                     .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
@@ -54,23 +52,23 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails user =
-                User.withUsername("user")
-                        .password(passwordEncoder().encode("password"))
-                        .roles("USER")
-                        .build();
-        UserDetails admin =
-                User.withUsername("admin")
-                        .password(passwordEncoder().encode("password"))
-                        .roles("ADMIN")
-                        .build();
-        UserDetails libraire =
-                User.withUsername("libraire")
-                        .password(passwordEncoder().encode("password"))
-                        .roles("LIBRAIRE")
-                        .build();
-        return new InMemoryUserDetailsManager(user, admin, libraire);
-    }
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//        UserDetails user =
+//                User.withUsername("user")
+//                        .password(passwordEncoder().encode("password"))
+//                        .roles("USER")
+//                        .build();
+//        UserDetails admin =
+//                User.withUsername("admin")
+//                        .password(passwordEncoder().encode("password"))
+//                        .roles("ADMIN")
+//                        .build();
+//        UserDetails libraire =
+//                User.withUsername("libraire")
+//                        .password(passwordEncoder().encode("password"))
+//                        .roles("LIBRAIRE")
+//                        .build();
+//        return new InMemoryUserDetailsManager(user, admin, libraire);
+//    }
 }
