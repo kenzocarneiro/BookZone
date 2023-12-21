@@ -5,7 +5,7 @@
     <title>Hello Login</title>
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" />
 </head>
-<body>
+<body class="container">
     <h1>Hello, world!</h1>
 
     <p>
@@ -13,7 +13,7 @@
     </p>
 
     <form th:action="@{/processLogout}" method="post">
-        <input type="submit" value="Sign Out"/>
+        <button type="submit" class="btn btn-danger">Logout</button>
     </form>
 
     <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>

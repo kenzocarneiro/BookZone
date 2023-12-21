@@ -5,15 +5,19 @@
     <title>Title</title>
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" />
 </head>
-<body>
+<body class="container">
     <h1>Login page</h1>
     <p th:if="${loginError}" class="error">Wrong user or password</p>
     <form th:action="@{/processLogin}" method="post">
-        <label for="username">Username</label>:
-        <input type="text" id="username" name="username" autofocus="autofocus" /> <br />
-        <label for="password">Password</label>:
-        <input type="password" id="password" name="password" /> <br />
-        <input type="submit" value="Log in" />
+        <div>
+            <label for="username" class="form-label">Username</label>:
+            <input type="text" id="username" name="username" autofocus="autofocus" class="form-control"/> <br />
+        </div>
+        <div>
+            <label for="password" class="form-label">Password</label>:
+            <input type="password" id="password" name="password" class="form-control"/> <br />
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
     </form>
 
     <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
