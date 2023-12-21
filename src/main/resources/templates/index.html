@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>BookZone</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
+</head>
+<body>
+
+    <h1>Bienvenue sur BookZone</h1>
+
+    <!-- Formulaire de recherche de livres -->
+
+    <!-- Affichage des livres correspondants à la recherche -->
+    <div th:each="ouvrage : ${ouvrages}">
+        <h2 th:text="${ouvrage.getTitre()}"></h2>
+        <ul>
+            <li th:each="auteur : ${ouvrage.getAuteurs()}" th:text="${auteur.getPrenom() + ' ' + auteur.getNom()}"></li>
+        </ul>
+    </div>
+
+</body>
+</html>

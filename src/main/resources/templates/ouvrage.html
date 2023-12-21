@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>BookZone</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
+</head>
+<body>
+
+    <h1 th:text="'Ouvrage : ' + ${ouvrage.getTitre()}"></h1>
+
+    <!-- <div>
+        <h2>Auteur(s)</h2>
+        <ul>
+            <li th:each="auteur : ${ouvrage.getAuteurs()}" th:text="${auteur.getPrenom() + ' ' + auteur.getNom()}"></li>
+        </ul>
+    </div> -->
+
+
+</body>
+</html>

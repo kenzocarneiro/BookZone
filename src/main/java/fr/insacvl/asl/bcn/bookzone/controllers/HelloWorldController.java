@@ -13,12 +13,12 @@ public class HelloWorldController {
 
     @Autowired
     private Facade facade;
-    @RequestMapping("")
+    @RequestMapping("/hello")
     public String hello(Model model) {
         return("hello");
     }
 
-    @RequestMapping("test")
+    @RequestMapping("/test")
     public String test(Model model) {
 
         Ouvrage o1 = facade.createOuvrage("Therese Raquin", "Flammarion", 328);

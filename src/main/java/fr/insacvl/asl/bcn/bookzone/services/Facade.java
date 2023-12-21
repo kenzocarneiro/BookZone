@@ -184,6 +184,25 @@ public class Facade {
     }
 
     @Transactional
+    public Ouvrage getOuvrage(int idOuvrage) {
+        String jpql = "SELECT o FROM Ouvrage o WHERE o.idOuvrage=:idOuvrage";
+        Ouvrage result = em.createQuery(jpql, Ouvrage.class)
+                .setParameter("idOuvrage", idOuvrage)
+                .getSingleResult();
+
+        System.out.println("Ouvrage " + result.getTitre() + " recupere");
+        return result;
+    }
+
+    @Transactional
+    public Set<Ouvrage> getOuvrages() {
+        String jpql = "SELECT o FROM Ouvrage o";
+        List<Ouvrage> resultList = em.createQuery(jpql, Ouvrage.class).getResultList();
+        HashSet<Ouvrage> setOuvrages = new HashSet<>(resultList); 
+        return setOuvrages;
+    }
+
+    @Transactional
     public Set<Ouvrage> getOuvragesLibraire(Libraire l) {
         Set<Ouvrage> ouvrages = new HashSet<>();
         for(Exemplaire exemplaire : l.getExemplaires()){
