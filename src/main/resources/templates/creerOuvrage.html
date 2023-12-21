@@ -23,6 +23,12 @@
                 <input type="number" id="nbPages" min="0" class="form-control" th:field="*{nbPages}"/><br/>
             </div>
             <br/>
+            <div>
+                <label for="allAuteurs">Auteurs(s) :</label>
+                <select id="allAuteurs" name="allAuteurs" th:field="*{auteurs}">
+                    <option th:each="auteur, i : ${auteurs}" th:value="${auteur.id}" th:text="${auteur.getPrenom()} + ' ' +${auteur.getNom()}"></option>
+                </select>
+            </div>
             <button type="submit" class="btn btn-primary">Créer l'ouvrage</button>
         </form>
 

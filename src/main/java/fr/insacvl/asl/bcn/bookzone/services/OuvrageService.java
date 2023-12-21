@@ -91,6 +91,7 @@ public class OuvrageService {
         o.setTitre(ouvrageDTO.getTitre());
         o.setEditeur(ouvrageDTO.getEditeur());
         o.setNbPages(ouvrageDTO.getNbPages());
+        o.setAuteurs(ouvrageDTO.getAuteurs());
         ouvrageRepository.save(o);
     }
 

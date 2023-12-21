@@ -16,7 +16,7 @@ public class HomeController {
     @Autowired
     private UtilisateurService utilisateurService;
     @Autowired
-    private PersonneService personneService;
+    private AuteurService auteurService;
 
     @RequestMapping("")
     public String hello() {
@@ -32,8 +32,8 @@ public class HomeController {
         Adresse a = utilisateurService.createAdresse("Victor Hugo", "Paris", 75, "France", "appartement 3");
         Avis avis1 = ouvrageService.createAvis(4, "Tres bon livre !");
         Avis avis2 = ouvrageService.createAvis(1, "C'etait nul ...");
-        Personne p = personneService.createPersonne("Emile", "Zola");
-        Personne p2 = personneService.createPersonne("Georges", "Remi");
+        Auteur p = auteurService.createAuteur("Emile", "Zola");
+        Auteur p2 = auteurService.createAuteur("Georges", "Remi");
 
         ouvrageService.addCategorieToOuvrage(CategorieEnum.REALISTE, o1);
         ouvrageService.addCategorieToOuvrage(CategorieEnum.FICTION, o1);

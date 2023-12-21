@@ -3,9 +3,7 @@ package fr.insacvl.asl.bcn.bookzone.controllers;
 import fr.insacvl.asl.bcn.bookzone.dtos.ExemplaireDTO;
 import fr.insacvl.asl.bcn.bookzone.dtos.OuvrageDTO;
 import fr.insacvl.asl.bcn.bookzone.entities.*;
-import fr.insacvl.asl.bcn.bookzone.repositories.ExemplaireRepository;
-import fr.insacvl.asl.bcn.bookzone.repositories.LibraireRepository;
-import fr.insacvl.asl.bcn.bookzone.repositories.OuvrageRepository;
+import fr.insacvl.asl.bcn.bookzone.repositories.*;
 import fr.insacvl.asl.bcn.bookzone.services.LibraireService;
 import fr.insacvl.asl.bcn.bookzone.services.OuvrageService;
 import fr.insacvl.asl.bcn.bookzone.services.UtilisateurService;
@@ -32,6 +30,8 @@ public class LibraireController {
     private ExemplaireRepository exemplaireRepository;
     @Autowired
     private LibraireRepository libraireRepository;
+    @Autowired
+    private AuteurRepository auteurRepository;
 
     @GetMapping("{loginLibraire}")
     public String afficherInfoLibraire(@PathVariable String loginLibraire, Model model) {
@@ -68,8 +68,9 @@ public class LibraireController {
     }
 
     @PostMapping("{loginLibraire}/creerExemplaire")
-    public String enregistrerExemplaire(@ModelAttribute("exemplaire") @Valid ExemplaireDTO exemplaireDTO) {
+    public String enregistrerExemplaire(@PathVariable String loginLibraire, @ModelAttribute("exemplaire") @Valid ExemplaireDTO exemplaireDTO, Model model) {
         ouvrageService.saveExemplaireDto(exemplaireDTO);
+        model.addAttribute("loginLibraire", loginLibraire);
         return "creerExemplaire";
     }
 
@@ -77,13 +78,15 @@ public class LibraireController {
     public String creerOuvrage(@PathVariable String loginLibraire, Model model) {
         OuvrageDTO ouvrageDTO = new OuvrageDTO();
         model.addAttribute("ouvrage", ouvrageDTO);
+        model.addAttribute("auteurs", auteurRepository.findAll());
         model.addAttribute("loginLibraire", loginLibraire);
         return "creerOuvrage";
     }
 
     @PostMapping("{loginLibraire}/creerOuvrage")
-    public String enregistrerOuvrage(@ModelAttribute("ouvrage") @Valid OuvrageDTO ouvrageDTO) {
+    public String enregistrerOuvrage(@PathVariable String loginLibraire, @ModelAttribute("ouvrage") @Valid OuvrageDTO ouvrageDTO, Model model) {
         ouvrageService.saveOuvrageDto(ouvrageDTO);
+        model.addAttribute("loginLibraire", loginLibraire);
         return "creerOuvrage";
     }
 }
