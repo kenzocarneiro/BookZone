@@ -23,6 +23,7 @@ public class Exemplaire {
     @Enumerated(EnumType.STRING)
     @NotNull
     private EtatLivraisonExemplaire etatLivraisonExemplaire;
+    private String raisonAnnulation;
 
     private float prixVente;
     private float fraisPort;
