@@ -16,12 +16,14 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/")
-@SessionAttributes("sessionPanier")
+@SessionAttributes("sessionPanierId")
 public class HomeController {
     @Autowired
     private OuvrageService ouvrageService;
     @Autowired
     private ClientService clientService;
+    @Autowired
+    private PanierService panierService;
 
     public boolean isLoggedIn() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -89,12 +91,14 @@ public class HomeController {
         return("index");
     }
 
-    @ModelAttribute("sessionPanier")
-    public Panier getSessionPanier() {
-        return new Panier();
+    @ModelAttribute("sessionPanierId")
+    public Integer getSessionPanier() {
+        Panier p = panierService.createPanier();
+        return p.getIdPanier();
     }
 
-    public Panier getCurrentPanier(Panier sessionPanier) {
+    public Panier getCurrentPanier(Integer sessionPanierId) {
+        Panier sessionPanier = panierService.findById(sessionPanierId);
         if (isLoggedIn()) {
             Client client = clientService.findByLogin(getLoginName());
             return client.getPanier();
@@ -104,45 +108,32 @@ public class HomeController {
     }
 
     @GetMapping("/panier")
-    public String afficherPanier(@ModelAttribute("sessionPanier") Panier sessionPanier, Model model) {
-        Panier panier = getCurrentPanier(sessionPanier);
+    public String afficherPanier(@ModelAttribute("sessionPanierId") Integer sessionPanierId, Model model) {
+        Panier panier = getCurrentPanier(sessionPanierId);
         model.addAttribute("panier", panier);
         return "panier";
     }
 
     @GetMapping("/panier/ajouter/{idExemplaire}")
-    public String ajouterPanier(@ModelAttribute("sessionPanier") Panier sessionPanier, @PathVariable Integer idExemplaire, Model model) {
-        Panier panier = getCurrentPanier(sessionPanier);
-
-        boolean alreadyIn = false;
-        for (Exemplaire exemplaire : panier.getExemplaires()) {
-            if (exemplaire.getIdExemplaire() == idExemplaire) {
-                alreadyIn = true;
-                break;
-            }
-        }
-        if (!alreadyIn) {
-            panier.getExemplaires().add(ouvrageService.findExemplaireById(idExemplaire));
-        }
-
+    public String ajouterPanier(@ModelAttribute("sessionPanierId") Integer sessionPanierId, @PathVariable Integer idExemplaire, Model model) {
+        Panier panier = getCurrentPanier(sessionPanierId);
+        panierService.addExemplaireFromId(panier.getIdPanier(), idExemplaire);
         model.addAttribute("panier", panier);
         return "panier";
     }
 
     @GetMapping("/panier/retirer/{idExemplaire}")
-    public String retirerPanier(@ModelAttribute("sessionPanier") Panier sessionPanier, @PathVariable Integer idExemplaire, Model model) {
-        Panier panier = getCurrentPanier(sessionPanier);
-
-        Exemplaire exemplaireToRemove = null;
-        for (Exemplaire exemplaire : panier.getExemplaires()) {
-            if (exemplaire.getIdExemplaire() == idExemplaire) {
-                exemplaireToRemove = exemplaire;
-                break;
-            }
-        }
-        panier.getExemplaires().remove(exemplaireToRemove);
-
+    public String retirerPanier(@ModelAttribute("sessionPanierId") Integer sessionPanierId, @PathVariable Integer idExemplaire, Model model) {
+        Panier panier = getCurrentPanier(sessionPanierId);
+        panierService.removeExemplaireFromId(panier.getIdPanier(), idExemplaire);
         model.addAttribute("panier", panier);
         return "panier";
     }
+
+    @GetMapping("/panier/acheter")
+    public String acheter(@ModelAttribute("sessionPanierId") Integer sessionPanierId) {
+        clientService.acheterPanier(clientService.findByLogin(getLoginName()));
+        return "redirect:/panier";
+    }
+
 }
