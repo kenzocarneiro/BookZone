@@ -94,7 +94,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="exemplaire : ${exemplairesCommandes}">
+        <tr th:each="exemplaire, i : ${exemplairesCommandes}">
             <td th:text="${exemplaire.getIdExemplaire()}"></td>
             <td th:text="${exemplaire.getOuvrage().getTitre()}"></td>
             <td th:text="${exemplaire.getEtat()}"></td>
@@ -110,16 +110,40 @@
                     <select id="etatLivraisonExemplaire" name="etatLivraisonExemplaire" class="form-select">
                         <option th:each="etat : ${etatLivraisonExemplaire}" th:value="${etat}" th:text="${etat}" th:selected="${etat == exemplaire.getEtatLivraisonExemplaire()}"></option>
                     </select>
-                    <button type="submit" class="btn btn-primary">Modifier</button>
+                    <div th:if="${exemplaire.getEtatLivraisonExemplaire().equals(etatLivraisonExemplaireAnnule)}">
+                        <label th:for="'raisonAnnulation' + ${i.count}">Raison de l'annulation:</label>
+                        <input type="text" th:id="'raisonAnnulation' + ${i.count}" name="raisonAnnulation" th:value="${exemplaire.getRaisonAnnulation()}" class="form-control">
+                    </div>
+                    <button type="submit" id="modifierButton" class="btn btn-primary">Modifier</button>
                 </form>
             </td>
+            <td>
 
+            </td>
         </tr>
         </tbody>
     </table>
     <br/>
+
     <h4 th:text="'Note moyenne : ' + ${noteMoyenne} + '/5'"></h4>
 
     <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+<!--    <script th:inline="javascript">-->
+<!--        function toggleRaisonInput(selectElement, index) {-->
+<!--            console.log(index);-->
+<!--            var raisonAnnulation = document.getElementById("raisonInput" + index);-->
+<!--            var selectedOption = selectElement.value;-->
+
+<!--            if (selectedOption === "ANNULE") {-->
+<!--                raisonAnnulation.style.display = "th:block";-->
+<!--                // var thblock = document.createElement('th:block');-->
+<!--                document.getElementById("raisonAnnulation" + index).setAttribute("required", "required");-->
+<!--            } else {-->
+<!--                raisonAnnulation.style.display = "none";-->
+<!--                document.getElementById("raisonAnnulation" + index).removeAttribute("required");-->
+<!--            }-->
+
+<!--        }-->
+<!--    </script>-->
 </body>
 </html>

@@ -50,6 +50,7 @@ public class LibraireController {
         List<EtatLivraisonExemplaire> ele = new java.util.ArrayList<>(List.of(EtatLivraisonExemplaire.values()));
         ele.remove(EtatLivraisonExemplaire.EN_VENTE);
         model.addAttribute("etatLivraisonExemplaire", ele);
+        model.addAttribute("etatLivraisonExemplaireAnnule", EtatLivraisonExemplaire.ANNULE);
         return "infoLibraire";
     }
 
@@ -100,9 +101,12 @@ public class LibraireController {
     }
 
     @PostMapping("exemplaire/{exemplaireId}/updateEtatLivraison")
-    public String updateEtatLivraison(@PathVariable int exemplaireId, @RequestParam EtatLivraisonExemplaire etatLivraisonExemplaire) {
+    public String updateEtatLivraison(@PathVariable int exemplaireId, @RequestParam EtatLivraisonExemplaire etatLivraisonExemplaire, @RequestParam(required = false) String raisonAnnulation) {
         Exemplaire e = ouvrageService.findExemplaireById(exemplaireId);
         if(e != null){
+            if(raisonAnnulation != null){
+                e.setRaisonAnnulation(raisonAnnulation);
+            }
             e.setEtatLivraisonExemplaire(etatLivraisonExemplaire);
             ouvrageService.saveExemplaire(e);
         }
