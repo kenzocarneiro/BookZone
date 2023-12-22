@@ -50,7 +50,7 @@ public class LibraireController {
         model.addAttribute("exemplairesCommandes", exemplairesCommandes);
         model.addAttribute("noteMoyenne", noteMoyenne);
         model.addAttribute("etatCommande", EtatCommande.values());
-        return("afficherInfoLibraire");
+        return "afficherInfoLibraire";
     }
 
     @PostMapping("setPrixVente/{idExemplaire}")

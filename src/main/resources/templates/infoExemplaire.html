@@ -32,14 +32,14 @@
                 <td th:text="${exemplaire.getFraisPort()}"></td>
                 <td th:text="${exemplaire.getVendeur().getLogin()}"></td>
                 <td th:if="${#strings.isEmpty(exemplaire.getAvis())}">
-                    <a th:href="@{'/client/' + ${loginClient} + '/exemplaire/'+ ${exemplaire.getIdExemplaire()} + '/creerAvis'}">Ajouter un avis</a><br/>
+                    <a th:href="@{'/client/exemplaire/'+ ${exemplaire.getIdExemplaire()} + '/creerAvis'}">Ajouter un avis</a><br/>
                 </td>
                 <td th:unless="${#strings.isEmpty(exemplaire.getAvis())}" th:text="'note : ' + ${exemplaire.getAvis().getNote()} + '/5' + ' || commentaire : ' + ${exemplaire.getAvis().getCommentaire()}"></td>
             </tr>
         </tbody>
     </table>
     <br/>
-    <a th:href="@{'/client/'+ ${loginClient}}">Retour sur la page d'accueil</a>
+    <a th:href="@{'/client'}">Retour sur la page d'accueil</a>
 
     <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
 </body>

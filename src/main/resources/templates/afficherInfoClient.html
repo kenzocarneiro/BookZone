@@ -26,7 +26,7 @@
             <td th:text="${commande.getDate()}"></td>
             <td>
                 <div th:each="exemplaire : ${commande.getExemplaires()}">
-                    <a th:href="@{'/client/' + ${loginClient} + '/exemplaire/'+ ${exemplaire.getIdExemplaire()}}" th:text="${exemplaire.getOuvrage().getTitre() + ' (état: ' + exemplaire.getEtat() + ')'}"></a><br/>
+                    <a th:href="@{'/client/exemplaire/'+ ${exemplaire.getIdExemplaire()}}" th:text="${exemplaire.getOuvrage().getTitre() + ' (état: ' + exemplaire.getEtat() + ')'}"></a><br/>
                 </div>
             </td>
         </tr>

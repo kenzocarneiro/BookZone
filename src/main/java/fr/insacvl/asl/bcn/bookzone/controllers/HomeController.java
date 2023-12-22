@@ -179,18 +179,17 @@ public class HomeController {
         ouvrageService.addAvisExemplaire(avis1, e1);
         ouvrageService.addAvisExemplaire(avis2, e2);
 
-        Commande c1 = commandeService.createCommande("blabla", LocalDate.now());
-        Commande c2 = commandeService.createCommande("bloblo", LocalDate.of(2023, 12, 10));
-        Commande c3 = commandeService.createCommande("blublu", LocalDate.of(2023, 9, 10));
+
+        Client john = (Client)utilisateurService.findByLogin("john");
+        Commande c1 = commandeService.createCommande(john, "blabla", LocalDate.now());
+        Commande c2 = commandeService.createCommande(john, "bloblo", LocalDate.of(2023, 12, 10));
+        Commande c3 = commandeService.createCommande(john, "blublu", LocalDate.of(2023, 9, 10));
         commandeService.addExemplaireDansCommande(e1, c1);
         commandeService.addExemplaireDansCommande(e1, c1); // test redondance
         commandeService.addExemplaireDansCommande(e2, c2);
         commandeService.addExemplaireDansCommande(e4, c2);
         commandeService.addExemplaireDansCommande(e3, c3);
 
-        commandeService.addCommmandetoClient(c1, (Client)utilisateurService.findByLogin("john"));
-        commandeService.addCommmandetoClient(c2, (Client)utilisateurService.findByLogin("john"));
-        commandeService.addCommmandetoClient(c3, (Client)utilisateurService.findByLogin("john"));
         return "redirect:/";
     }
 }
