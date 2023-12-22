@@ -10,10 +10,15 @@
 
     <h1 th:text="'Exemplaire : ' + ${exemplaire.getOuvrage().getTitre()}"></h1>
 
-    <h2>Auteur(s)</h2>
+    <h2 th:if="${exemplaire.getOuvrage().getAuteurs().size() > 1}" th:text="'Auteurs'"></h2>
+    <h2 th:unless="${exemplaire.getOuvrage().getAuteurs().size() > 1}" th:text="'Auteur'"></h2>
+    
     <ul>
         <li th:each="auteur : ${exemplaire.getOuvrage().getAuteurs()}" th:text="${auteur.getPrenom() + ' ' + auteur.getNom()}"></li>
     </ul>
+
+    <h2>Editeur</h2>
+    <p th:text="${exemplaire.getOuvrage().getEditeur()}"></p>
 
     <h2>Nombre de pages</h2>
     <p th:text="${exemplaire.getOuvrage().getNbPages()}"></p>
@@ -21,14 +26,24 @@
     <h2>Etat</h2>
     <p th:text="${exemplaire.getEtat()}"></p>
 
-    <h2>Prix de vente</h2>
-    <p th:text="${exemplaire.getPrixVente()} + ' €'"></p>
+    <h2>Prix</h2>
+    <p>
+        Prix de vente :
+        <span th:text="${exemplaire.getPrixVente()} + ' €'"></span> + frais de port :
+        <span th:text="${exemplaire.getFraisPort()} + ' €'"></span> = <span th:text="${exemplaire.getPrixVente() + exemplaire.getFraisPort()} + ' €'"></span>
+    </p>
 
     <h2>Catégories</h2>
     <ul>
         <li th:each="categorie : ${exemplaire.getOuvrage().getCategories()}" th:text="${categorie}"></li>
     </ul>
 
+    <h2>Vendeur</h2>
+
+    <p>Nom : <span th:text="${exemplaire.getVendeur().getLogin()}"></span>
+
+    <p>Note moyenne : <span th:text="${noteMoyenne} + '/5'"></span></p>
+    
     <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>
