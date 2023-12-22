@@ -6,6 +6,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AuteurService {
     @Autowired
@@ -19,5 +21,9 @@ public class AuteurService {
         auteurRepository.save(a);
         System.out.println("Auteur " + a + " creee");
         return a;
+    }
+
+    public List<Auteur> findAll() {
+        return auteurRepository.findAll();
     }
 }

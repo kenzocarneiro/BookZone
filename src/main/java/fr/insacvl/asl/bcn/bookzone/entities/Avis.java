@@ -1,8 +1,5 @@
 package fr.insacvl.asl.bcn.bookzone.entities;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.*;
 
 
@@ -14,7 +11,7 @@ import lombok.*;
 @Entity
 public class Avis {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private int idAvis;
 

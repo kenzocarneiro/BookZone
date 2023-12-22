@@ -2,7 +2,7 @@ package fr.insacvl.asl.bcn.bookzone.controllers;
 
 import fr.insacvl.asl.bcn.bookzone.entities.*;
 import fr.insacvl.asl.bcn.bookzone.services.CommandeService;
-import fr.insacvl.asl.bcn.bookzone.services.UtilisateurService;
+import fr.insacvl.asl.bcn.bookzone.services.LibraireService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,9 +19,8 @@ public class AdminController {
 
     @Autowired
     private CommandeService commandeService;
-
     @Autowired
-    private UtilisateurService utilisateurService;
+    private LibraireService libraireService;
 
     @RequestMapping("commandesDuMois")
     public String voirCommandeDuMois(Model model) {
@@ -32,28 +31,28 @@ public class AdminController {
 
     @GetMapping("libraires")
     public String listerLibraires(Model model) {
-        List<Libraire> libraires = utilisateurService.findAllLibraires();
+        List<Libraire> libraires = libraireService.findAll();
         model.addAttribute("libraires", libraires);
         return "gererLibraires";
     }
 
     @PostMapping(value="libraires", params="valider")
     public String validerLibraire(@RequestParam int id) {
-        Libraire libraire = utilisateurService.findByIdLibraire(id);
+        Libraire libraire = libraireService.findById(id);
         if (libraire == null) {
             return "redirect:/error";
         }
-        utilisateurService.validerLibraire(libraire);
+        libraireService.validerLibraire(libraire);
         return "redirect:/admin/libraires";
     }
 
     @PostMapping(value="libraires", params="rejeter")
     public String rejeterLibraire(@RequestParam int id) {
-        Libraire libraire = (Libraire) utilisateurService.findById(id);
+        Libraire libraire = libraireService.findById(id);
         if (libraire == null) {
             return "redirect:/error";
         }
-        utilisateurService.rejeterLibraire(libraire);
+        libraireService.rejeterLibraire(libraire);
         return "redirect:/admin/libraires";
     }
 

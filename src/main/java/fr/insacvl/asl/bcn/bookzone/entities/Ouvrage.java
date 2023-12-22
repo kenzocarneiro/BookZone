@@ -13,7 +13,7 @@ import java.util.*;
 @Entity
 public class Ouvrage {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private int idOuvrage;
 

@@ -12,7 +12,7 @@ import lombok.*;
 @Entity
 public class Exemplaire {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private int idExemplaire;
 
@@ -22,7 +22,7 @@ public class Exemplaire {
 
     @Enumerated(EnumType.STRING)
     @NotNull
-    private EtatCommande etatCommande;
+    private EtatLivraisonExemplaire etatLivraisonExemplaire;
 
     private float prixVente;
     private float fraisPort;
@@ -42,6 +42,6 @@ public class Exemplaire {
 
     @ManyToOne
     @JoinColumn(name = "id_ouvrage")
-//    @NotNull // TODO: à enlever plus tard, je l'ai commenté car le code de test ne marchait plus
+    @NotNull
     Ouvrage ouvrage;
 }

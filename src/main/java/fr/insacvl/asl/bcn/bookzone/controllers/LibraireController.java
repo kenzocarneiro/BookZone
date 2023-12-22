@@ -3,7 +3,7 @@ package fr.insacvl.asl.bcn.bookzone.controllers;
 import fr.insacvl.asl.bcn.bookzone.dtos.ExemplaireDTO;
 import fr.insacvl.asl.bcn.bookzone.dtos.OuvrageDTO;
 import fr.insacvl.asl.bcn.bookzone.entities.*;
-import fr.insacvl.asl.bcn.bookzone.repositories.*;
+import fr.insacvl.asl.bcn.bookzone.services.AuteurService;
 import fr.insacvl.asl.bcn.bookzone.services.LibraireService;
 import fr.insacvl.asl.bcn.bookzone.services.OuvrageService;
 import jakarta.validation.Valid;
@@ -12,6 +12,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -23,11 +25,7 @@ public class LibraireController {
     @Autowired
     private OuvrageService ouvrageService;
     @Autowired
-    private OuvrageRepository ouvrageRepository;
-    @Autowired
-    private ExemplaireRepository exemplaireRepository;
-    @Autowired
-    private AuteurRepository auteurRepository;
+    private AuteurService auteurService;
 
     public String getLoginLibraireName() {
         return SecurityContextHolder.getContext().getAuthentication().getName();
@@ -49,29 +47,33 @@ public class LibraireController {
         model.addAttribute("ouvrages", ouvrages);
         model.addAttribute("exemplairesCommandes", exemplairesCommandes);
         model.addAttribute("noteMoyenne", noteMoyenne);
-        model.addAttribute("etatCommande", EtatCommande.values());
-        return("afficherInfoLibraire");
+        List<EtatLivraisonExemplaire> ele = new java.util.ArrayList<>(List.of(EtatLivraisonExemplaire.values()));
+        ele.remove(EtatLivraisonExemplaire.EN_VENTE);
+        model.addAttribute("etatLivraisonExemplaire", ele);
+        return "infoLibraire";
     }
 
     @PostMapping("setPrixVente/{idExemplaire}")
     public String setPrixVente(@PathVariable int idExemplaire, @RequestParam float prixVente) {
         Libraire l = getLoginLibraire();
-        libraireService.setPrixVente(l, prixVente, exemplaireRepository.findById(idExemplaire).orElse(null));
+        libraireService.setPrixVente(l, prixVente, ouvrageService.findExemplaireById(idExemplaire));
         return "redirect:/libraire";
     }
 
     @PostMapping("setFraisPort/{idExemplaire}")
     public String setFraisPort(@PathVariable int idExemplaire, @RequestParam float fraisPort) {
         Libraire l = getLoginLibraire();
-        libraireService.setFraisPort(l, fraisPort, exemplaireRepository.findById(idExemplaire).orElse(null));
+        libraireService.setFraisPort(l, fraisPort, ouvrageService.findExemplaireById(idExemplaire));
         return "redirect:/libraire";
     }
 
     @GetMapping("creerExemplaire")
     public String creerExemplaire(Model model) {
         ExemplaireDTO exemplaireDTO = new ExemplaireDTO();
+        exemplaireDTO.setPrixVente(10.0f);
+        exemplaireDTO.setFraisPort(2.0f);
         model.addAttribute("exemplaire", exemplaireDTO);
-        model.addAttribute("allOuvrages", ouvrageRepository.findAll());
+        model.addAttribute("allOuvrages", ouvrageService.findAllOuvrages());
         model.addAttribute("etatExemplaire", EtatExemplaire.values());
         return "creerExemplaire";
     }
@@ -87,7 +89,7 @@ public class LibraireController {
     public String creerOuvrage(Model model) {
         OuvrageDTO ouvrageDTO = new OuvrageDTO();
         model.addAttribute("ouvrage", ouvrageDTO);
-        model.addAttribute("auteurs", auteurRepository.findAll());
+        model.addAttribute("auteurs", auteurService.findAll());
         return "creerOuvrage";
     }
 
@@ -97,12 +99,12 @@ public class LibraireController {
         return "redirect:/libraire";
     }
 
-    @PostMapping("exemplaire/{exemplaireId}/updateEtatCommande")
-    public String updateEtatCommandeExemplaire(@PathVariable int exemplaireId, @RequestParam EtatCommande etatCommande) {
-        Exemplaire e = exemplaireRepository.findById(exemplaireId).orElse(null);
+    @PostMapping("exemplaire/{exemplaireId}/updateEtatLivraison")
+    public String updateEtatLivraison(@PathVariable int exemplaireId, @RequestParam EtatLivraisonExemplaire etatLivraisonExemplaire) {
+        Exemplaire e = ouvrageService.findExemplaireById(exemplaireId);
         if(e != null){
-            e.setEtatCommande(etatCommande);
-            exemplaireRepository.save(e);
+            e.setEtatLivraisonExemplaire(etatLivraisonExemplaire);
+            ouvrageService.saveExemplaire(e);
         }
         else{
             System.out.println("L'exemplaire" + exemplaireId + "n'existe pas");

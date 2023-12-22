@@ -27,6 +27,14 @@ public class OuvrageService {
     @Autowired
     LibraireRepository libraireRepository;
 
+    public List<Ouvrage> findAllOuvrages() {
+        return ouvrageRepository.findAll();
+    }
+
+    public Exemplaire findExemplaireById(int id) {
+        return exemplaireRepository.findById(id).orElse(null);
+    }
+
     @Transactional
     public Avis createAvis(int note, String commentaire) {
         Avis a = new Avis();
@@ -47,14 +55,27 @@ public class OuvrageService {
         return o;
     }
     @Transactional
-    public Exemplaire createExemplaire(EtatExemplaire etat, Libraire vendeur) {
+    public Exemplaire createExemplaire(Ouvrage o, Libraire vendeur, EtatExemplaire etat) {
+        return createExemplaire(o, vendeur, etat, EtatLivraisonExemplaire.EN_VENTE);
+    }
+
+    @Transactional
+    public Exemplaire createExemplaire(Ouvrage o, Libraire vendeur, EtatExemplaire etat, EtatLivraisonExemplaire etatLivraisonExemplaire) {
         Exemplaire e = new Exemplaire();
-        e.setEtat(etat);
-        e.setEtatCommande(EtatCommande.EN_ATTENTE);
+        e.setOuvrage(o);
+        o.getExemplaires().add(e);
         e.setVendeur(vendeur);
+        e.setEtat(etat);
+        e.setEtatLivraisonExemplaire(etatLivraisonExemplaire);
+        e.setPrixVente(10.0f);
+        e.setFraisPort(2.0f);
         exemplaireRepository.save(e);
         System.out.println("L'exemplaire " + e + " a ete cree");
         return e;
+    }
+
+    public void saveExemplaire(Exemplaire e) {
+        exemplaireRepository.save(e);
     }
 
     @Transactional
@@ -62,7 +83,7 @@ public class OuvrageService {
         Exemplaire e = new Exemplaire();
         e.setOuvrage(ouvrageRepository.findByTitre(exemplaireDTO.getOuvrage()));
         e.setEtat(exemplaireDTO.getEtat());
-        e.setEtatCommande(EtatCommande.EN_ATTENTE);
+        e.setEtatLivraisonExemplaire(EtatLivraisonExemplaire.EN_VENTE);
         e.setVendeur(libraire);
         e.setPrixVente(exemplaireDTO.getPrixVente());
         e.setFraisPort(exemplaireDTO.getFraisPort());
@@ -75,12 +96,12 @@ public class OuvrageService {
         System.out.println("Ajout de l'auteur " + p.getPrenom() + " " + p.getNom() + " pour l'ouvrage " + o.getTitre());
     }
 
-    @Transactional
-    public void addExemplaireToOuvrage(Exemplaire e, Ouvrage o) {
-        e.setOuvrage(o);
-        o.getExemplaires().add(e);
-        System.out.println("Ajout de l'exemplaire " + e.getIdExemplaire() + " pour l'ouvrage " + o.getIdOuvrage());
-    }
+//    @Transactional
+//    public void addExemplaireToOuvrage(Exemplaire e, Ouvrage o) {
+//        e.setOuvrage(o);
+//        o.getExemplaires().add(e);
+//        System.out.println("Ajout de l'exemplaire " + e.getIdExemplaire() + " pour l'ouvrage " + o.getIdOuvrage());
+//    }
 
     @Transactional
     public void addCategorieToOuvrage(CategorieEnum c, Ouvrage o) {

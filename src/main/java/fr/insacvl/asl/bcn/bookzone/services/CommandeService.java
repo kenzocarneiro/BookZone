@@ -2,6 +2,7 @@ package fr.insacvl.asl.bcn.bookzone.services;
 
 import fr.insacvl.asl.bcn.bookzone.entities.Client;
 import fr.insacvl.asl.bcn.bookzone.entities.Commande;
+import fr.insacvl.asl.bcn.bookzone.entities.EtatLivraisonExemplaire;
 import fr.insacvl.asl.bcn.bookzone.entities.Exemplaire;
 import fr.insacvl.asl.bcn.bookzone.repositories.CommandeRepository;
 import jakarta.persistence.EntityManager;
@@ -23,10 +24,11 @@ public class CommandeService {
     CommandeRepository commandeRepository;
 
     @Transactional
-    public Commande createCommande(String description, LocalDate date) {
+    public Commande createCommande(Client client, String description, LocalDate date) {
         Commande c = new Commande();
         c.setDescription(description);
         c.setDate(date);
+        c.setClient(client);
         commandeRepository.save(c);
         System.out.println("La commande " + c + " a ete creee");
         return c;
@@ -36,14 +38,8 @@ public class CommandeService {
     public void addExemplaireDansCommande(Exemplaire e, Commande c) {
         c.getExemplaires().add(e);
         e.setCommande(c);
+        e.setEtatLivraisonExemplaire(EtatLivraisonExemplaire.EN_ATTENTE);
         System.out.println("L'exemplaire " + e.getIdExemplaire() + " a ete ajoute dans la commande " + c.getIdCommande());
-    }
-
-    @Transactional
-    public void addCommmandetoClient(Commande cmd, Client c) {
-        c.getCommandes().add(cmd);
-        cmd.setClient(c);
-        System.out.println("La commande " + cmd.getIdCommande() + " a ete ajoute au client " + c.getLogin());
     }
 
     // Pour Administrateur

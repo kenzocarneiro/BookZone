@@ -6,8 +6,9 @@
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}"/>
 </head>
 <body class="container">
+    <th:block th:insert="~{fragments/header::header}"></th:block>
     <h1>Créer un avis</h1><br/><br/>
-        <form id="myForm" th:action="@{'/client/' + ${loginClient} + '/exemplaire/' + ${exemplaireId} + '/creerAvis'}" th:object="${avis}" method="post">
+        <form id="myForm" th:action="@{'/client/exemplaire/' + ${exemplaireId} + '/creerAvis'}" th:object="${avis}" method="post">
             <div>
                 <label for="note" class="form-label">Note</label>
                 <input type="number" id="note" class="form-control" min="0" max="5" th:field="*{note}"/><br/>
@@ -22,7 +23,7 @@
         </form>
 
         <br/>
-        <a th:href="@{'/client/'+ ${loginClient}}">Retour sur la page d'accueil</a>
+        <a th:href="@{'/client'}">Retour sur la page d'accueil</a>
 
     <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
 </body>

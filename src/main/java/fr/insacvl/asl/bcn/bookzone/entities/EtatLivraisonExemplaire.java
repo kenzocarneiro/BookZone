@@ -1,7 +1,8 @@
 package fr.insacvl.asl.bcn.bookzone.entities;
 
-public enum EtatCommande {
+public enum EtatLivraisonExemplaire {
+    EN_VENTE,
+    EN_ATTENTE,
     EXPEDIE,
     ANNULE,
-    EN_ATTENTE
 }

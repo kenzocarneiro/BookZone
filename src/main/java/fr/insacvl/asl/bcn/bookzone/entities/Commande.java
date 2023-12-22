@@ -14,7 +14,7 @@ import java.util.Set;
 @Entity
 public class Commande {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     int idCommande;
 
@@ -27,6 +27,6 @@ public class Commande {
 
     @ManyToOne
     @JoinColumn(name="id_client")
-    // TODO: should be @NotNull
+    @NotNull
     private Client client;
 }

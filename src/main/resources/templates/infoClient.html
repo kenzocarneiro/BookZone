@@ -8,7 +8,7 @@
 </head>
 
 <body class="container">
-
+    <th:block th:insert="~{fragments/header::header}"></th:block>
     <h1 th:text="'Bienvenue ' + ${loginClient}"></h1><br/>
 
     <h2>Mes commandes</h2><br/>
@@ -26,7 +26,7 @@
             <td th:text="${commande.getDate()}"></td>
             <td>
                 <div th:each="exemplaire : ${commande.getExemplaires()}">
-                    <a th:href="@{'/client/' + ${loginClient} + '/exemplaire/'+ ${exemplaire.getIdExemplaire()}}" th:text="${exemplaire.getOuvrage().getTitre() + ' (état: ' + exemplaire.getEtat() + ')'}"></a><br/>
+                    <a th:href="@{'/client/exemplaire/'+ ${exemplaire.getIdExemplaire()}}" th:text="${exemplaire.getOuvrage().getTitre() + ' (état: ' + exemplaire.getEtat() + ')'}"></a><br/>
                 </div>
             </td>
         </tr>
