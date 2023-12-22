@@ -22,7 +22,11 @@ public class HomeController {
     @Autowired
     private CommandeService commandeService;
     @Autowired
-    private UtilisateurService utilisateurService;
+    private ClientService clientService;
+    @Autowired
+    private LibraireService libraireService;
+    @Autowired
+    private AdministrateurService administrateurService;
     @Autowired
     private AuteurService auteurService;
 
@@ -103,7 +107,7 @@ public class HomeController {
         ouvrageService.addCategorieToOuvrage(CategorieEnum.FICTION, o3);
 
 
-        utilisateurService.createAndSaveAdministrateur(
+        administrateurService.createAndSaveAdministrateur(
                 "toto",
                 "toto",
                 "toto@gmail.com",
@@ -112,7 +116,7 @@ public class HomeController {
                 "750001 Paris - 5 rue Victor Hugo - Appartement 3"
         );
 
-        utilisateurService.createAndSaveLibraireValide(
+        libraireService.createAndSaveLibraireValide(
                 "Super",
                 "Book",
                 "SuperBook@gmail.com",
@@ -121,7 +125,7 @@ public class HomeController {
                 "18000 truc - 10 rue bidule"
         );
 
-        utilisateurService.createAndSaveClient(
+        clientService.createAndSaveClient(
                 "John",
                 "Doe",
                 "john.doe@gmail.com",
@@ -130,7 +134,7 @@ public class HomeController {
                 "18000 truc - 8 rue machin"
         );
 
-        utilisateurService.createAndSaveClient(
+        clientService.createAndSaveClient(
                 "User",
                 "Name",
                 "user@user.com",
@@ -138,7 +142,7 @@ public class HomeController {
                 "user",
                 "00000 UserVille - 1 rue user"
         );
-        utilisateurService.createAndSaveLibraireValide(
+        libraireService.createAndSaveLibraireValide(
                 "Libraire",
                 "Valide",
                 "libraire@libraire.com",
@@ -146,7 +150,7 @@ public class HomeController {
                 "libraire",
                 "00000 LibraireVille - 1 rue libraire"
         );
-        utilisateurService.createAndSaveFuturLibraire(
+        libraireService.createAndSaveFuturLibraire(
                 "Futur",
                 "Libraire",
                 "flibraire@flibraire.com",
@@ -154,7 +158,7 @@ public class HomeController {
                 "flibraire",
                 "00000 FuturLibraireVille - 1 rue futurLibraire"
         );
-        utilisateurService.createAndSaveAdministrateur(
+        administrateurService.createAndSaveAdministrateur(
                 "Admin",
                 "Istrateur",
                 "admin@admin.com",
@@ -166,10 +170,10 @@ public class HomeController {
         ouvrageService.addAuteurToOuvrage(p, o1);
         ouvrageService.addAuteurToOuvrage(p, o2);
         ouvrageService.addAuteurToOuvrage(p2, o3);
-        Exemplaire e1 = ouvrageService.createExemplaire(EtatExemplaire.MOYEN, (Libraire)utilisateurService.findByLogin("sb"));
-        Exemplaire e2 = ouvrageService.createExemplaire(EtatExemplaire.BON, (Libraire)utilisateurService.findByLogin("sb"));
-        Exemplaire e3 = ouvrageService.createExemplaire(EtatExemplaire.MAUVAIS, (Libraire)utilisateurService.findByLogin("sb"));
-        Exemplaire e4 = ouvrageService.createExemplaire(EtatExemplaire.TRES_BON, (Libraire)utilisateurService.findByLogin("sb"));
+        Exemplaire e1 = ouvrageService.createExemplaire(EtatExemplaire.MOYEN, libraireService.findByLogin("sb"));
+        Exemplaire e2 = ouvrageService.createExemplaire(EtatExemplaire.BON, libraireService.findByLogin("sb"));
+        Exemplaire e3 = ouvrageService.createExemplaire(EtatExemplaire.MAUVAIS, libraireService.findByLogin("sb"));
+        Exemplaire e4 = ouvrageService.createExemplaire(EtatExemplaire.TRES_BON, libraireService.findByLogin("sb"));
 
         ouvrageService.addExemplaireToOuvrage(e1, o1);
         ouvrageService.addExemplaireToOuvrage(e2, o2);
@@ -180,7 +184,7 @@ public class HomeController {
         ouvrageService.addAvisExemplaire(avis2, e2);
 
 
-        Client john = (Client)utilisateurService.findByLogin("john");
+        Client john = clientService.findByLogin("john");
         Commande c1 = commandeService.createCommande(john, "blabla", LocalDate.now());
         Commande c2 = commandeService.createCommande(john, "bloblo", LocalDate.of(2023, 12, 10));
         Commande c3 = commandeService.createCommande(john, "blublu", LocalDate.of(2023, 9, 10));

@@ -23,12 +23,48 @@ public class LibraireService {
 
     @Autowired
     CommandeRepository commandeRepository;
-
     @Autowired
     LibraireRepository libraireRepository;
+    @Autowired
+    UtilisateurService utilisateurService;
+
+    public List<Libraire> findAll() {
+        return libraireRepository.findAll();
+    }
+
+    public Libraire findById(int id) {
+        return libraireRepository.findById(id).orElse(null);
+    }
 
     public Libraire findByLogin(String login) {
         return libraireRepository.findByLogin(login);
+    }
+
+    @Transactional
+    public void createAndSaveFuturLibraire(String prenom, String nom, String mail, String login, String password, String adresse) {
+        Libraire l = new Libraire();
+        utilisateurService.configureAndSaveUtilisateur(l, prenom, nom, mail, login, password, adresse, "ROLE_FUTUR_LIBRAIRE");
+        System.out.println("Libraire " + l + " cree");
+    }
+
+    @Transactional
+    public void createAndSaveLibraireValide(String prenom, String nom, String mail, String login, String password, String adresse) {
+        Libraire l = new Libraire();
+        utilisateurService.configureAndSaveUtilisateur(l, prenom, nom, mail, login, password, adresse, "ROLE_LIBRAIRE");
+        System.out.println("Libraire " + l + " cree");
+    }
+
+    @Transactional
+    public void validerLibraire(Libraire l) {
+        l.setRole("ROLE_LIBRAIRE");
+        libraireRepository.save(l);
+        System.out.println("Libraire " + l + " valide");
+    }
+
+    @Transactional
+    public void rejeterLibraire(Libraire l) {
+        libraireRepository.delete(l);
+        System.out.println("Libraire " + l + " rejete");
     }
 
     @Transactional
