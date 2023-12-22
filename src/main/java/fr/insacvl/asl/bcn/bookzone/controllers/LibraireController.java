@@ -9,6 +9,7 @@ import fr.insacvl.asl.bcn.bookzone.services.OuvrageService;
 import fr.insacvl.asl.bcn.bookzone.services.UtilisateurService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,15 @@ public class LibraireController {
     private LibraireRepository libraireRepository;
     @Autowired
     private AuteurRepository auteurRepository;
+
+    public String getLoginLibraire() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
+
+    @GetMapping("")
+    public String afficherInfoLibraireDefault() {
+        return "redirect:/libraire/" + getLoginLibraire();
+    }
 
     @GetMapping("{loginLibraire}")
     public String afficherInfoLibraire(@PathVariable String loginLibraire, Model model) {
@@ -72,7 +82,7 @@ public class LibraireController {
 
     @PostMapping("{loginLibraire}/creerExemplaire")
     public String enregistrerExemplaire(@PathVariable String loginLibraire, @ModelAttribute("exemplaire") @Valid ExemplaireDTO exemplaireDTO, Model model) {
-        ouvrageService.saveExemplaireDto(exemplaireDTO);
+        ouvrageService.saveExemplaireDto(exemplaireDTO, getLoginLibraire());
         model.addAttribute("loginLibraire", loginLibraire);
         return "creerExemplaire";
     }

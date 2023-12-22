@@ -62,7 +62,7 @@
                 <span th:text="${exemplaire.getPrixVente()}"></span>
                 <form th:action="@{'/libraire/'+ ${loginLibraire} + '/setPrixVente/' + ${exemplaire.getIdExemplaire()}}" th:method="post" style="display: inline;">
                     <input type="text" name="prixVente" pattern="[0-9]+([\.,][0-9]+)?" title="Veuillez entrer un nombre décimal." class="form-control" th:value="${exemplaire.getPrixVente()}">
-                    <button type="submit" class="btn btn-primary">modifier</button>
+                    <button type="submit" class="btn btn-primary">Modifier</button>
                 </form>
             </td>
 
@@ -70,7 +70,7 @@
                 <span th:text="${exemplaire.getFraisPort()}"></span>
                 <form th:action="@{'/libraire/' + ${loginLibraire} +'/setFraisPort/' + ${exemplaire.getIdExemplaire()}}" th:method="post" style="display: inline;">
                     <input type="text" name="fraisPort" pattern="[0-9]+([\.,][0-9]+)?" title="Veuillez entrer un nombre décimal." class="form-control" th:value="${exemplaire.getFraisPort()}">
-                    <button type="submit" class="btn btn-primary">modifier</button>
+                    <button type="submit" class="btn btn-primary">Modifier</button>
                 </form>
             </td>
         </tr>
@@ -106,9 +106,9 @@
                 <form th:action="@{'/libraire/'+ ${loginLibraire} + '/exemplaire/' + ${exemplaire.getIdExemplaire()} + '/updateEtatCommande'}" th:method="post" style="display: inline;">
                     <label for="etatCommande" ></label>
                     <select id="etatCommande" name="etatCommande">
-                        <option th:each="etat : ${etatCommande}" th:value="${etat}" th:text="${etat}"></option>
+                        <option th:each="etat : ${etatCommande}" th:value="${etat}" th:text="${etat}" th:selected="${etat == exemplaire.getEtatCommande()}"></option>
                     </select>
-                    <button type="submit" class="btn btn-primary">modifier</button>
+                    <button type="submit" class="btn btn-primary">Modifier</button>
                 </form>
             </td>
 

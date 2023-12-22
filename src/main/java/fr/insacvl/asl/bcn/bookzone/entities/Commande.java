@@ -27,5 +27,6 @@ public class Commande {
 
     @ManyToOne
     @JoinColumn(name="id_client")
+    // TODO: should be @NotNull
     private Client client;
 }
