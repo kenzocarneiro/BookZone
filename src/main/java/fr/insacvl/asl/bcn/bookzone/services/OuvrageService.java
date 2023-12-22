@@ -58,12 +58,12 @@ public class OuvrageService {
     }
 
     @Transactional
-    public void saveExemplaireDto(ExemplaireDTO exemplaireDTO, String loginLibraire) {
+    public void saveExemplaireDto(ExemplaireDTO exemplaireDTO, Libraire libraire) {
         Exemplaire e = new Exemplaire();
         e.setOuvrage(ouvrageRepository.findByTitre(exemplaireDTO.getOuvrage()));
         e.setEtat(exemplaireDTO.getEtat());
         e.setEtatCommande(EtatCommande.EN_ATTENTE);
-        e.setVendeur(libraireRepository.findByLogin(loginLibraire));
+        e.setVendeur(libraire);
         e.setPrixVente(exemplaireDTO.getPrixVente());
         e.setFraisPort(exemplaireDTO.getFraisPort());
         exemplaireRepository.save(e);
