@@ -24,9 +24,8 @@ public class CommandeService {
     CommandeRepository commandeRepository;
 
     @Transactional
-    public Commande createCommande(Client client, String description, LocalDate date) {
+    public Commande createCommande(Client client, LocalDate date) {
         Commande c = new Commande();
-        c.setDescription(description);
         c.setDate(date);
         c.setClient(client);
         commandeRepository.save(c);
