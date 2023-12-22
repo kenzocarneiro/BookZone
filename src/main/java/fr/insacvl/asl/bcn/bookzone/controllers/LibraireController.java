@@ -44,6 +44,7 @@ public class LibraireController {
        model.addAttribute("ouvrages", ouvrages);
        model.addAttribute("exemplairesCommandes", exemplairesCommandes);
        model.addAttribute("noteMoyenne", noteMoyenne);
+       model.addAttribute("etatCommande", EtatCommande.values());
        return("afficherInfoLibraire");
     }
 
@@ -90,5 +91,19 @@ public class LibraireController {
         ouvrageService.saveOuvrageDto(ouvrageDTO);
         model.addAttribute("loginLibraire", loginLibraire);
         return "creerOuvrage";
+    }
+
+    @PostMapping("{loginLibraire}/exemplaire/{exemplaireId}/updateEtatCommande")
+    public String updateEtatCommandeExemplaire(@PathVariable String loginLibraire, @PathVariable int exemplaireId, @RequestParam EtatCommande etatCommande, Model model) {
+        Exemplaire e = exemplaireRepository.findById(exemplaireId).orElse(null);
+        if(e != null){
+            e.setEtatCommande(etatCommande);
+            exemplaireRepository.save(e);
+        }
+        else{
+            System.out.println("L'exemplaire" + exemplaireId + "n'existe pas");
+        }
+        model.addAttribute("loginLibraire", loginLibraire);
+        return afficherInfoLibraire(loginLibraire, model);
     }
 }

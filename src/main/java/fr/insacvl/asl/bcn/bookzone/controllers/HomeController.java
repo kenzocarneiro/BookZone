@@ -106,9 +106,9 @@ public class HomeController {
         ouvrageService.addAvisExemplaire(avis1, e1);
         ouvrageService.addAvisExemplaire(avis2, e2);
 
-        Commande c1 = commandeService.createCommande(EtatCommande.EXPEDIE, "blabla", LocalDate.now());
-        Commande c2 = commandeService.createCommande(EtatCommande.ANNULE, "bloblo", LocalDate.of(2023, 12, 10));
-        Commande c3 = commandeService.createCommande(EtatCommande.EXPEDIE, "blublu", LocalDate.of(2023, 9, 10));
+        Commande c1 = commandeService.createCommande("blabla", LocalDate.now());
+        Commande c2 = commandeService.createCommande("bloblo", LocalDate.of(2023, 12, 10));
+        Commande c3 = commandeService.createCommande("blublu", LocalDate.of(2023, 9, 10));
         commandeService.addExemplaireDansCommande(e1, c1);
         commandeService.addExemplaireDansCommande(e1, c1); // test redondance
         commandeService.addExemplaireDansCommande(e2, c2);

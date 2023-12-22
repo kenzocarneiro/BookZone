@@ -18,9 +18,6 @@ public class Commande {
     @Setter(AccessLevel.NONE)
     int idCommande;
 
-    @Enumerated(EnumType.STRING)
-    EtatCommande etat;
-
     private String description;
     @NotNull private LocalDate date;
 
