@@ -4,7 +4,6 @@ import fr.insacvl.asl.bcn.bookzone.dtos.AvisDTO;
 import fr.insacvl.asl.bcn.bookzone.entities.Avis;
 import fr.insacvl.asl.bcn.bookzone.entities.Client;
 import fr.insacvl.asl.bcn.bookzone.entities.Exemplaire;
-import fr.insacvl.asl.bcn.bookzone.repositories.*;
 import fr.insacvl.asl.bcn.bookzone.services.ClientService;
 import fr.insacvl.asl.bcn.bookzone.services.OuvrageService;
 import jakarta.validation.Valid;
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/client")
 public class ClientController {
 
-    @Autowired
-    private ExemplaireRepository exemplaireRepository;
     @Autowired
     private OuvrageService ouvrageService;
     @Autowired
@@ -43,7 +40,7 @@ public class ClientController {
 
     @GetMapping("exemplaire/{exemplaireId}")
     public String afficherInfoExemplaire(@PathVariable int exemplaireId, Model model) {
-        Exemplaire exemplaire = exemplaireRepository.findById(exemplaireId).orElse(null);
+        Exemplaire exemplaire = ouvrageService.findExemplaireById(exemplaireId);
         model.addAttribute("exemplaire", exemplaire);
         return "infoExemplaire";
     }
@@ -58,7 +55,7 @@ public class ClientController {
     @PostMapping("exemplaire/{exemplaireId}/creerAvis")
     public String enregistrerAvisExemplaire(@PathVariable int exemplaireId, @ModelAttribute("avis") @Valid AvisDTO avisDTO, Model model) {
         Avis avis = ouvrageService.saveAvisDTO(avisDTO);
-        Exemplaire exemplaire = exemplaireRepository.findById(exemplaireId).orElse(null);
+        Exemplaire exemplaire = ouvrageService.findExemplaireById(exemplaireId);
         if(exemplaire != null){
             ouvrageService.addAvisExemplaire(avis, exemplaire);
         }

@@ -27,6 +27,14 @@ public class OuvrageService {
     @Autowired
     LibraireRepository libraireRepository;
 
+    public List<Ouvrage> findAllOuvrages() {
+        return ouvrageRepository.findAll();
+    }
+
+    public Exemplaire findExemplaireById(int id) {
+        return exemplaireRepository.findById(id).orElse(null);
+    }
+
     @Transactional
     public Avis createAvis(int note, String commentaire) {
         Avis a = new Avis();
@@ -55,6 +63,10 @@ public class OuvrageService {
         exemplaireRepository.save(e);
         System.out.println("L'exemplaire " + e + " a ete cree");
         return e;
+    }
+
+    public void saveExemplaire(Exemplaire e) {
+        exemplaireRepository.save(e);
     }
 
     @Transactional
