@@ -112,7 +112,7 @@
                     </select>
                     <div th:if="${exemplaire.getEtatLivraisonExemplaire().equals(etatLivraisonExemplaireAnnule)}">
                         <label th:for="'raisonAnnulation' + ${i.count}">Raison de l'annulation:</label>
-                        <input type="text" th:id="'raisonAnnulation' + ${i.count}" name="raisonAnnulation" th:value="exemplaire.getRa"class="form-control">
+                        <input type="text" th:id="'raisonAnnulation' + ${i.count}" name="raisonAnnulation" th:value="${exemplaire.getRaisonAnnulation()}" class="form-control">
                     </div>
                     <button type="submit" id="modifierButton" class="btn btn-primary">Modifier</button>
                 </form>
