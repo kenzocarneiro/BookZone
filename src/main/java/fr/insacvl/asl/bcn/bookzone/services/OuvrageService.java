@@ -1,5 +1,6 @@
 package fr.insacvl.asl.bcn.bookzone.services;
 
+import fr.insacvl.asl.bcn.bookzone.dtos.AvisDTO;
 import fr.insacvl.asl.bcn.bookzone.dtos.ExemplaireDTO;
 import fr.insacvl.asl.bcn.bookzone.dtos.OuvrageDTO;
 import fr.insacvl.asl.bcn.bookzone.entities.*;
@@ -93,6 +94,14 @@ public class OuvrageService {
         o.setNbPages(ouvrageDTO.getNbPages());
         o.setAuteurs(ouvrageDTO.getAuteurs());
         ouvrageRepository.save(o);
+    }
+
+    public Avis saveAvisDTO(AvisDTO avisDTO) {
+        Avis a = new Avis();
+        a.setNote(avisDTO.getNote());
+        a.setCommentaire(avisDTO.getCommentaire());
+        avisRepository.save(a);
+        return a;
     }
 
     //    @Transactional
