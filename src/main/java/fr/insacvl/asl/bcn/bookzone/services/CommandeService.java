@@ -2,7 +2,6 @@ package fr.insacvl.asl.bcn.bookzone.services;
 
 import fr.insacvl.asl.bcn.bookzone.entities.Client;
 import fr.insacvl.asl.bcn.bookzone.entities.Commande;
-import fr.insacvl.asl.bcn.bookzone.entities.EtatCommande;
 import fr.insacvl.asl.bcn.bookzone.entities.Exemplaire;
 import fr.insacvl.asl.bcn.bookzone.repositories.CommandeRepository;
 import jakarta.persistence.EntityManager;
@@ -24,9 +23,8 @@ public class CommandeService {
     CommandeRepository commandeRepository;
 
     @Transactional
-    public Commande createCommande(EtatCommande etat, String description, LocalDate date) {
+    public Commande createCommande(String description, LocalDate date) {
         Commande c = new Commande();
-        c.setEtat(etat);
         c.setDescription(description);
         c.setDate(date);
         commandeRepository.save(c);

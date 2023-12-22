@@ -21,7 +21,6 @@ public class Ouvrage {
     @NotNull String editeur;
     int nbPages;
 
-    // TODO : ajouter le set de catégories (enum)
     @Enumerated(EnumType.STRING)
     private Set<CategorieEnum> categories = new HashSet<>();
 

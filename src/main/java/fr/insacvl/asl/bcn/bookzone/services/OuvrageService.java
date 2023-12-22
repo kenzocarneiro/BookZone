@@ -1,25 +1,22 @@
 package fr.insacvl.asl.bcn.bookzone.services;
 
+import fr.insacvl.asl.bcn.bookzone.dtos.AvisDTO;
+import fr.insacvl.asl.bcn.bookzone.dtos.ExemplaireDTO;
+import fr.insacvl.asl.bcn.bookzone.dtos.OuvrageDTO;
 import fr.insacvl.asl.bcn.bookzone.entities.*;
 import fr.insacvl.asl.bcn.bookzone.repositories.AvisRepository;
 import fr.insacvl.asl.bcn.bookzone.repositories.ExemplaireRepository;
+import fr.insacvl.asl.bcn.bookzone.repositories.LibraireRepository;
 import fr.insacvl.asl.bcn.bookzone.repositories.OuvrageRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-// import org.hibernate.mapping.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class OuvrageService {
-    @PersistenceContext
-    EntityManager em;
 
     @Autowired
     AvisRepository avisRepository;
@@ -27,6 +24,8 @@ public class OuvrageService {
     OuvrageRepository ouvrageRepository;
     @Autowired
     ExemplaireRepository exemplaireRepository;
+    @Autowired
+    LibraireRepository libraireRepository;
 
     @Transactional
     public Avis createAvis(int note, String commentaire) {
@@ -58,6 +57,17 @@ public class OuvrageService {
     }
 
     @Transactional
+    public void saveExemplaireDto(ExemplaireDTO exemplaireDTO) {
+        Exemplaire e = new Exemplaire();
+        e.setOuvrage(ouvrageRepository.findByTitre(exemplaireDTO.getOuvrage()));
+        e.setEtat(exemplaireDTO.getEtat());
+        e.setVendeur(libraireRepository.findByLogin(exemplaireDTO.getVendeur()));
+        e.setPrixVente(exemplaireDTO.getPrixVente());
+        e.setFraisPort(exemplaireDTO.getFraisPort());
+        exemplaireRepository.save(e);
+    }
+
+    @Transactional
     public void addAuteurToOuvrage(Personne p, Ouvrage o) {
         o.getAuteurs().add(p);
         System.out.println("Ajout de l'auteur " + p.getPrenom() + " " + p.getNom() + " pour l'ouvrage " + o.getTitre());
@@ -83,21 +93,7 @@ public class OuvrageService {
 
     @Transactional
     public Ouvrage getOuvrage(int idOuvrage) {
-        String jpql = "SELECT o FROM Ouvrage o WHERE o.idOuvrage=:idOuvrage";
-        Ouvrage result = em.createQuery(jpql, Ouvrage.class)
-                .setParameter("idOuvrage", idOuvrage)
-                .getSingleResult();
-
-        System.out.println("Ouvrage " + result.getTitre() + " recupere");
-        return result;
-    }
-
-    @Transactional
-    public Set<Ouvrage> getOuvrages() {
-        String jpql = "SELECT o FROM Ouvrage o";
-        List<Ouvrage> resultList = em.createQuery(jpql, Ouvrage.class).getResultList();
-        HashSet<Ouvrage> setOuvrages = new HashSet<>(resultList); 
-        return setOuvrages;
+        return ouvrageRepository.findById(idOuvrage).orElse(null);
     }
 
     @Transactional
@@ -110,34 +106,20 @@ public class OuvrageService {
         return exemplaireRepository.findAll();
     }
 
-    //    @Transactional
-//    public void noterExemplaire(Client client, Commande c, Exemplaire e, int note){
-//
-//        int indexCommande = client.getCommandes().indexOf(c);
-//
-//        if (indexCommande != -1) {
-//            int indexExemplaire = client.getCommandes().get(indexCommande).getExemplaires().indexOf(e);
-//
-//            if (indexExemplaire != -1) {
-//                setNote(e, note);
-//            }
-//            else {
-//                System.out.println("L'exemplaire n'existe pas dans la commande.");
-//            }
-//        } else {
-//            System.out.println("La commande n'est pas présente dans la liste.");
-//        }
-//    }
-//
-//    // Pour Exemplaire
-//    @Transactional
-//    public void setNote(Exemplaire e, int note){
-//
-//        if(note>=1 && note<=5){
-//            e.getAvis().setNote(note);
-//        }
-//        else{
-//            System.out.println("Note incorrecte. Veuillez mettre une note entre 1 et 5");
-//        }
-//    }
+    public void saveOuvrageDto(OuvrageDTO ouvrageDTO) {
+        Ouvrage o = new Ouvrage();
+        o.setTitre(ouvrageDTO.getTitre());
+        o.setEditeur(ouvrageDTO.getEditeur());
+        o.setNbPages(ouvrageDTO.getNbPages());
+        o.setAuteurs(ouvrageDTO.getAuteurs());
+        ouvrageRepository.save(o);
+    }
+
+    public Avis saveAvisDTO(AvisDTO avisDTO) {
+        Avis a = new Avis();
+        a.setNote(avisDTO.getNote());
+        a.setCommentaire(avisDTO.getCommentaire());
+        avisRepository.save(a);
+        return a;
+    }
 }

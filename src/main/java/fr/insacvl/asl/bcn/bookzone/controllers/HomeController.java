@@ -24,14 +24,14 @@ public class HomeController {
     @Autowired
     private UtilisateurService utilisateurService;
     @Autowired
-    private PersonneService personneService;
+    private AuteurService auteurService;
 
     @GetMapping("")
     //page d'accueil
     public String index(Model model) {
         RechercheDTO rechercheDTO = new RechercheDTO();
         List<Exemplaire> exemplaires = ouvrageService.getExemplaires();
-        
+
         model.addAttribute("recherche", rechercheDTO);
         model.addAttribute("categories", CategorieEnum.values());
         model.addAttribute("exemplaires", exemplaires);
@@ -40,7 +40,7 @@ public class HomeController {
 
     @PostMapping("")
     public String recherche(Model model, @ModelAttribute("recherche") @Valid RechercheDTO rechercheDTO) {
-        
+
         List<CategorieEnum> categories = rechercheDTO.getCategories();
         String contenu = rechercheDTO.getContenu();
 
@@ -89,15 +89,19 @@ public class HomeController {
 
         Ouvrage o1 = ouvrageService.createOuvrage("Therese Raquin", "Flammarion", 328);
         Ouvrage o2 = ouvrageService.createOuvrage("Germinal", "Hachette", 2447);
+        Ouvrage o3 = ouvrageService.createOuvrage("Tintin", "BDLand", 57);
         Avis avis1 = ouvrageService.createAvis(4, "Tres bon livre !");
         Avis avis2 = ouvrageService.createAvis(1, "C'etait nul ...");
-        Personne p = personneService.createPersonne("Emile", "Zola");
-        Personne p2 = personneService.createPersonne("Emile2", "Zola2");
+        Auteur p = auteurService.createAuteur("Emile", "Zola");
+        Auteur p2 = auteurService.createAuteur("Georges", "Remi");
 
         ouvrageService.addCategorieToOuvrage(CategorieEnum.REALISTE, o1);
         ouvrageService.addCategorieToOuvrage(CategorieEnum.FICTION, o1);
         ouvrageService.addCategorieToOuvrage(CategorieEnum.HISTORIQUE, o2);
         ouvrageService.addCategorieToOuvrage(CategorieEnum.REALISTE, o2);
+        ouvrageService.addCategorieToOuvrage(CategorieEnum.AVENTURE, o3);
+        ouvrageService.addCategorieToOuvrage(CategorieEnum.FICTION, o3);
+
 
         utilisateurService.createAndSaveAdministrateur(
                 "toto",
@@ -113,7 +117,7 @@ public class HomeController {
                 "Book",
                 "SuperBook@gmail.com",
                 "sb",
-                "123",
+                "sb",
                 "18000 truc - 10 rue bidule"
         );
 
@@ -122,7 +126,7 @@ public class HomeController {
                 "Doe",
                 "john.doe@gmail.com",
                 "john",
-                "jojo456",
+                "john",
                 "18000 truc - 8 rue machin"
         );
 
@@ -161,24 +165,27 @@ public class HomeController {
 
         ouvrageService.addAuteurToOuvrage(p, o1);
         ouvrageService.addAuteurToOuvrage(p, o2);
-        ouvrageService.addAuteurToOuvrage(p2, o2);
+        ouvrageService.addAuteurToOuvrage(p2, o3);
         Exemplaire e1 = ouvrageService.createExemplaire(EtatExemplaire.MOYEN, (Libraire)utilisateurService.findByLogin("sb"));
         Exemplaire e2 = ouvrageService.createExemplaire(EtatExemplaire.BON, (Libraire)utilisateurService.findByLogin("sb"));
         Exemplaire e3 = ouvrageService.createExemplaire(EtatExemplaire.MAUVAIS, (Libraire)utilisateurService.findByLogin("sb"));
+        Exemplaire e4 = ouvrageService.createExemplaire(EtatExemplaire.TRES_BON, (Libraire)utilisateurService.findByLogin("sb"));
 
         ouvrageService.addExemplaireToOuvrage(e1, o1);
         ouvrageService.addExemplaireToOuvrage(e2, o2);
         ouvrageService.addExemplaireToOuvrage(e3, o2);
+        ouvrageService.addExemplaireToOuvrage(e4, o3);
 
         ouvrageService.addAvisExemplaire(avis1, e1);
         ouvrageService.addAvisExemplaire(avis2, e2);
 
-        Commande c1 = commandeService.createCommande(EtatCommande.EXPEDIE, "blabla", LocalDate.now());
-        Commande c2 = commandeService.createCommande(EtatCommande.ANNULE, "bloblo", LocalDate.of(2023, 12, 10));
-        Commande c3 = commandeService.createCommande(EtatCommande.EXPEDIE, "blublu", LocalDate.of(2023, 9, 10));
+        Commande c1 = commandeService.createCommande("blabla", LocalDate.now());
+        Commande c2 = commandeService.createCommande("bloblo", LocalDate.of(2023, 12, 10));
+        Commande c3 = commandeService.createCommande("blublu", LocalDate.of(2023, 9, 10));
         commandeService.addExemplaireDansCommande(e1, c1);
         commandeService.addExemplaireDansCommande(e1, c1); // test redondance
         commandeService.addExemplaireDansCommande(e2, c2);
+        commandeService.addExemplaireDansCommande(e4, c2);
         commandeService.addExemplaireDansCommande(e3, c3);
 
         commandeService.addCommmandetoClient(c1, (Client)utilisateurService.findByLogin("john"));
