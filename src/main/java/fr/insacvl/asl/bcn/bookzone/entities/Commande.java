@@ -14,7 +14,7 @@ import java.util.Set;
 @Entity
 public class Commande {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     int idCommande;
 

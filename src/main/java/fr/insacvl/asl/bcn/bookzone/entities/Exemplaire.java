@@ -12,7 +12,7 @@ import lombok.*;
 @Entity
 public class Exemplaire {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private int idExemplaire;
 
