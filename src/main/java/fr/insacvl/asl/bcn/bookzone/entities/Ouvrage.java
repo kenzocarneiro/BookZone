@@ -24,11 +24,7 @@ public class Ouvrage {
     @Enumerated(EnumType.STRING)
     private Set<CategorieEnum> categories = new HashSet<>();
 
-    @OneToMany(mappedBy = "ouvrage")
-    @ToString.Exclude
-    private Set<Exemplaire> exemplaires = new HashSet<>(); // TODO: ne devrait pas exister
-
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "ouvrage_auteur",
             joinColumns = @JoinColumn(name = "id_ouvrage"),
