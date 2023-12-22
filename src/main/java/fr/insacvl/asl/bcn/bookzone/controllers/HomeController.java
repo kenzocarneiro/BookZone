@@ -28,7 +28,6 @@ public class HomeController {
 
         Ouvrage o1 = ouvrageService.createOuvrage("Therese Raquin", "Flammarion", 328);
         Ouvrage o2 = ouvrageService.createOuvrage("Germinal", "Hachette", 2447);
-        Adresse a = utilisateurService.createAdresse("Victor Hugo", "Paris", 75, "France", "appartement 3");
         Avis avis1 = ouvrageService.createAvis(4, "Tres bon livre !");
         Avis avis2 = ouvrageService.createAvis(1, "C'etait nul ...");
         Personne p = personneService.createPersonne("Emile", "Zola");
@@ -43,16 +42,17 @@ public class HomeController {
                 "toto",
                 "toto@gmail.com",
                 "toto",
-                "azerty"
+                "azerty",
+                "750001 Paris - 5 rue Victor Hugo - Appartement 3"
         );
-        utilisateurService.associateAdresseUtilisateur(a, utilisateurService.findByLogin("toto"));
 
         utilisateurService.createAndSaveLibraireValide(
                 "Super",
                 "Book",
                 "SuperBook@gmail.com",
                 "sb",
-                "123"
+                "123",
+                "18000 truc - 10 rue bidule"
         );
 
         utilisateurService.createAndSaveClient(
@@ -60,7 +60,8 @@ public class HomeController {
                 "Doe",
                 "john.doe@gmail.com",
                 "john",
-                "jojo456"
+                "jojo456",
+                "18000 truc - 8 rue machin"
         );
 
         utilisateurService.createAndSaveClient(
@@ -68,28 +69,32 @@ public class HomeController {
                 "Name",
                 "user@user.com",
                 "user",
-                "user"
+                "user",
+                "00000 UserVille - 1 rue user"
         );
         utilisateurService.createAndSaveLibraireValide(
                 "Libraire",
                 "Valide",
                 "libraire@libraire.com",
                 "libraire",
-                "libraire"
+                "libraire",
+                "00000 LibraireVille - 1 rue libraire"
         );
         utilisateurService.createAndSaveFuturLibraire(
                 "Futur",
                 "Libraire",
                 "flibraire@flibraire.com",
                 "flibraire",
-                "flibraire"
+                "flibraire",
+                "00000 FuturLibraireVille - 1 rue futurLibraire"
         );
         utilisateurService.createAndSaveAdministrateur(
                 "Admin",
                 "Istrateur",
                 "admin@admin.com",
                 "admin",
-                "admin"
+                "admin",
+                "00000 AdminVille - 1 rue admin"
         );
 
         ouvrageService.addAuteurToOuvrage(p, o1);
