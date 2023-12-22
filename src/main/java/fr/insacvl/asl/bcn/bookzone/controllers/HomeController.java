@@ -1,10 +1,18 @@
 package fr.insacvl.asl.bcn.bookzone.controllers;
+import fr.insacvl.asl.bcn.bookzone.dtos.RechercheDTO;
 import fr.insacvl.asl.bcn.bookzone.entities.*;
 import fr.insacvl.asl.bcn.bookzone.services.*;
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.time.LocalDate;
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -18,10 +26,63 @@ public class HomeController {
     @Autowired
     private PersonneService personneService;
 
-    @RequestMapping("")
-    public String hello() {
-        return "index";
+    @GetMapping("")
+    //page d'accueil
+    public String index(Model model) {
+        RechercheDTO rechercheDTO = new RechercheDTO();
+        List<Exemplaire> exemplaires = ouvrageService.getExemplaires();
+        
+        model.addAttribute("recherche", rechercheDTO);
+        model.addAttribute("categories", CategorieEnum.values());
+        model.addAttribute("exemplaires", exemplaires);
+        return("index");
     }
+
+    @PostMapping("")
+    public String recherche(Model model, @ModelAttribute("recherche") @Valid RechercheDTO rechercheDTO) {
+        
+        List<CategorieEnum> categories = rechercheDTO.getCategories();
+        String contenu = rechercheDTO.getContenu();
+
+        List<Exemplaire> exemplaires = ouvrageService.getExemplaires();
+
+        if (categories != null && !categories.isEmpty()) {
+            // pour chaque exemplaire, on regarde si il a une categorie qui correspond à une des categories de la recherche
+            exemplaires.removeIf(exemplaire -> {
+                for (CategorieEnum categorie : categories) {
+                    if (exemplaire.getOuvrage().getCategories().contains(categorie)) {
+                        return false;
+                    }
+                }
+                return true;
+            });
+        }
+
+
+        // Test pour l'instant seulement avec catégorie
+        if (contenu != null && !contenu.isEmpty()) {
+            String lowercaseContenu = contenu.toLowerCase();
+            // pour chaque exemplaire, on regarde si le contenu de la recherche est dans le titre ou dans le nom de l'auteur
+            exemplaires.removeIf(exemplaire -> {
+                Ouvrage ouvrage = exemplaire.getOuvrage();
+                if (ouvrage.getTitre().toLowerCase().contains(lowercaseContenu)) {
+                    return false;
+                }
+                for (Personne auteur : ouvrage.getAuteurs()) {
+                    if (auteur.getNom().toLowerCase().contains(lowercaseContenu) || auteur.getPrenom().toLowerCase().contains(lowercaseContenu)) {
+                        return false;
+                    }
+                }
+                return true;
+            });
+        }
+
+        // model.addAttribute("recherche", rechercheDTO);
+        model.addAttribute("categories", CategorieEnum.values());
+        model.addAttribute("exemplaires", exemplaires);
+        return("index");
+    }
+
 
     @RequestMapping("test")
     public String test() {
@@ -31,6 +92,7 @@ public class HomeController {
         Avis avis1 = ouvrageService.createAvis(4, "Tres bon livre !");
         Avis avis2 = ouvrageService.createAvis(1, "C'etait nul ...");
         Personne p = personneService.createPersonne("Emile", "Zola");
+        Personne p2 = personneService.createPersonne("Emile2", "Zola2");
 
         ouvrageService.addCategorieToOuvrage(CategorieEnum.REALISTE, o1);
         ouvrageService.addCategorieToOuvrage(CategorieEnum.FICTION, o1);
@@ -99,6 +161,7 @@ public class HomeController {
 
         ouvrageService.addAuteurToOuvrage(p, o1);
         ouvrageService.addAuteurToOuvrage(p, o2);
+        ouvrageService.addAuteurToOuvrage(p2, o2);
         Exemplaire e1 = ouvrageService.createExemplaire(EtatExemplaire.MOYEN, (Libraire)utilisateurService.findByLogin("sb"));
         Exemplaire e2 = ouvrageService.createExemplaire(EtatExemplaire.BON, (Libraire)utilisateurService.findByLogin("sb"));
         Exemplaire e3 = ouvrageService.createExemplaire(EtatExemplaire.MAUVAIS, (Libraire)utilisateurService.findByLogin("sb"));
@@ -121,6 +184,6 @@ public class HomeController {
         commandeService.addCommmandetoClient(c1, (Client)utilisateurService.findByLogin("john"));
         commandeService.addCommmandetoClient(c2, (Client)utilisateurService.findByLogin("john"));
         commandeService.addCommmandetoClient(c3, (Client)utilisateurService.findByLogin("john"));
-        return "index";
+        return "redirect:/";
     }
 }

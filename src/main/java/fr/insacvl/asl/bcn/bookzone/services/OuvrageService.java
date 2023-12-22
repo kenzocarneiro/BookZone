@@ -4,12 +4,23 @@ import fr.insacvl.asl.bcn.bookzone.entities.*;
 import fr.insacvl.asl.bcn.bookzone.repositories.AvisRepository;
 import fr.insacvl.asl.bcn.bookzone.repositories.ExemplaireRepository;
 import fr.insacvl.asl.bcn.bookzone.repositories.OuvrageRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+// import org.hibernate.mapping.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class OuvrageService {
+    @PersistenceContext
+    EntityManager em;
+
     @Autowired
     AvisRepository avisRepository;
     @Autowired
@@ -68,6 +79,35 @@ public class OuvrageService {
     public void addAvisExemplaire(Avis a, Exemplaire e) {
         e.setAvis(a);
         System.out.println("L'avis " + a.getIdAvis() + " a ete ajoute a l'exemplaire " + e.getIdExemplaire());
+    }
+
+    @Transactional
+    public Ouvrage getOuvrage(int idOuvrage) {
+        String jpql = "SELECT o FROM Ouvrage o WHERE o.idOuvrage=:idOuvrage";
+        Ouvrage result = em.createQuery(jpql, Ouvrage.class)
+                .setParameter("idOuvrage", idOuvrage)
+                .getSingleResult();
+
+        System.out.println("Ouvrage " + result.getTitre() + " recupere");
+        return result;
+    }
+
+    @Transactional
+    public Set<Ouvrage> getOuvrages() {
+        String jpql = "SELECT o FROM Ouvrage o";
+        List<Ouvrage> resultList = em.createQuery(jpql, Ouvrage.class).getResultList();
+        HashSet<Ouvrage> setOuvrages = new HashSet<>(resultList); 
+        return setOuvrages;
+    }
+
+    @Transactional
+    public Exemplaire getExemplaire(int idExemplaire) {
+        return exemplaireRepository.findById(idExemplaire).orElse(null);
+    }
+
+    @Transactional
+    public List<Exemplaire> getExemplaires() {
+        return exemplaireRepository.findAll();
     }
 
     //    @Transactional

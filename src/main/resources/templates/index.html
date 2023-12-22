@@ -2,15 +2,60 @@
 <html lang="fr" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Hello</title>
+    <title>BookZone</title>
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" />
 </head>
-
 <body class="container">
     <th:block th:insert="~{fragments/header::header}"></th:block>
-    <th:block>
-        Visiblement, le projet se lance...
-    </th:block>
+    <h1>Bienvenue sur BookZone</h1>
+
+    <!-- Formulaire de recherche de livres -->
+    <form th:action="@{/}" method="post" th:object="${recherche}">
+        <div class="form-group">
+            <label for="search">Rechercher un livre</label>
+            <input type="text" class="form-control" id="search" name="search" placeholder="Titre ou auteur" th:field="*{contenu}">
+            <div class="form-check" th:each="categorie : ${categories}">
+                <input class="form-check-input" type="checkbox" value="" th:id="${categorie}" th:value="${categorie}" th:name="${categorie}" th:field="*{categories}">
+                <label class="form-check-label" th:for="${categorie}" th:text="${categorie}"></label>
+            </div>
+
+        </div>
+        <button type="submit" class="btn btn-primary">Rechercher</button>
+    </form>
+
+    <!-- Affichage des livres correspondants à la recherche -->
+    <!-- Affichage des exemplaires : nouvelle version -->
+    <div class="container text-center">
+        <div class="row row-cols-auto">
+            <div class="col" th:each="exemplaire : ${exemplaires}">
+                <a class="text-decoration-none" th:href="'/exemplaire/' + ${exemplaire.getIdExemplaire()}">
+                    <div class="card card-body" style="width: 18rem;">
+                        <h5 class="card-title" th:text="${exemplaire.getOuvrage().getTitre()}"></h5>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">
+                            <span th:text="'de '" ></span>
+                            <span th:each="auteur, iterStat : ${exemplaire.getOuvrage().getAuteurs()}">
+                                <span th:text="${auteur.getPrenom()} + ' ' + ${auteur.getNom()}"></span>
+                                <span th:unless="${iterStat.last}">, </span>
+                                <!-- ne fonctionne pas encore -->
+                            </span>
+                        </h6>
+
+                        <h5 class="card-title" th:text="${exemplaire.getPrixVente()} + ' €'"></h5>
+                        <h6 class="card-subtitle mb-2 text-body-secondary" th:text="'Etat : ' + ${exemplaire.getEtat()}"></h6>
+                    </div>
+                </a>
+            </div>
+        </div>
+      </div>
+
+
+    <!-- Affichage des ouvrages : ancienne version -->
+    <!-- <div th:each="ouvrage : ${ouvrages}">
+        <h2 th:text="${ouvrage.getTitre()}"></h2>
+        <ul>
+            <li th:each="auteur : ${ouvrage.getAuteurs()}" th:text="${auteur.getPrenom() + ' ' + auteur.getNom()}"></li>
+        </ul>
+    </div> -->
 
     <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
 </body>
