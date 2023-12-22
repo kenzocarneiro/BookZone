@@ -35,7 +35,7 @@ public class ClientController {
         Client c = getLoginClient();
         model.addAttribute("loginClient", c.getLogin());
         model.addAttribute("commandes", c.getCommandes());
-        return "afficherInfoClient";
+        return "infoClient";
     }
 
     @GetMapping("exemplaire/{exemplaireId}")

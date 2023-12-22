@@ -50,7 +50,7 @@ public class LibraireController {
         List<EtatLivraisonExemplaire> ele = new java.util.ArrayList<>(List.of(EtatLivraisonExemplaire.values()));
         ele.remove(EtatLivraisonExemplaire.EN_VENTE);
         model.addAttribute("etatLivraisonExemplaire", ele);
-        return "afficherInfoLibraire";
+        return "infoLibraire";
     }
 
     @PostMapping("setPrixVente/{idExemplaire}")

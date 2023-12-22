@@ -30,7 +30,7 @@ public class DataLoadingRunner implements ApplicationRunner {
     private CommandeService commandeService;
 
     @Transactional
-    public void run (ApplicationArguments args) {
+    public void run(ApplicationArguments args) {
         Ouvrage o1 = ouvrageService.createOuvrage("Therese Raquin", "Flammarion", 328);
         Ouvrage o2 = ouvrageService.createOuvrage("Germinal", "Hachette", 2447);
         Ouvrage o3 = ouvrageService.createOuvrage("Tintin", "BDLand", 57);
