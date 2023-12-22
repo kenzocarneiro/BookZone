@@ -38,9 +38,10 @@
                         </li>
                     </ul>
 
-                    <div>
-                        <a class="btn btn-success" sec:authorize="!isAuthenticated()" th:href="@{/login}">Se connecter</a>
-                        <a class="btn btn-primary" sec:authorize="!isAuthenticated()" th:href="@{/register}">S'inscrire</a>
+                    <div class="navbar-nav">
+                        <a class="me-2 btn btn-outline-secondary" th:href="@{/panier}">Panier</a>
+                        <a class="me-2 btn btn-success" sec:authorize="!isAuthenticated()" th:href="@{/login}">Se connecter</a>
+                        <a class="me-2 btn btn-primary" sec:authorize="!isAuthenticated()" th:href="@{/register}">S'inscrire</a>
                         <form sec:authorize="isAuthenticated()" th:action="@{/processLogout}" method="post">
                             <button type="submit" class="btn btn-danger">Se déconnecter</button>
                         </form>

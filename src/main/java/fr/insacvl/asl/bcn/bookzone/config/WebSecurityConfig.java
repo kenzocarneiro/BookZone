@@ -22,7 +22,7 @@ public class WebSecurityConfig {
                     .ignoringRequestMatchers(PathRequest.toH2Console())
             ) // https://jessitron.com/2020/06/15/spring-security-for-h2-console/
             .authorizeHttpRequests(authorize -> authorize
-                    .requestMatchers("/", "/register", "/test", "/public/**", "/webjars/**", "/css/**", "/favicon.ico","/ouvrage/**", "/exemplaire/**", "/error/**").permitAll()
+                    .requestMatchers("/", "/register", "/test", "/public/**", "/webjars/**", "/css/**", "/favicon.ico","/ouvrage/**", "/exemplaire/**", "/error/**", "/panier/**").permitAll()
                     .requestMatchers("/welcome").hasAnyAuthority("ROLE_CLIENT", "ROLE_LIBRAIRE", "ROLE_ADMIN")
                     .requestMatchers("/client/**").hasAnyAuthority("ROLE_CLIENT")
                     .requestMatchers("/libraire/**").hasAnyAuthority("ROLE_LIBRAIRE")
@@ -32,7 +32,7 @@ public class WebSecurityConfig {
             .formLogin(login -> login
                     .loginPage("/login")
                     .loginProcessingUrl("/processLogin")
-                    .defaultSuccessUrl("/welcome", false)
+                    .defaultSuccessUrl("/welcome", true)
                     .failureUrl("/login-error")
                     .permitAll()
             )

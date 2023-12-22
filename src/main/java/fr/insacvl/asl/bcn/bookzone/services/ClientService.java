@@ -1,6 +1,7 @@
 package fr.insacvl.asl.bcn.bookzone.services;
 
 import fr.insacvl.asl.bcn.bookzone.entities.Client;
+import fr.insacvl.asl.bcn.bookzone.entities.Panier;
 import fr.insacvl.asl.bcn.bookzone.repositories.ClientRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,12 @@ public class ClientService {
         Client c = new Client();
         utilisateurService.configureAndSaveUtilisateur(c, prenom, nom, mail, login, password, adresse, "ROLE_CLIENT");
         System.out.println("Client " + c + " cree");
+    }
+
+    @Transactional
+    public void addPanier(Client c, Panier p) {
+        c.setPanier(p);
+        clientRepository.save(c);
     }
 
 }

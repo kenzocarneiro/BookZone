@@ -5,19 +5,32 @@ import fr.insacvl.asl.bcn.bookzone.services.*;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @Controller
 @RequestMapping("/")
+@SessionAttributes("sessionPanier")
 public class HomeController {
     @Autowired
     private OuvrageService ouvrageService;
+    @Autowired
+    private ClientService clientService;
+
+    public boolean isLoggedIn() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken);
+    }
+
+    public String getLoginName() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
 
     @GetMapping("")
     //page d'accueil
@@ -74,5 +87,62 @@ public class HomeController {
         model.addAttribute("categories", CategorieEnum.values());
         model.addAttribute("exemplaires", exemplaires);
         return("index");
+    }
+
+    @ModelAttribute("sessionPanier")
+    public Panier getSessionPanier() {
+        return new Panier();
+    }
+
+    public Panier getCurrentPanier(Panier sessionPanier) {
+        if (isLoggedIn()) {
+            Client client = clientService.findByLogin(getLoginName());
+            return client.getPanier();
+        } else {
+            return sessionPanier;
+        }
+    }
+
+    @GetMapping("/panier")
+    public String afficherPanier(@ModelAttribute("sessionPanier") Panier sessionPanier, Model model) {
+        Panier panier = getCurrentPanier(sessionPanier);
+        model.addAttribute("panier", panier);
+        return "panier";
+    }
+
+    @GetMapping("/panier/ajouter/{idExemplaire}")
+    public String ajouterPanier(@ModelAttribute("sessionPanier") Panier sessionPanier, @PathVariable Integer idExemplaire, Model model) {
+        Panier panier = getCurrentPanier(sessionPanier);
+
+        boolean alreadyIn = false;
+        for (Exemplaire exemplaire : panier.getExemplaires()) {
+            if (exemplaire.getIdExemplaire() == idExemplaire) {
+                alreadyIn = true;
+                break;
+            }
+        }
+        if (!alreadyIn) {
+            panier.getExemplaires().add(ouvrageService.findExemplaireById(idExemplaire));
+        }
+
+        model.addAttribute("panier", panier);
+        return "panier";
+    }
+
+    @GetMapping("/panier/retirer/{idExemplaire}")
+    public String retirerPanier(@ModelAttribute("sessionPanier") Panier sessionPanier, @PathVariable Integer idExemplaire, Model model) {
+        Panier panier = getCurrentPanier(sessionPanier);
+
+        Exemplaire exemplaireToRemove = null;
+        for (Exemplaire exemplaire : panier.getExemplaires()) {
+            if (exemplaire.getIdExemplaire() == idExemplaire) {
+                exemplaireToRemove = exemplaire;
+                break;
+            }
+        }
+        panier.getExemplaires().remove(exemplaireToRemove);
+
+        model.addAttribute("panier", panier);
+        return "panier";
     }
 }
