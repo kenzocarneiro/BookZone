@@ -70,6 +70,8 @@ public class LibraireController {
     @GetMapping("creerExemplaire")
     public String creerExemplaire(Model model) {
         ExemplaireDTO exemplaireDTO = new ExemplaireDTO();
+        exemplaireDTO.setPrixVente(10.0f);
+        exemplaireDTO.setFraisPort(2.0f);
         model.addAttribute("exemplaire", exemplaireDTO);
         model.addAttribute("allOuvrages", ouvrageService.findAllOuvrages());
         model.addAttribute("etatExemplaire", EtatExemplaire.values());

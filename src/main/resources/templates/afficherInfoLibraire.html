@@ -49,6 +49,7 @@
             <th class="espace-entre-colonnes">Id Exemplaire</th>
             <th class="espace-entre-colonnes">Ouvrage</th>
             <th class="espace-entre-colonnes">Etat</th>
+            <th class="espace-entre-colonnes">Etat de livraison</th>
             <th class="espace-entre-colonnes">Prix de vente</th>
             <th class="espace-entre-colonnes">Frais de port</th>
         </tr>
@@ -58,6 +59,7 @@
             <td th:text="${exemplaire.getIdExemplaire()}"></td>
             <td th:text="${exemplaire.getOuvrage().getTitre()}"></td>
             <td th:text="${exemplaire.getEtat()}"></td>
+            <td th:text="${exemplaire.getEtatLivraisonExemplaire()}"></td>
             <td>
                 <span th:text="${exemplaire.getPrixVente()}"></span>
                 <form th:action="@{'/libraire/setPrixVente/' + ${exemplaire.getIdExemplaire()}}" th:method="post" style="display: inline;">
