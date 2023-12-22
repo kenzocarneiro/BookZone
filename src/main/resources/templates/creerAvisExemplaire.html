@@ -6,6 +6,7 @@
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}"/>
 </head>
 <body class="container">
+    <th:block th:insert="~{fragments/header::header}"></th:block>
     <h1>Créer un avis</h1><br/><br/>
         <form id="myForm" th:action="@{'/client/exemplaire/' + ${exemplaireId} + '/creerAvis'}" th:object="${avis}" method="post">
             <div>
