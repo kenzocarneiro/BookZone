@@ -11,35 +11,31 @@
     <form th:action="@{/register}" th:object="${user}" method="post">
         <div>
             <label for="prenom" class="form-label">Prénom</label>:
-            <input type="text" id="prenom" class="form-control" th:field="*{prenom}"/> <br />
+            <input type="text" id="prenom" class="form-control" th:field="*{prenom}" th:required="required"/> <br />
         </div>
         <div>
             <label for="nom" class="form-label">Nom de famille</label>:
-            <input type="text" id="nom" class="form-control" th:field="*{nom}" /> <br />
+            <input type="text" id="nom" class="form-control" th:field="*{nom}" th:required="required"/> <br />
         </div>
         <div>
             <label for="mail" class="form-label">Adresse Email</label>:
-            <input type="email" id="mail" class="form-control" th:field="*{mail}" /> <br />
+            <input type="email" id="mail" class="form-control" th:field="*{mail}" th:required="required"/> <br />
         </div>
         <div>
             <label for="login" class="form-label">Nom d'utilisateur</label>
-            <input type="text" id="login" class="form-control" th:field="*{login}" /> <br />
+            <input type="text" id="login" class="form-control" th:field="*{login}" th:required="required"/> <br />
         </div>
         <div>
             <label for="password" class="form-label">Mot de passe</label>
-            <input type="password" id="password" class="form-control" th:field="*{password}" /> <br />
+            <input type="password" id="password" class="form-control" th:field="*{password}" th:required="required"/> <br />
         </div>
-<!--        <div>-->
-<!--            <label for="password2">Confirmer le mot de passe</label>-->
-<!--            <input type="password" id="password2" th:field="*{password2}" /> <br />-->
-<!--        </div>-->
         <div>
             <label for="adresse" class="form-label">Adresse</label>
-            <input type="text" id="adresse" class="form-control" th:field="*{adresse}" /> <br />
+            <input type="text" id="adresse" class="form-control" th:field="*{adresse}" th:required="required"/> <br />
         </div>
         <div class="form-check">
             <label for="libraire" class="form-check-label">Je suis un libraire.</label>
-            <input type="checkbox" id="libraire" class="form-check-input" th:field="*{libraire}" /> <br />
+            <input type="checkbox" id="libraire" class="form-check-input" th:field="*{libraire}"/> <br />
         </div>
         <button type="submit" class="btn btn-primary">S'enregistrer</button>
     </form>

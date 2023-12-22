@@ -29,6 +29,24 @@ public class UtilisateurService {
     @Autowired
     private LibraireRepository libraireRepository;
 
+    public UtilisateurDTO utilisateurToDto(Utilisateur u) {
+        UtilisateurDTO utilisateurDTO = new UtilisateurDTO();
+        utilisateurDTO.setPrenom(u.getPrenom());
+        utilisateurDTO.setNom(u.getNom());
+        utilisateurDTO.setMail(u.getMail());
+        utilisateurDTO.setLogin(u.getLogin());
+        utilisateurDTO.setPassword("");
+        utilisateurDTO.setRole(u.getRole());
+        utilisateurDTO.setAdresse("TODO");
+//        if (u.getRole().equals("ROLE_FUTUR_LIBRAIRE")) {
+//            utilisateurDTO.setLibraire(true);
+//        }
+//        else {
+//            utilisateurDTO.setLibraire(false);
+//        }
+        return utilisateurDTO;
+    }
+
     @Transactional
     public void saveUtilisateurDto(UtilisateurDTO utilisateurDTO) {
         Utilisateur u;

@@ -118,10 +118,4 @@ public class HomeController {
         commandeService.addCommmandetoClient(c3, (Client)utilisateurService.findByLogin("john"));
         return "index";
     }
-
-
-    @RequestMapping("/welcome")
-    public String hello_login() {
-        return "welcome";
-    }
 }
