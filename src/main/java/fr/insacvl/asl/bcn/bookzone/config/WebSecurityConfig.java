@@ -25,7 +25,7 @@ public class WebSecurityConfig {
                     .requestMatchers("/", "/register", "/test", "/public/**", "/webjars/**", "/css/**", "/ouvrage/**", "/exemplaire/**", "/error/**").permitAll()
                     .requestMatchers("/welcome").hasAnyAuthority("ROLE_USER", "ROLE_LIBRAIRE", "ROLE_ADMIN")
                     .requestMatchers("/libraire/**").hasAnyAuthority("ROLE_LIBRAIRE", "ROLE_ADMIN")
-                    .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+                    .requestMatchers("/admin/**", "/console/**").hasAuthority("ROLE_ADMIN")
                     .anyRequest().authenticated()
             )
             .formLogin(login -> login

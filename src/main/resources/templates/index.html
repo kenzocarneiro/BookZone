@@ -5,9 +5,8 @@
     <title>BookZone</title>
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" />
 </head>
-<body>
-    <a href="/test">Charger la bdd</a>
-
+<body class="container">
+    <th:block th:insert="~{fragments/header::header}"></th:block>
     <h1>Bienvenue sur BookZone</h1>
 
     <!-- Formulaire de recherche de livres -->
@@ -40,7 +39,7 @@
                                 <!-- ne fonctionne pas encore -->
                             </span>
                         </h6>
-                            
+
                         <h5 class="card-title" th:text="${exemplaire.getPrixVente()} + ' €'"></h5>
                         <h6 class="card-subtitle mb-2 text-body-secondary" th:text="'Etat : ' + ${exemplaire.getEtat()}"></h6>
                     </div>
