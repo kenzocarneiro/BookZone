@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Error Page</title>
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" />
 </head>
 <body class="container">
+    <th:block th:insert="~{fragments/header::header}"></th:block>
     <h1 th:text="|${httpStatus} - ${httpStatus.reasonPhrase}|">404</h1>
     <p th:text="${errorMessage}">Error java.lang.NullPointerException</p>
     <a th:href="@{/}">Back to Home Page</a>

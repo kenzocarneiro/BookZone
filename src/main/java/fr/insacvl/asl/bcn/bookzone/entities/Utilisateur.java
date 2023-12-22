@@ -21,7 +21,5 @@ public class Utilisateur extends Personne {
     @NotNull private String password;
     @NotNull private String role;
 
-    @OneToOne
-    @JoinColumn(name="id_adresse")
-    private Adresse adresse;
+    @NotNull private String adresse;
 }

@@ -1,19 +1,43 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="https://www.thymeleaf.org">
+<html lang="fr" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Hello Login</title>
+    <title>Mes informations</title>
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" />
 </head>
 <body class="container">
-    <h1>Hello, world!</h1>
+    <th:block th:insert="~{fragments/header::header}"></th:block>
+    <h1>Mes informations</h1>
 
     <p>
-        Tu es connecté !
+        Tu es connecté en tant que "<span sec:authentication="name"></span>" !
     </p>
 
-    <form th:action="@{/processLogout}" method="post">
-        <button type="submit" class="btn btn-danger">Logout</button>
+    <form th:object="${user}">
+        <div>
+            <label for="prenom" class="form-label">Prénom</label>:
+            <input type="text" id="prenom" class="form-control disabled" th:field="*{prenom}" th:disabled="disabled"/> <br />
+        </div>
+        <div>
+            <label for="nom" class="form-label">Nom de famille</label>:
+            <input type="text" id="nom" class="form-control" th:field="*{nom}" th:disabled="disabled"/> <br />
+        </div>
+        <div>
+            <label for="mail" class="form-label">Adresse Email</label>:
+            <input type="email" id="mail" class="form-control" th:field="*{mail}" th:disabled="disabled"/> <br />
+        </div>
+        <div>
+            <label for="login" class="form-label">Nom d'utilisateur</label>
+            <input type="text" id="login" class="form-control" th:field="*{login}" th:disabled="disabled"/> <br />
+        </div>
+        <div>
+            <label for="adresse" class="form-label">Adresse</label>
+            <input type="text" id="adresse" class="form-control" th:field="*{adresse}" th:disabled="disabled"/> <br />
+        </div>
+        <div>
+            <label for="role" class="form-label">Type de compte</label>
+            <input type="text" id="role" class="form-control" th:value="${user.role.replace('ROLE_','')}" th:disabled="disabled"/> <br />
+        </div>
     </form>
 
     <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
