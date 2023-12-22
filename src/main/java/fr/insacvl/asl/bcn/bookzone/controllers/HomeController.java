@@ -38,7 +38,7 @@ public class HomeController {
     //page d'accueil
     public String index(Model model) {
         RechercheDTO rechercheDTO = new RechercheDTO();
-        List<Exemplaire> exemplaires = ouvrageService.getExemplaires();
+        List<Exemplaire> exemplaires = ouvrageService.getExemplairesEnVente();
 
         model.addAttribute("recherche", rechercheDTO);
         model.addAttribute("categories", CategorieEnum.values());
@@ -52,7 +52,7 @@ public class HomeController {
         List<CategorieEnum> categories = rechercheDTO.getCategories();
         String contenu = rechercheDTO.getContenu();
 
-        List<Exemplaire> exemplaires = ouvrageService.getExemplaires();
+        List<Exemplaire> exemplaires = ouvrageService.getExemplairesEnVente();
 
         if (categories != null && !categories.isEmpty()) {
             // pour chaque exemplaire, on regarde si il a une categorie qui correspond à une des categories de la recherche

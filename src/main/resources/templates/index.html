@@ -14,9 +14,11 @@
         <div class="form-group">
             <label for="search">Rechercher un livre</label>
             <input type="text" class="form-control" id="search" name="search" placeholder="Titre ou auteur" th:field="*{contenu}">
-            <div class="form-check" th:each="categorie : ${categories}">
-                <input class="form-check-input" type="checkbox" value="" th:id="${categorie}" th:value="${categorie}" th:name="${categorie}" th:field="*{categories}">
-                <label class="form-check-label" th:for="${categorie}" th:text="${categorie}"></label>
+            <div class="container text-center row row-cols-auto">
+                <div class="col" th:each="categorie : ${categories}">
+                    <input class="form-check-input" type="checkbox" value="" th:id="${categorie}" th:value="${categorie}" th:name="${categorie}" th:field="*{categories}">
+                    <label class="form-check-label" th:for="${categorie}" th:text="${categorie}"></label>
+                </div>
             </div>
 
         </div>
@@ -34,14 +36,14 @@
                         <h6 class="card-subtitle mb-2 text-body-secondary">
                             <span th:text="'de '" ></span>
                             <span th:each="auteur, iterStat : ${exemplaire.getOuvrage().getAuteurs()}">
-                                <span th:text="${auteur.getPrenom()} + ' ' + ${auteur.getNom()}"></span>
-                                <span th:unless="${iterStat.last}">, </span>
-                                <!-- ne fonctionne pas encore -->
+                                <span th:text="${auteur.getPrenom()} + ' ' + ${auteur.getNom()}"></span><span th:unless="${iterStat.last}">, </span>
                             </span>
                         </h6>
 
-                        <h5 class="card-title" th:text="${exemplaire.getPrixVente()} + ' €'"></h5>
+                        <h5 class="card-title" th:text="${exemplaire.getPrixVente() + exemplaire.getFraisPort()} + ' €'"></h5>
                         <h6 class="card-subtitle mb-2 text-body-secondary" th:text="'Etat : ' + ${exemplaire.getEtat()}"></h6>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">Vendeur : <span th:text="${exemplaire.getVendeur().getLogin()}"></span>
+                        </h6>
                         <a class="btn btn-primary" th:href="@{'/panier/ajouter/' + ${exemplaire.getIdExemplaire()}}">Ajouter au panier</a>
                     </div>
                 </a>
@@ -49,14 +51,6 @@
         </div>
       </div>
 
-
-    <!-- Affichage des ouvrages : ancienne version -->
-    <!-- <div th:each="ouvrage : ${ouvrages}">
-        <h2 th:text="${ouvrage.getTitre()}"></h2>
-        <ul>
-            <li th:each="auteur : ${ouvrage.getAuteurs()}" th:text="${auteur.getPrenom() + ' ' + auteur.getNom()}"></li>
-        </ul>
-    </div> -->
 
     <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
 </body>

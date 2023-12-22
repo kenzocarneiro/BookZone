@@ -128,6 +128,10 @@ public class OuvrageService {
         return exemplaireRepository.findAll();
     }
 
+    public List<Exemplaire> getExemplairesEnVente() {
+        return exemplaireRepository.findByEtatLivraisonExemplaire(EtatLivraisonExemplaire.EN_VENTE);
+    }
+
     public void saveOuvrageDto(OuvrageDTO ouvrageDTO) {
         Ouvrage o = new Ouvrage();
         o.setTitre(ouvrageDTO.getTitre());

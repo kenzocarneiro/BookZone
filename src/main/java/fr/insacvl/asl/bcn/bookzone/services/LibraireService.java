@@ -103,10 +103,15 @@ public class LibraireService {
 
         String jpql = "SELECT AVG(e.avis.note) FROM Exemplaire e JOIN e.commande c WHERE e.vendeur = :libraire AND e.commande IS NOT NULL";
 
-        return em.createQuery(jpql, Double.class)
+        Double result = em.createQuery(jpql, Double.class)
                     .setParameter("libraire", libraire)
                     .getSingleResult();
-    }
+
+        if (result == null) {
+            return 0;
+        }
+        return result;
+        }
 
     @Transactional
     public void setPrixVente(Libraire l, float prixVente, Exemplaire e){
