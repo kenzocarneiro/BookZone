@@ -10,7 +10,7 @@
     <h1>Bienvenue sur BookZone</h1>
 
     <!-- Formulaire de recherche de livres -->
-    <form th:action="@{/}" method="post" th:object="${recherche}">
+    <form class="mb-4" th:action="@{/}" method="post" th:object="${recherche}">
         <div class="form-group">
             <label for="search">Rechercher un livre</label>
             <input type="text" class="form-control" id="search" name="search" placeholder="Titre ou auteur" th:field="*{contenu}">
