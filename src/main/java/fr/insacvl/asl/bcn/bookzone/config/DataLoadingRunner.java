@@ -147,9 +147,9 @@ public class DataLoadingRunner implements ApplicationRunner {
 
 
         Client john = clientService.findByLogin("john");
-        Commande c1 = commandeService.createCommande(john, "blabla", LocalDate.now());
-        Commande c2 = commandeService.createCommande(john, "bloblo", LocalDate.of(2023, 12, 10));
-        Commande c3 = commandeService.createCommande(john, "blublu", LocalDate.of(2023, 9, 10));
+        Commande c1 = commandeService.createCommande(john, LocalDate.now());
+        Commande c2 = commandeService.createCommande(john, LocalDate.of(2023, 12, 10));
+        Commande c3 = commandeService.createCommande(john, LocalDate.of(2023, 9, 10));
         commandeService.addExemplaireDansCommande(e1, c1);
         commandeService.addExemplaireDansCommande(e1, c1); // test redondance
         commandeService.addExemplaireDansCommande(e2, c2);

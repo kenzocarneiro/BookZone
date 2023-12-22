@@ -44,6 +44,7 @@
                         <h6 class="card-subtitle mb-2 text-body-secondary" th:text="'Etat : ' + ${exemplaire.getEtat()}"></h6>
                         <h6 class="card-subtitle mb-2 text-body-secondary">Vendeur : <span th:text="${exemplaire.getVendeur().getLogin()}"></span>
                         </h6>
+                        <a class="btn btn-primary" th:href="@{'/panier/ajouter/' + ${exemplaire.getIdExemplaire()}}">Ajouter au panier</a>
                     </div>
                 </a>
             </div>

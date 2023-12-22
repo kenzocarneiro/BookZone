@@ -17,4 +17,7 @@ public class Client extends Utilisateur {
     @ToString.Exclude
     Set<Commande> commandes = new HashSet<>();
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @ToString.Exclude
+    Panier panier;
 }

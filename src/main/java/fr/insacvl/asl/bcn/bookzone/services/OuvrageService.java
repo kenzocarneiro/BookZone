@@ -63,7 +63,6 @@ public class OuvrageService {
     public Exemplaire createExemplaire(Ouvrage o, Libraire vendeur, EtatExemplaire etat, EtatLivraisonExemplaire etatLivraisonExemplaire) {
         Exemplaire e = new Exemplaire();
         e.setOuvrage(o);
-        o.getExemplaires().add(e);
         e.setVendeur(vendeur);
         e.setEtat(etat);
         e.setEtatLivraisonExemplaire(etatLivraisonExemplaire);
