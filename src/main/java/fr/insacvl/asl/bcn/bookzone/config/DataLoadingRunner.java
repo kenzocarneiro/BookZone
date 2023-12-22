@@ -110,17 +110,12 @@ public class DataLoadingRunner implements ApplicationRunner {
         ouvrageService.addAuteurToOuvrage(p, o1);
         ouvrageService.addAuteurToOuvrage(p, o2);
         ouvrageService.addAuteurToOuvrage(p2, o3);
-        Exemplaire e1 = ouvrageService.createExemplaire(EtatExemplaire.MOYEN, libraireService.findByLogin("sb"), EtatLivraisonExemplaire.EXPEDIE);
-        Exemplaire e2 = ouvrageService.createExemplaire(EtatExemplaire.BON, libraireService.findByLogin("sb"), EtatLivraisonExemplaire.EXPEDIE);
-        Exemplaire e3 = ouvrageService.createExemplaire(EtatExemplaire.MAUVAIS, libraireService.findByLogin("sb"));
-        Exemplaire e4 = ouvrageService.createExemplaire(EtatExemplaire.TRES_BON, libraireService.findByLogin("sb"));
-        Exemplaire e5 = ouvrageService.createExemplaire(EtatExemplaire.TRES_BON, libraireService.findByLogin("sb"));
-
-        ouvrageService.addExemplaireToOuvrage(e1, o1);
-        ouvrageService.addExemplaireToOuvrage(e2, o2);
-        ouvrageService.addExemplaireToOuvrage(e3, o2);
-        ouvrageService.addExemplaireToOuvrage(e4, o3);
-        ouvrageService.addExemplaireToOuvrage(e5, o1);
+        Libraire sb = libraireService.findByLogin("sb");
+        Exemplaire e1 = ouvrageService.createExemplaire(o1, sb, EtatExemplaire.MOYEN, EtatLivraisonExemplaire.EXPEDIE);
+        Exemplaire e2 = ouvrageService.createExemplaire(o2, sb, EtatExemplaire.BON, EtatLivraisonExemplaire.EXPEDIE);
+        Exemplaire e3 = ouvrageService.createExemplaire(o2, sb, EtatExemplaire.MAUVAIS);
+        Exemplaire e4 = ouvrageService.createExemplaire(o3, sb, EtatExemplaire.TRES_BON);
+        ouvrageService.createExemplaire(o1, sb, EtatExemplaire.TRES_BON);
 
         ouvrageService.addAvisExemplaire(avis1, e1);
         ouvrageService.addAvisExemplaire(avis2, e2);

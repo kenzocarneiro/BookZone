@@ -55,16 +55,18 @@ public class OuvrageService {
         return o;
     }
     @Transactional
-    public Exemplaire createExemplaire(EtatExemplaire etat, Libraire vendeur) {
-        return createExemplaire(etat, vendeur, EtatLivraisonExemplaire.EN_VENTE);
+    public Exemplaire createExemplaire(Ouvrage o, Libraire vendeur, EtatExemplaire etat) {
+        return createExemplaire(o, vendeur, etat, EtatLivraisonExemplaire.EN_VENTE);
     }
 
     @Transactional
-    public Exemplaire createExemplaire(EtatExemplaire etat, Libraire vendeur, EtatLivraisonExemplaire etatLivraisonExemplaire) {
+    public Exemplaire createExemplaire(Ouvrage o, Libraire vendeur, EtatExemplaire etat, EtatLivraisonExemplaire etatLivraisonExemplaire) {
         Exemplaire e = new Exemplaire();
+        e.setOuvrage(o);
+        o.getExemplaires().add(e);
+        e.setVendeur(vendeur);
         e.setEtat(etat);
         e.setEtatLivraisonExemplaire(etatLivraisonExemplaire);
-        e.setVendeur(vendeur);
         e.setPrixVente(10.0f);
         e.setFraisPort(2.0f);
         exemplaireRepository.save(e);
@@ -94,12 +96,12 @@ public class OuvrageService {
         System.out.println("Ajout de l'auteur " + p.getPrenom() + " " + p.getNom() + " pour l'ouvrage " + o.getTitre());
     }
 
-    @Transactional
-    public void addExemplaireToOuvrage(Exemplaire e, Ouvrage o) {
-        e.setOuvrage(o);
-        o.getExemplaires().add(e);
-        System.out.println("Ajout de l'exemplaire " + e.getIdExemplaire() + " pour l'ouvrage " + o.getIdOuvrage());
-    }
+//    @Transactional
+//    public void addExemplaireToOuvrage(Exemplaire e, Ouvrage o) {
+//        e.setOuvrage(o);
+//        o.getExemplaires().add(e);
+//        System.out.println("Ajout de l'exemplaire " + e.getIdExemplaire() + " pour l'ouvrage " + o.getIdOuvrage());
+//    }
 
     @Transactional
     public void addCategorieToOuvrage(CategorieEnum c, Ouvrage o) {

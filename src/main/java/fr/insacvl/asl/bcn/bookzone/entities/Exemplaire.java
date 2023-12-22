@@ -42,6 +42,6 @@ public class Exemplaire {
 
     @ManyToOne
     @JoinColumn(name = "id_ouvrage")
-//    @NotNull // TODO: à enlever plus tard, je l'ai commenté car le code de test ne marchait plus
+    @NotNull
     Ouvrage ouvrage;
 }
