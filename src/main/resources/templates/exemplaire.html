@@ -9,13 +9,24 @@
     <a href="/">Home</a>
     <h1 th:text="'Exemplaire : ' + ${exemplaire.getOuvrage().getTitre()}"></h1>
 
-    <!-- <div>
-        <h2>Auteur(s)</h2>
-        <ul>
-            <li th:each="auteur : ${ouvrage.getAuteurs()}" th:text="${auteur.getPrenom() + ' ' + auteur.getNom()}"></li>
-        </ul>
-    </div> -->
+    <h2>Auteur(s)</h2>
+    <ul>
+        <li th:each="auteur : ${exemplaire.getOuvrage().getAuteurs()}" th:text="${auteur.getPrenom() + ' ' + auteur.getNom()}"></li>
+    </ul>
 
+    <h2>Nombre de pages</h2>
+    <p th:text="${exemplaire.getOuvrage().getNbPages()}"></p>
+
+    <h2>Etat</h2>
+    <p th:text="${exemplaire.getEtat()}"></p>
+
+    <h2>Prix de vente</h2>
+    <p th:text="${exemplaire.getPrixVente()} + ' €'"></p>
+
+    <h2>Catégories</h2>
+    <ul>
+        <li th:each="categorie : ${exemplaire.getOuvrage().getCategories()}" th:text="${categorie}"></li>
+    </ul>
 
 </body>
 </html>
