@@ -46,7 +46,7 @@ public class UtilisateurService {
         }
         else {
             u = new Client();
-            u.setRole("ROLE_USER");
+            u.setRole("ROLE_CLIENT");
         }
         u.setPrenom(utilisateurDTO.getPrenom());
         u.setNom(utilisateurDTO.getNom());
@@ -72,7 +72,7 @@ public class UtilisateurService {
     @Transactional
     public void createAndSaveClient(String prenom, String nom, String mail, String login, String password, String adresse) {
         Client c = new Client();
-        configureAndSaveUtilisateur(c, prenom, nom, mail, login, password, adresse, "ROLE_USER");
+        configureAndSaveUtilisateur(c, prenom, nom, mail, login, password, adresse, "ROLE_CLIENT");
         System.out.println("Client " + c + " cree");
     }
 
