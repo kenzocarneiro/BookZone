@@ -22,7 +22,7 @@ public class Exemplaire {
 
     @Enumerated(EnumType.STRING)
     @NotNull
-    private EtatCommande etatCommande;
+    private EtatLivraisonExemplaire etatLivraisonExemplaire;
 
     private float prixVente;
     private float fraisPort;

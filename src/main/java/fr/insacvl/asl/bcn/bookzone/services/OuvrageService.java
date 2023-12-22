@@ -56,14 +56,14 @@ public class OuvrageService {
     }
     @Transactional
     public Exemplaire createExemplaire(EtatExemplaire etat, Libraire vendeur) {
-        return createExemplaire(etat, vendeur, EtatCommande.EN_ATTENTE);
+        return createExemplaire(etat, vendeur, EtatLivraisonExemplaire.EN_VENTE);
     }
 
     @Transactional
-    public Exemplaire createExemplaire(EtatExemplaire etat, Libraire vendeur, EtatCommande etatCommande) {
+    public Exemplaire createExemplaire(EtatExemplaire etat, Libraire vendeur, EtatLivraisonExemplaire etatLivraisonExemplaire) {
         Exemplaire e = new Exemplaire();
         e.setEtat(etat);
-        e.setEtatCommande(etatCommande);
+        e.setEtatLivraisonExemplaire(etatLivraisonExemplaire);
         e.setVendeur(vendeur);
         e.setPrixVente(10.0f);
         e.setFraisPort(2.0f);
@@ -81,7 +81,7 @@ public class OuvrageService {
         Exemplaire e = new Exemplaire();
         e.setOuvrage(ouvrageRepository.findByTitre(exemplaireDTO.getOuvrage()));
         e.setEtat(exemplaireDTO.getEtat());
-        e.setEtatCommande(EtatCommande.EN_ATTENTE);
+        e.setEtatLivraisonExemplaire(EtatLivraisonExemplaire.EN_VENTE);
         e.setVendeur(libraire);
         e.setPrixVente(exemplaireDTO.getPrixVente());
         e.setFraisPort(exemplaireDTO.getFraisPort());

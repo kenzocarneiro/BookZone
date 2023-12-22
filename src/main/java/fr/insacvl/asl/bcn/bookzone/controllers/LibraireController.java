@@ -12,6 +12,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -45,7 +47,9 @@ public class LibraireController {
         model.addAttribute("ouvrages", ouvrages);
         model.addAttribute("exemplairesCommandes", exemplairesCommandes);
         model.addAttribute("noteMoyenne", noteMoyenne);
-        model.addAttribute("etatCommande", EtatCommande.values());
+        List<EtatLivraisonExemplaire> ele = new java.util.ArrayList<>(List.of(EtatLivraisonExemplaire.values()));
+        ele.remove(EtatLivraisonExemplaire.EN_VENTE);
+        model.addAttribute("etatLivraisonExemplaire", ele);
         return "afficherInfoLibraire";
     }
 
@@ -93,11 +97,11 @@ public class LibraireController {
         return "redirect:/libraire";
     }
 
-    @PostMapping("exemplaire/{exemplaireId}/updateEtatCommande")
-    public String updateEtatCommandeExemplaire(@PathVariable int exemplaireId, @RequestParam EtatCommande etatCommande) {
+    @PostMapping("exemplaire/{exemplaireId}/updateEtatLivraison")
+    public String updateEtatLivraison(@PathVariable int exemplaireId, @RequestParam EtatLivraisonExemplaire etatLivraisonExemplaire) {
         Exemplaire e = ouvrageService.findExemplaireById(exemplaireId);
         if(e != null){
-            e.setEtatCommande(etatCommande);
+            e.setEtatLivraisonExemplaire(etatLivraisonExemplaire);
             ouvrageService.saveExemplaire(e);
         }
         else{

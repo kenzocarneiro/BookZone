@@ -88,7 +88,7 @@
             <th class="espace-entre-colonnes">Prix de vente</th>
             <th class="espace-entre-colonnes">Frais de port</th>
             <th class="espace-entre-colonnes">Avis</th>
-            <th class="espace-entre-colonnes">Etat Commande</th>
+            <th class="espace-entre-colonnes">Etat Livraison</th>
         </tr>
         </thead>
         <tbody>
@@ -103,10 +103,10 @@
             </td>
             <td th:unless="${#strings.isEmpty(exemplaire.getAvis())}" th:text="'note : ' + ${exemplaire.getAvis().getNote()} + '/5' + ' || commentaire : ' + ${exemplaire.getAvis().getCommentaire()}"></td>
             <td>
-                <form th:action="@{'/libraire/exemplaire/' + ${exemplaire.getIdExemplaire()} + '/updateEtatCommande'}" th:method="post" style="display: inline;">
-                    <label for="etatCommande" ></label>
-                    <select id="etatCommande" name="etatCommande" class="form-select">
-                        <option th:each="etat : ${etatCommande}" th:value="${etat}" th:text="${etat}" th:selected="${etat == exemplaire.getEtatCommande()}"></option>
+                <form th:action="@{'/libraire/exemplaire/' + ${exemplaire.getIdExemplaire()} + '/updateEtatLivraison'}" th:method="post" style="display: inline;">
+                    <label for="etatLivraisonExemplaire" ></label>
+                    <select id="etatLivraisonExemplaire" name="etatLivraisonExemplaire" class="form-select">
+                        <option th:each="etat : ${etatLivraisonExemplaire}" th:value="${etat}" th:text="${etat}" th:selected="${etat == exemplaire.getEtatLivraisonExemplaire()}"></option>
                     </select>
                     <button type="submit" class="btn btn-primary">Modifier</button>
                 </form>

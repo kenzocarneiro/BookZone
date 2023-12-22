@@ -2,6 +2,7 @@ package fr.insacvl.asl.bcn.bookzone.services;
 
 import fr.insacvl.asl.bcn.bookzone.entities.Client;
 import fr.insacvl.asl.bcn.bookzone.entities.Commande;
+import fr.insacvl.asl.bcn.bookzone.entities.EtatLivraisonExemplaire;
 import fr.insacvl.asl.bcn.bookzone.entities.Exemplaire;
 import fr.insacvl.asl.bcn.bookzone.repositories.CommandeRepository;
 import jakarta.persistence.EntityManager;
@@ -37,6 +38,7 @@ public class CommandeService {
     public void addExemplaireDansCommande(Exemplaire e, Commande c) {
         c.getExemplaires().add(e);
         e.setCommande(c);
+        e.setEtatLivraisonExemplaire(EtatLivraisonExemplaire.EN_ATTENTE);
         System.out.println("L'exemplaire " + e.getIdExemplaire() + " a ete ajoute dans la commande " + c.getIdCommande());
     }
 
