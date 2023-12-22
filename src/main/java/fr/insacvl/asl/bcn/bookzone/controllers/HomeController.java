@@ -1,10 +1,18 @@
 package fr.insacvl.asl.bcn.bookzone.controllers;
+import fr.insacvl.asl.bcn.bookzone.dtos.RechercheDTO;
 import fr.insacvl.asl.bcn.bookzone.entities.*;
 import fr.insacvl.asl.bcn.bookzone.services.*;
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.time.LocalDate;
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -18,10 +26,63 @@ public class HomeController {
     @Autowired
     private AuteurService auteurService;
 
-    @RequestMapping("")
-    public String hello() {
-        return "index";
+    @GetMapping("")
+    //page d'accueil
+    public String index(Model model) {
+        RechercheDTO rechercheDTO = new RechercheDTO();
+        List<Exemplaire> exemplaires = ouvrageService.getExemplaires();
+
+        model.addAttribute("recherche", rechercheDTO);
+        model.addAttribute("categories", CategorieEnum.values());
+        model.addAttribute("exemplaires", exemplaires);
+        return("index");
     }
+
+    @PostMapping("")
+    public String recherche(Model model, @ModelAttribute("recherche") @Valid RechercheDTO rechercheDTO) {
+
+        List<CategorieEnum> categories = rechercheDTO.getCategories();
+        String contenu = rechercheDTO.getContenu();
+
+        List<Exemplaire> exemplaires = ouvrageService.getExemplaires();
+
+        if (categories != null && !categories.isEmpty()) {
+            // pour chaque exemplaire, on regarde si il a une categorie qui correspond à une des categories de la recherche
+            exemplaires.removeIf(exemplaire -> {
+                for (CategorieEnum categorie : categories) {
+                    if (exemplaire.getOuvrage().getCategories().contains(categorie)) {
+                        return false;
+                    }
+                }
+                return true;
+            });
+        }
+
+
+        // Test pour l'instant seulement avec catégorie
+        if (contenu != null && !contenu.isEmpty()) {
+            String lowercaseContenu = contenu.toLowerCase();
+            // pour chaque exemplaire, on regarde si le contenu de la recherche est dans le titre ou dans le nom de l'auteur
+            exemplaires.removeIf(exemplaire -> {
+                Ouvrage ouvrage = exemplaire.getOuvrage();
+                if (ouvrage.getTitre().toLowerCase().contains(lowercaseContenu)) {
+                    return false;
+                }
+                for (Personne auteur : ouvrage.getAuteurs()) {
+                    if (auteur.getNom().toLowerCase().contains(lowercaseContenu) || auteur.getPrenom().toLowerCase().contains(lowercaseContenu)) {
+                        return false;
+                    }
+                }
+                return true;
+            });
+        }
+
+        // model.addAttribute("recherche", rechercheDTO);
+        model.addAttribute("categories", CategorieEnum.values());
+        model.addAttribute("exemplaires", exemplaires);
+        return("index");
+    }
+
 
     @RequestMapping("test")
     public String test() {
@@ -29,7 +90,6 @@ public class HomeController {
         Ouvrage o1 = ouvrageService.createOuvrage("Therese Raquin", "Flammarion", 328);
         Ouvrage o2 = ouvrageService.createOuvrage("Germinal", "Hachette", 2447);
         Ouvrage o3 = ouvrageService.createOuvrage("Tintin", "BDLand", 57);
-        Adresse a = utilisateurService.createAdresse("Victor Hugo", "Paris", 75, "France", "appartement 3");
         Avis avis1 = ouvrageService.createAvis(4, "Tres bon livre !");
         Avis avis2 = ouvrageService.createAvis(1, "C'etait nul ...");
         Auteur p = auteurService.createAuteur("Emile", "Zola");
@@ -48,16 +108,17 @@ public class HomeController {
                 "toto",
                 "toto@gmail.com",
                 "toto",
-                "azerty"
+                "azerty",
+                "750001 Paris - 5 rue Victor Hugo - Appartement 3"
         );
-        utilisateurService.associateAdresseUtilisateur(a, utilisateurService.findByLogin("toto"));
 
-        utilisateurService.createAndSaveLibraire(
+        utilisateurService.createAndSaveLibraireValide(
                 "Super",
                 "Book",
                 "SuperBook@gmail.com",
                 "sb",
-                "sb"
+                "sb",
+                "18000 truc - 10 rue bidule"
         );
 
         utilisateurService.createAndSaveClient(
@@ -65,7 +126,8 @@ public class HomeController {
                 "Doe",
                 "john.doe@gmail.com",
                 "john",
-                "john"
+                "john",
+                "18000 truc - 8 rue machin"
         );
 
         utilisateurService.createAndSaveClient(
@@ -73,21 +135,32 @@ public class HomeController {
                 "Name",
                 "user@user.com",
                 "user",
-                "user"
+                "user",
+                "00000 UserVille - 1 rue user"
         );
-        utilisateurService.createAndSaveLibraire(
+        utilisateurService.createAndSaveLibraireValide(
                 "Libraire",
-                "Libraire",
+                "Valide",
                 "libraire@libraire.com",
                 "libraire",
-                "libraire"
+                "libraire",
+                "00000 LibraireVille - 1 rue libraire"
+        );
+        utilisateurService.createAndSaveFuturLibraire(
+                "Futur",
+                "Libraire",
+                "flibraire@flibraire.com",
+                "flibraire",
+                "flibraire",
+                "00000 FuturLibraireVille - 1 rue futurLibraire"
         );
         utilisateurService.createAndSaveAdministrateur(
                 "Admin",
                 "Istrateur",
                 "admin@admin.com",
                 "admin",
-                "admin"
+                "admin",
+                "00000 AdminVille - 1 rue admin"
         );
 
         ouvrageService.addAuteurToOuvrage(p, o1);
@@ -118,12 +191,6 @@ public class HomeController {
         commandeService.addCommmandetoClient(c1, (Client)utilisateurService.findByLogin("john"));
         commandeService.addCommmandetoClient(c2, (Client)utilisateurService.findByLogin("john"));
         commandeService.addCommmandetoClient(c3, (Client)utilisateurService.findByLogin("john"));
-        return "index";
-    }
-
-
-    @RequestMapping("/welcome")
-    public String hello_login() {
-        return "welcome";
+        return "redirect:/";
     }
 }

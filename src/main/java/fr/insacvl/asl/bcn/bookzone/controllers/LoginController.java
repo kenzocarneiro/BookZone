@@ -1,9 +1,11 @@
 package fr.insacvl.asl.bcn.bookzone.controllers;
 
 import fr.insacvl.asl.bcn.bookzone.dtos.UtilisateurDTO;
+import fr.insacvl.asl.bcn.bookzone.entities.Utilisateur;
 import fr.insacvl.asl.bcn.bookzone.services.UtilisateurService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,5 +42,12 @@ public class LoginController {
     public String registerUserAccount(@ModelAttribute("user") @Valid UtilisateurDTO utilisateurDTO) {
         utilisateurService.saveUtilisateurDto(utilisateurDTO);
         return "login";
+    }
+
+    @RequestMapping("/welcome")
+    public String welcomeInformations(Model model) {
+        Utilisateur utilisateur = utilisateurService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+        model.addAttribute("user", utilisateurService.utilisateurToDto(utilisateur));
+        return "welcome";
     }
 }

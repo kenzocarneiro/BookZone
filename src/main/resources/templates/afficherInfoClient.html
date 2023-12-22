@@ -17,7 +17,6 @@
         <tr>
             <th class="espace-entre-colonnes">Id Commande</th>
             <th class="espace-entre-colonnes">Date</th>
-            <th class="espace-entre-colonnes">Etat</th>
             <th class="espace-entre-colonnes">Contenu</th>
         </tr>
         </thead>
@@ -25,7 +24,6 @@
         <tr th:each="commande : ${commandes}">
             <td th:text="${commande.getIdCommande()}"></td>
             <td th:text="${commande.getDate()}"></td>
-            <td th:text="${commande.getEtat()}"></td>
             <td>
                 <div th:each="exemplaire : ${commande.getExemplaires()}">
                     <a th:href="@{'/client/' + ${loginClient} + '/exemplaire/'+ ${exemplaire.getIdExemplaire()}}" th:text="${exemplaire.getOuvrage().getTitre() + ' (état: ' + exemplaire.getEtat() + ')'}"></a><br/>

@@ -8,7 +8,7 @@
 </head>
 
 <body class="container">
-
+    <th:block th:insert="~{fragments/header::header}"></th:block>
     <h1 th:text="'Bienvenue ' + ${loginLibraire}"></h1><br/>
 
     <a th:href="@{'/libraire/'+ ${loginLibraire} + '/creerOuvrage'}">Créer un ouvrage</a><br/>

@@ -9,11 +9,15 @@ import fr.insacvl.asl.bcn.bookzone.repositories.ExemplaireRepository;
 import fr.insacvl.asl.bcn.bookzone.repositories.LibraireRepository;
 import fr.insacvl.asl.bcn.bookzone.repositories.OuvrageRepository;
 import jakarta.transaction.Transactional;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class OuvrageService {
+
     @Autowired
     AvisRepository avisRepository;
     @Autowired
@@ -87,6 +91,21 @@ public class OuvrageService {
         System.out.println("L'avis " + a.getIdAvis() + " a ete ajoute a l'exemplaire " + e.getIdExemplaire());
     }
 
+    @Transactional
+    public Ouvrage getOuvrage(int idOuvrage) {
+        return ouvrageRepository.findById(idOuvrage).orElse(null);
+    }
+
+    @Transactional
+    public Exemplaire getExemplaire(int idExemplaire) {
+        return exemplaireRepository.findById(idExemplaire).orElse(null);
+    }
+
+    @Transactional
+    public List<Exemplaire> getExemplaires() {
+        return exemplaireRepository.findAll();
+    }
+
     public void saveOuvrageDto(OuvrageDTO ouvrageDTO) {
         Ouvrage o = new Ouvrage();
         o.setTitre(ouvrageDTO.getTitre());
@@ -103,35 +122,4 @@ public class OuvrageService {
         avisRepository.save(a);
         return a;
     }
-
-    //    @Transactional
-//    public void noterExemplaire(Client client, Commande c, Exemplaire e, int note){
-//
-//        int indexCommande = client.getCommandes().indexOf(c);
-//
-//        if (indexCommande != -1) {
-//            int indexExemplaire = client.getCommandes().get(indexCommande).getExemplaires().indexOf(e);
-//
-//            if (indexExemplaire != -1) {
-//                setNote(e, note);
-//            }
-//            else {
-//                System.out.println("L'exemplaire n'existe pas dans la commande.");
-//            }
-//        } else {
-//            System.out.println("La commande n'est pas présente dans la liste.");
-//        }
-//    }
-//
-//    // Pour Exemplaire
-//    @Transactional
-//    public void setNote(Exemplaire e, int note){
-//
-//        if(note>=1 && note<=5){
-//            e.getAvis().setNote(note);
-//        }
-//        else{
-//            System.out.println("Note incorrecte. Veuillez mettre une note entre 1 et 5");
-//        }
-//    }
 }

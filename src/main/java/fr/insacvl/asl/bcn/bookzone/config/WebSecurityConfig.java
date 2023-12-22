@@ -22,10 +22,10 @@ public class WebSecurityConfig {
                     .ignoringRequestMatchers(PathRequest.toH2Console())
             ) // https://jessitron.com/2020/06/15/spring-security-for-h2-console/
             .authorizeHttpRequests(authorize -> authorize
-                    .requestMatchers("/", "/register", "/test", "/public/**", "/webjars/**", "/css/**").permitAll()
+                    .requestMatchers("/", "/register", "/test", "/public/**", "/webjars/**", "/css/**", "/ouvrage/**", "/exemplaire/**", "/error/**").permitAll()
                     .requestMatchers("/welcome").hasAnyAuthority("ROLE_USER", "ROLE_LIBRAIRE", "ROLE_ADMIN")
                     .requestMatchers("/libraire/**").hasAnyAuthority("ROLE_LIBRAIRE", "ROLE_ADMIN")
-                    .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+                    .requestMatchers("/admin/**", "/console/**").hasAuthority("ROLE_ADMIN")
                     .anyRequest().authenticated()
             )
             .formLogin(login -> login
