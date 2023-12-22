@@ -50,6 +50,7 @@ public class OuvrageService {
     public Exemplaire createExemplaire(EtatExemplaire etat, Libraire vendeur) {
         Exemplaire e = new Exemplaire();
         e.setEtat(etat);
+        e.setEtatCommande(EtatCommande.EN_ATTENTE);
         e.setVendeur(vendeur);
         exemplaireRepository.save(e);
         System.out.println("L'exemplaire " + e + " a ete cree");
@@ -57,11 +58,12 @@ public class OuvrageService {
     }
 
     @Transactional
-    public void saveExemplaireDto(ExemplaireDTO exemplaireDTO) {
+    public void saveExemplaireDto(ExemplaireDTO exemplaireDTO, Libraire libraire) {
         Exemplaire e = new Exemplaire();
         e.setOuvrage(ouvrageRepository.findByTitre(exemplaireDTO.getOuvrage()));
         e.setEtat(exemplaireDTO.getEtat());
-        e.setVendeur(libraireRepository.findByLogin(exemplaireDTO.getVendeur()));
+        e.setEtatCommande(EtatCommande.EN_ATTENTE);
+        e.setVendeur(libraire);
         e.setPrixVente(exemplaireDTO.getPrixVente());
         e.setFraisPort(exemplaireDTO.getFraisPort());
         exemplaireRepository.save(e);

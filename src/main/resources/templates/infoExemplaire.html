@@ -2,28 +2,29 @@
 <html lang="fr" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>exemplaire-info</title>
+    <title>Détails de l'exemplaire</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" />
 </head>
 
 <body class="container">
 
-    <h1>Détail de l'exemplaire</h1><br/>
+    <h1>Détails de l'exemplaire</h1><br/>
 
-        <table>
-            <thead>
-                <tr>
-                    <th class="espace-entre-colonnes">Id Exemplaire</th>
-                    <th class="espace-entre-colonnes">Ouvrage</th>
-                    <th class="espace-entre-colonnes">Etat</th>
-                    <th class="espace-entre-colonnes">Prix Vente</th>
-                    <th class="espace-entre-colonnes">Frais Port</th>
-                    <th class="espace-entre-colonnes">Vendeur</th>
-                    <th class="espace-entre-colonnes">Avis</th>
-                </tr>
-            </thead>
-            <tbody>
+    <table>
+        <thead>
+            <tr>
+                <th class="espace-entre-colonnes">Id Exemplaire</th>
+                <th class="espace-entre-colonnes">Ouvrage</th>
+                <th class="espace-entre-colonnes">Etat</th>
+                <th class="espace-entre-colonnes">Prix Vente</th>
+                <th class="espace-entre-colonnes">Frais Port</th>
+                <th class="espace-entre-colonnes">Vendeur</th>
+                <th class="espace-entre-colonnes">Avis</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
                 <td th:text="${exemplaire.getIdExemplaire()}"></td>
                 <td th:text="${exemplaire.getOuvrage().getTitre()}"></td>
                 <td th:text="${exemplaire.getEtat()}"></td>
@@ -34,8 +35,9 @@
                     <a th:href="@{'/client/' + ${loginClient} + '/exemplaire/'+ ${exemplaire.getIdExemplaire()} + '/creerAvis'}">Ajouter un avis</a><br/>
                 </td>
                 <td th:unless="${#strings.isEmpty(exemplaire.getAvis())}" th:text="'note : ' + ${exemplaire.getAvis().getNote()} + '/5' + ' || commentaire : ' + ${exemplaire.getAvis().getCommentaire()}"></td>
-            </tbody>
-        </table>
+            </tr>
+        </tbody>
+    </table>
     <br/>
     <a th:href="@{'/client/'+ ${loginClient}}">Retour sur la page d'accueil</a>
 

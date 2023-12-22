@@ -2,23 +2,23 @@
 <html lang="en"  xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Se connecter</title>
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" />
 </head>
 <body class="container">
     <th:block th:insert="~{fragments/header::header}"></th:block>
-    <h1>Login page</h1>
-    <p th:if="${loginError}" class="error">Wrong user or password</p>
+    <h1>Se connecter</h1>
+    <p th:if="${loginError}" class="error">Mauvais utilisateur ou mot de passe. Si vous êtes libraire, il se peut que votre compte n'est pas encore été validé par un administrateur.</p>
     <form th:action="@{/processLogin}" method="post">
         <div>
-            <label for="username" class="form-label">Username</label>:
+            <label for="username" class="form-label">Nom d'utilisateur : </label>
             <input type="text" id="username" name="username" autofocus="autofocus" class="form-control"/> <br />
         </div>
         <div>
-            <label for="password" class="form-label">Password</label>:
+            <label for="password" class="form-label">Mot de passe : </label>
             <input type="password" id="password" name="password" class="form-control"/> <br />
         </div>
-        <button type="submit" class="btn btn-primary">Login</button>
+        <button type="submit" class="btn btn-primary">Se connecter</button>
     </form>
 
     <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>

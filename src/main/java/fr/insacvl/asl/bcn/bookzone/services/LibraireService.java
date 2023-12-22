@@ -5,6 +5,7 @@ import fr.insacvl.asl.bcn.bookzone.entities.Exemplaire;
 import fr.insacvl.asl.bcn.bookzone.entities.Libraire;
 import fr.insacvl.asl.bcn.bookzone.entities.Ouvrage;
 import fr.insacvl.asl.bcn.bookzone.repositories.CommandeRepository;
+import fr.insacvl.asl.bcn.bookzone.repositories.LibraireRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -22,6 +23,13 @@ public class LibraireService {
 
     @Autowired
     CommandeRepository commandeRepository;
+
+    @Autowired
+    LibraireRepository libraireRepository;
+
+    public Libraire findByLogin(String login) {
+        return libraireRepository.findByLogin(login);
+    }
 
     @Transactional
     public Set<Exemplaire> getExemplairesLibraire(Libraire l) {

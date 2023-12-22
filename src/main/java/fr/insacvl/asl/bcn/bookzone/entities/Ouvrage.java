@@ -26,7 +26,7 @@ public class Ouvrage {
 
     @OneToMany(mappedBy = "ouvrage")
     @ToString.Exclude
-    private Set<Exemplaire> exemplaires = new HashSet<>();
+    private Set<Exemplaire> exemplaires = new HashSet<>(); // TODO: ne devrait pas exister
 
     @ManyToMany
     @JoinTable(
