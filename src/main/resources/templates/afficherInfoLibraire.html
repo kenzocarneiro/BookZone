@@ -87,6 +87,7 @@
             <th class="espace-entre-colonnes">Etat</th>
             <th class="espace-entre-colonnes">Prix de vente</th>
             <th class="espace-entre-colonnes">Frais de port</th>
+            <th class="espace-entre-colonnes">Avis</th>
         </tr>
         </thead>
         <tbody>
@@ -96,9 +97,12 @@
             <td th:text="${exemplaire.getEtat()}"></td>
             <td th:text="${exemplaire.getPrixVente()}"></td>
             <td th:text="${exemplaire.getFraisPort()}"></td>
+            <td th:unless="${#strings.isEmpty(exemplaire.getAvis())}" th:text="'note : ' + ${exemplaire.getAvis().getNote()} + '/5' + ' || commentaire : ' + ${exemplaire.getAvis().getCommentaire()}"></td>
         </tr>
         </tbody>
     </table>
+    <br/>
+    <h4 th:text="'Note moyenne : ' + ${noteMoyenne} + '/5'"></h4>
 
     <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
 </body>

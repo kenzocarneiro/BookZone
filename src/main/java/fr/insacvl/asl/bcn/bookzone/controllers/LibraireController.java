@@ -38,10 +38,12 @@ public class LibraireController {
         Set<Exemplaire> exemplaires = libraireService.getExemplairesLibraire(libraireRepository.findByLogin(loginLibraire));
         Set<Ouvrage> ouvrages = libraireService.getOuvragesLibraire(libraireRepository.findByLogin(loginLibraire));
         Set<Exemplaire> exemplairesCommandes = libraireService.getExemplairesCommandesDuLibraire(libraireRepository.findByLogin(loginLibraire));
+        double noteMoyenne = libraireService.getNoteMoyenne(libraireRepository.findByLogin(loginLibraire));
        model.addAttribute("loginLibraire", loginLibraire);
        model.addAttribute("exemplaires", exemplaires);
        model.addAttribute("ouvrages", ouvrages);
        model.addAttribute("exemplairesCommandes", exemplairesCommandes);
+       model.addAttribute("noteMoyenne", noteMoyenne);
        return("afficherInfoLibraire");
     }
 

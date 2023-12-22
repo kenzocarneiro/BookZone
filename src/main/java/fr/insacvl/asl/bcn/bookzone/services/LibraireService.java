@@ -10,7 +10,6 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -54,6 +53,15 @@ public class LibraireService {
         }
 
         return allExemplairesCommandesDuLibraire;
+    }
+
+    public double getNoteMoyenne(Libraire libraire) {
+
+        String jpql = "SELECT AVG(e.avis.note) FROM Exemplaire e JOIN e.commande c WHERE e.vendeur = :libraire AND e.commande IS NOT NULL";
+
+        return em.createQuery(jpql, Double.class)
+                    .setParameter("libraire", libraire)
+                    .getSingleResult();
     }
 
     @Transactional
