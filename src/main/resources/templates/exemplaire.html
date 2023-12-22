@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>BookZone</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" />
 </head>
-<body>
-    <a href="/">Home</a>
+<body class="container">
+    <th:block th:insert="~{fragments/header::header}"></th:block>
+
     <h1 th:text="'Exemplaire : ' + ${exemplaire.getOuvrage().getTitre()}"></h1>
 
     <h2>Auteur(s)</h2>
@@ -28,5 +29,6 @@
         <li th:each="categorie : ${exemplaire.getOuvrage().getCategories()}" th:text="${categorie}"></li>
     </ul>
 
+    <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>
