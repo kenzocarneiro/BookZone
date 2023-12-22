@@ -56,10 +56,17 @@ public class OuvrageService {
     }
     @Transactional
     public Exemplaire createExemplaire(EtatExemplaire etat, Libraire vendeur) {
+        return createExemplaire(etat, vendeur, EtatCommande.EN_ATTENTE);
+    }
+
+    @Transactional
+    public Exemplaire createExemplaire(EtatExemplaire etat, Libraire vendeur, EtatCommande etatCommande) {
         Exemplaire e = new Exemplaire();
         e.setEtat(etat);
-        e.setEtatCommande(EtatCommande.EN_ATTENTE);
+        e.setEtatCommande(etatCommande);
         e.setVendeur(vendeur);
+        e.setPrixVente(10.0f);
+        e.setFraisPort(2.0f);
         exemplaireRepository.save(e);
         System.out.println("L'exemplaire " + e + " a ete cree");
         return e;
